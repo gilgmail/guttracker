@@ -87,7 +87,7 @@ Planned `GutTrackerWidget/` target with three sizes:
 ## Development Phases
 
 - Phase 1 (complete): MVP core — SwiftData models, bowel/symptom/medication CRUD, tab navigation, AnalyticsEngine
-- Phase 2 (partial): Calendar view + StatsView framework done. Remaining: Swift Charts graphs, PDF export
+- Phase 2 (complete): Calendar view, StatsView with 3 Swift Charts (bowel frequency, Bristol distribution, symptom trend), PDF export via UIGraphicsPDFRenderer
 - Phase 3: WidgetKit interactive widget for quick Bristol recording
 - Phase 4: HealthKit bidirectional sync
 - Phase 5: CloudKit iCloud sync + medication reminders (Local Notification) + UI polish

@@ -43,6 +43,9 @@ Pods/
 .Trashes
 Thumbs.db
 
+# Build/Test logs
+scripts/logs/
+
 # Misc
 *.log
 *.tmp
