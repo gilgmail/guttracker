@@ -886,21 +886,21 @@ GutTracker/
 
 ## 9. 開發排程（6 週）
 
-### Phase 1: MVP Core（Week 1-2）
-- [ ] Xcode 專案建立 + App Group 配置
-- [ ] SwiftData Models（BowelMovement, SymptomEntry, MedicationLog）
-- [ ] Bristol Scale Picker UI（圖形化 7 型選擇）
-- [ ] 排便記錄 CRUD + 詳細欄位（血便/黏液/急迫/疼痛）
-- [ ] 症狀快速記錄 UI（一鍵 severity 選擇）
-- [ ] 用藥 Checklist + 預設台灣 IBD 藥物
-- [ ] 主 Tab 導航（記錄/日曆/統計/設定）
+### Phase 1: MVP Core（Week 1-2）✅ 完成
+- [x] Xcode 專案建立 + App Group 配置
+- [x] SwiftData Models（BowelMovement, SymptomEntry, MedicationLog, Medication）
+- [x] Bristol Scale Picker UI（圖形化 7 型選擇）
+- [x] 排便記錄 CRUD + 詳細欄位（血便/黏液/急迫/疼痛）
+- [x] 症狀快速記錄 UI（一鍵 severity 選擇）
+- [x] 用藥 Checklist + 預設台灣 IBD 藥物
+- [x] 主 Tab 導航（記錄/日曆/統計/設定）
+- [x] AnalyticsEngine 本地統計分析引擎
+- [x] SharedContainer App Group fallback（模擬器相容）
 
-### Phase 2: 數據 & 分析（Week 3）
-- [ ] 日曆頁（顏色標記嚴重度 + 每日詳情展開）
-- [ ] 統計頁（Swift Charts）
-- [ ] 排便頻率趨勢圖
-- [ ] Bristol 分布圓餅/長條圖
-- [ ] 症狀趨勢分析
+### Phase 2: 數據 & 分析（Week 3）🟡 部分完成
+- [x] 日曆頁（顏色標記嚴重度 + 每日詳情展開）
+- [x] 統計頁框架（StatsView）
+- [ ] Swift Charts 圖表（排便頻率趨勢圖、Bristol 分布圖、症狀趨勢圖）
 - [ ] PDF 報告匯出（給醫生用）
 
 ### Phase 3: Widget（Week 4 — 高優先）
@@ -932,8 +932,8 @@ GutTracker/
 
 | 項目 | 需求 |
 |------|------|
-| Xcode | 16.0+ |
-| iOS Target | 17.0+（Interactive Widget 需要）|
+| Xcode | 17.0+（iOS 26 SDK）|
+| iOS Target | 26.0+（Liquid Glass TabView API）|
 | Swift | 5.9+ |
 | Apple Developer Account | 需要（HealthKit + WidgetKit + App Group） |
 

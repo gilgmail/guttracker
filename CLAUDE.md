@@ -8,30 +8,33 @@ This is an Xcode project (no SPM packages, no CocoaPods). All dependencies are A
 
 ```bash
 # Build
-xcodebuild -project guttracker.xcodeproj -scheme guttracker -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16' build
+xcodebuild -project guttracker.xcodeproj -scheme guttracker -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 
 # Run tests
-xcodebuild -project guttracker.xcodeproj -scheme guttracker -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -project guttracker.xcodeproj -scheme guttracker -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
+
+# Install & launch on simulator
+xcrun simctl install booted <path-to-.app> && xcrun simctl launch booted com.gilko.guttracker
 
 # Open in Xcode
 open guttracker.xcodeproj
 ```
 
-**Requirements:** Xcode 16.0+, iOS 17.0+ deployment target, Swift 5.9+
+**Requirements:** Xcode 17.0+ (iOS 26 SDK), deployment target iOS 26.0, Swift 5.9+
 
 ## Product Context
 
 IBD (Crohn's / Ulcerative Colitis) symptom tracking app for Taiwan market. Core UX principle: **3-second recording** — one-tap Bristol Scale selection, no text input required. All UI in Traditional Chinese (繁體中文), date formatting uses `Locale("zh_TW")`.
 
-Full spec: `guttracker_project_spec.md`
+Full spec: `GutTracker_Project_Spec.md`
 
 ## Architecture
 
 **Pattern:** MVVM with SwiftData — views use `@Query` for reactive data and `@Environment(\.modelContext)` for mutations. No separate ViewModel classes; state is managed inline in SwiftUI views.
 
 **Data flow:**
-- `SharedContainer` configures the `ModelContainer` with App Groups (`group.com.gil.guttracker`) so the main app and widget extension share the same SwiftData store.
-- `GutTrackerApp.swift` creates the container and injects it via `.modelContainer()`.
+- `SharedContainer` configures the `ModelContainer` with App Groups (`group.com.gil.guttracker`). Falls back to default storage when App Group entitlement is unavailable (e.g. simulator without entitlements).
+- `GutTrackerApp.swift` creates the container via `SharedContainer` and injects it with `.modelContainer()`.
 - Views query data with `@Query` (filtered/sorted declaratively) and write via `modelContext.insert()` / `modelContext.delete()`.
 
 **Key layers:**
@@ -59,10 +62,11 @@ Full spec: `guttracker_project_spec.md`
 ## Conventions
 
 - **No external dependencies**: Only Apple frameworks (SwiftUI, SwiftData, Charts, WidgetKit, HealthKit).
+- **iOS 26 TabView API**: Use `Tab("title", systemImage:, value:) { }` — the old `.tabItem` + `.tag()` pattern crashes at runtime on iOS 26.
 - **Enums**: String-backed `Codable` enums with computed properties for `displayName`, `emoji`, `color`. Follow this pattern when adding new enums.
 - **SwiftData default actor isolation**: `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` is set in build settings.
 - **Views use `SectionCard`**: Reusable card wrapper with title, icon, and accent color for consistent section styling.
-- **App Group**: `group.com.gil.guttracker` — shared SwiftData container between main app and widget. All model changes must remain compatible with `SharedContainer`.
+- **App Group**: `group.com.gil.guttracker` — shared SwiftData container between main app and widget. `SharedContainer` handles fallback when entitlement is absent.
 
 ## HealthKit Integration (Phase 4)
 
@@ -82,8 +86,8 @@ Planned `GutTrackerWidget/` target with three sizes:
 
 ## Development Phases
 
-- Phase 1 (complete): MVP core — SwiftData models + bowel/symptom/medication CRUD + tab navigation
-- Phase 2: Calendar drill-down + Swift Charts statistics + PDF export
+- Phase 1 (complete): MVP core — SwiftData models, bowel/symptom/medication CRUD, tab navigation, AnalyticsEngine
+- Phase 2 (partial): Calendar view + StatsView framework done. Remaining: Swift Charts graphs, PDF export
 - Phase 3: WidgetKit interactive widget for quick Bristol recording
 - Phase 4: HealthKit bidirectional sync
 - Phase 5: CloudKit iCloud sync + medication reminders (Local Notification) + UI polish

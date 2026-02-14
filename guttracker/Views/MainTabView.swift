@@ -3,32 +3,24 @@ import SwiftData
 
 struct MainTabView: View {
     @State private var selectedTab = 0
-    
+
     var body: some View {
         TabView(selection: $selectedTab) {
-            RecordView()
-                .tabItem {
-                    Label("記錄", systemImage: "plus.circle.fill")
-                }
-                .tag(0)
-            
-            CalendarView()
-                .tabItem {
-                    Label("日曆", systemImage: "calendar")
-                }
-                .tag(1)
-            
-            StatsView()
-                .tabItem {
-                    Label("統計", systemImage: "chart.bar.fill")
-                }
-                .tag(2)
-            
-            SettingsView()
-                .tabItem {
-                    Label("設定", systemImage: "gearshape.fill")
-                }
-                .tag(3)
+            Tab("記錄", systemImage: "plus.circle.fill", value: 0) {
+                RecordView()
+            }
+
+            Tab("日曆", systemImage: "calendar", value: 1) {
+                CalendarView()
+            }
+
+            Tab("統計", systemImage: "chart.bar.fill", value: 2) {
+                StatsView()
+            }
+
+            Tab("設定", systemImage: "gearshape.fill", value: 3) {
+                SettingsView()
+            }
         }
         .tint(.green)
     }

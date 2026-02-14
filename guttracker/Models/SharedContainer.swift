@@ -1,3 +1,4 @@
+import Foundation
 import SwiftData
 
 /// App Group 共享 ModelContainer 配置
@@ -13,11 +14,22 @@ enum SharedContainer {
     ])
     
     static var modelConfiguration: ModelConfiguration {
-        ModelConfiguration(
-            schema: schema,
-            isStoredInMemoryOnly: false,
-            groupContainer: .identifier(appGroupIdentifier)
-        )
+        let hasAppGroup = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: appGroupIdentifier
+        ) != nil
+
+        if hasAppGroup {
+            return ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false,
+                groupContainer: .identifier(appGroupIdentifier)
+            )
+        } else {
+            return ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false
+            )
+        }
     }
     
     static var modelContainer: ModelContainer {
