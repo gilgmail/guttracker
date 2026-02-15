@@ -919,11 +919,12 @@ GutTracker/
 - [x] 讀取睡眠/步數/心率資料
 - [x] 在日詳情中顯示 Health 資料
 
-### Phase 5: 完善（Week 6）
-- [ ] CloudKit 同步（iCloud 備份）
-- [ ] 用藥提醒通知（Local Notification）
+### Phase 5: 完善（Week 6）✅ 完成
+- [x] CloudKit 同步（iCloud 備份）
+- [x] 用藥提醒通知（Local Notification）
+- [x] 每日健康評分通知（0-100 分，含排便/症狀/用藥分析）
+- [x] 藥物編輯頁面（頻率、提醒時間設定）
 - [ ] UI 動畫打磨
-- [ ] 深色/淺色模式
 - [ ] TestFlight 測試
 
 ---

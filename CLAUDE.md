@@ -94,4 +94,4 @@ Bidirectional sync via `HealthKitService` (actor-based singleton in `Services/`)
 - Phase 2 (complete): Calendar view, StatsView with 3 Swift Charts (bowel frequency, Bristol distribution, symptom trend), PDF export via UIGraphicsPDFRenderer
 - Phase 3 (complete): WidgetKit interactive widget — Small/Medium/Large sizes, AppIntents for Bristol recording + medication toggle
 - Phase 4 (complete): HealthKit bidirectional sync — write bowel/symptom to Health, read sleep/steps/heart rate
-- Phase 5: CloudKit iCloud sync + medication reminders (Local Notification) + UI polish
+- Phase 5 (complete): CloudKit iCloud sync, medication reminders, daily health score notification (0-100), medication edit view

@@ -12,6 +12,9 @@ struct SettingsView: View {
     @State private var showDefaultMeds: Bool = false
     @AppStorage("healthKitEnabled") private var healthKitEnabled = false
     @AppStorage("notificationsEnabled") private var notificationsEnabled = false
+    @AppStorage("dailyScoreEnabled") private var dailyScoreEnabled = false
+    @AppStorage("dailyScoreHour") private var dailyScoreHour = 9
+    @AppStorage("dailyScoreMinute") private var dailyScoreMinute = 0
     @State private var healthKitAuthError: String?
     
     var body: some View {
@@ -139,12 +142,62 @@ struct SettingsView: View {
                 
                 // ── 通知 ──
                 Section {
-                    Toggle(isOn: $notificationsEnabled) {
-                        Label("用藥提醒", systemImage: "bell.fill")
+                    Toggle(isOn: Binding(
+                        get: { notificationsEnabled },
+                        set: { newValue in
+                            notificationsEnabled = newValue
+                            rescheduleNotifications()
+                        }
+                    )) {
+                        Label {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("用藥提醒")
+                                Text("依照各藥物設定的時間提醒服藥")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(.secondary)
+                            }
+                        } icon: {
+                            Image(systemName: "bell.fill")
+                        }
                     }
                     .tint(.blue)
+
+                    Toggle(isOn: Binding(
+                        get: { dailyScoreEnabled },
+                        set: { newValue in
+                            dailyScoreEnabled = newValue
+                            if newValue { notificationsEnabled = true }
+                            rescheduleNotifications()
+                        }
+                    )) {
+                        Label {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("每日健康評分")
+                                Text("每天早上推送昨日健康評分與摘要")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(.secondary)
+                            }
+                        } icon: {
+                            Image(systemName: "chart.bar.fill")
+                        }
+                    }
+                    .tint(.green)
+
+                    if dailyScoreEnabled {
+                        DatePicker(
+                            "推送時間",
+                            selection: dailyScoreTimeBinding,
+                            displayedComponents: .hourAndMinute
+                        )
+                        .onChange(of: dailyScoreHour) { rescheduleNotifications() }
+                        .onChange(of: dailyScoreMinute) { rescheduleNotifications() }
+                    }
                 } header: {
                     Text("通知")
+                } footer: {
+                    if notificationsEnabled {
+                        Text("用藥提醒時間可在各藥物的編輯頁面設定。健康評分會根據排便、症狀、用藥計算 0-100 分。")
+                    }
                 }
                 
                 // ── 資料 ──
@@ -186,6 +239,28 @@ struct SettingsView: View {
         }
     }
     
+    private var dailyScoreTimeBinding: Binding<Date> {
+        Binding(
+            get: {
+                var components = DateComponents()
+                components.hour = dailyScoreHour
+                components.minute = dailyScoreMinute
+                return Calendar.current.date(from: components) ?? .now
+            },
+            set: { newDate in
+                let components = Calendar.current.dateComponents([.hour, .minute], from: newDate)
+                dailyScoreHour = components.hour ?? 9
+                dailyScoreMinute = components.minute ?? 0
+            }
+        )
+    }
+
+    private func rescheduleNotifications() {
+        NotificationService.shared.rescheduleAll(
+            container: modelContext.container
+        )
+    }
+
     private func deleteMedication(at offsets: IndexSet) {
         for index in offsets {
             modelContext.delete(medications[index])
@@ -324,10 +399,84 @@ struct DefaultMedicationPicker: View {
 // MARK: - Placeholder Views
 
 struct MedicationEditView: View {
-    let medication: Medication
+    @Bindable var medication: Medication
+    @AppStorage("notificationsEnabled") private var notificationsEnabled = false
+
     var body: some View {
-        Text("編輯 \(medication.name) — Phase 1 後續完善")
-            .navigationTitle(medication.name)
+        Form {
+            Section("基本資訊") {
+                HStack {
+                    Text("名稱")
+                    Spacer()
+                    Text(medication.name)
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text("分類")
+                    Spacer()
+                    Text(medication.category.displayName)
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text("劑量")
+                    Spacer()
+                    Text(medication.defaultDosage)
+                        .foregroundStyle(.secondary)
+                }
+                Picker("頻率", selection: $medication.frequency) {
+                    ForEach(MedFrequency.allCases, id: \.self) { freq in
+                        Text(freq.displayName).tag(freq)
+                    }
+                }
+                Toggle("啟用", isOn: $medication.isActive)
+            }
+
+            Section {
+                Toggle("用藥提醒", isOn: $medication.reminderEnabled)
+                    .tint(.blue)
+
+                if medication.reminderEnabled {
+                    DatePicker(
+                        "提醒時間",
+                        selection: reminderTimeBinding,
+                        displayedComponents: .hourAndMinute
+                    )
+                }
+            } header: {
+                Text("提醒")
+            } footer: {
+                if !notificationsEnabled && medication.reminderEnabled {
+                    Text("請先在設定頁開啟「用藥提醒」通知")
+                        .foregroundStyle(.orange)
+                }
+            }
+        }
+        .navigationTitle(medication.name)
+        .onChange(of: medication.reminderEnabled) { reschedule() }
+        .onChange(of: medication.reminderHour) { reschedule() }
+        .onChange(of: medication.reminderMinute) { reschedule() }
+    }
+
+    private var reminderTimeBinding: Binding<Date> {
+        Binding(
+            get: {
+                var components = DateComponents()
+                components.hour = medication.reminderHour
+                components.minute = medication.reminderMinute
+                return Calendar.current.date(from: components) ?? .now
+            },
+            set: { newDate in
+                let components = Calendar.current.dateComponents([.hour, .minute], from: newDate)
+                medication.reminderHour = components.hour ?? 8
+                medication.reminderMinute = components.minute ?? 0
+            }
+        )
+    }
+
+    private func reschedule() {
+        NotificationService.shared.rescheduleAll(
+            container: medication.modelContext?.container ?? SharedContainer.modelContainer
+        )
     }
 }
 
