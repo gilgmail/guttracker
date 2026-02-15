@@ -29,32 +29,37 @@ struct SmallWidgetView: View {
                     .foregroundStyle(.secondary)
             }
 
-            // Bristol types
-            if !entry.bristolTypes.isEmpty {
-                HStack(spacing: 2) {
-                    Text("Bristol")
+            // 最近 Bristol type
+            if let lastType = entry.bristolTypes.last {
+                let info = BristolScale.info(for: lastType)
+                HStack(spacing: 4) {
+                    Text("最近:")
                         .font(.system(size: 10))
                         .foregroundStyle(.secondary)
-                    ForEach(entry.bristolTypes.suffix(5), id: \.self) { type in
-                        Text(BristolScale.info(for: type).emoji)
-                            .font(.system(size: 12))
-                    }
+                    Text(info.emoji)
+                        .font(.system(size: 12))
+                    Text("Type \(lastType)")
+                        .font(.system(size: 10, weight: .medium))
                 }
             }
 
             Spacer()
 
-            // 底部：用藥進度
-            HStack {
-                if entry.hasBlood {
-                    Text("🩸")
+            // 底部：症狀 + 警示
+            HStack(spacing: 4) {
+                if !entry.activeSymptomNames.isEmpty {
+                    Text(entry.activeSymptomNames.prefix(2).joined(separator: " "))
                         .font(.system(size: 10))
+                        .lineLimit(1)
                 }
                 Spacer()
-                if entry.medsTotal > 0 {
-                    Text("💊 \(entry.medsTaken)/\(entry.medsTotal)")
-                        .font(.system(size: 11, weight: .medium, design: .rounded))
-                        .foregroundStyle(entry.medsTaken == entry.medsTotal ? .green : .orange)
+                if entry.hasBlood {
+                    Text("🩸")
+                        .font(.system(size: 12))
+                }
+                if entry.hasMucus {
+                    Text("💧")
+                        .font(.system(size: 12))
                 }
             }
         }

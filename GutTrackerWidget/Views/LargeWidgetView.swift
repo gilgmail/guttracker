@@ -39,7 +39,7 @@ struct LargeWidgetView: View {
                     Button(intent: RecordBowelMovementIntent(bristolType: type)) {
                         VStack(spacing: 1) {
                             Text(BristolScale.info(for: type).emoji)
-                                .font(.system(size: 16))
+                                .font(.system(size: 18))
                             Text("\(type)")
                                 .font(.system(size: 9, weight: .medium, design: .rounded))
                                 .foregroundStyle(.secondary)
@@ -63,7 +63,7 @@ struct LargeWidgetView: View {
                             Text(record.time)
                                 .font(.system(size: 11, weight: .medium, design: .monospaced))
                                 .foregroundStyle(.secondary)
-                            Text("Type\(record.bristolType)")
+                            Text("Type \(record.bristolType)")
                                 .font(.system(size: 11, weight: .medium))
                             Text(BristolScale.info(for: record.bristolType).emoji)
                                 .font(.system(size: 11))
@@ -79,30 +79,37 @@ struct LargeWidgetView: View {
 
             Divider()
 
-            // 用藥區
-            HStack(spacing: 6) {
-                Text("💊")
-                    .font(.system(size: 12))
-                ForEach(Array(entry.medications.prefix(4).enumerated()), id: \.offset) { _, med in
-                    HStack(spacing: 2) {
-                        Text(med.name)
-                            .font(.system(size: 10))
-                            .lineLimit(1)
-                        Image(systemName: med.taken ? "checkmark.circle.fill" : "circle")
-                            .font(.system(size: 10))
-                            .foregroundStyle(med.taken ? .green : .secondary)
-                    }
+            // 症狀摘要
+            if !entry.activeSymptomNames.isEmpty {
+                HStack(spacing: 4) {
+                    Text("症狀:")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                    Text(entry.activeSymptomNames.prefix(4).joined(separator: "  "))
+                        .font(.system(size: 11))
+                        .lineLimit(1)
                 }
-                Spacer()
             }
 
-            if entry.hasBlood {
-                HStack(spacing: 4) {
-                    Text("🩸")
-                        .font(.system(size: 11))
-                    Text("今日有血便記錄")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundStyle(.red)
+            // 警示標記
+            HStack(spacing: 12) {
+                if entry.hasBlood {
+                    HStack(spacing: 4) {
+                        Text("🩸")
+                            .font(.system(size: 11))
+                        Text("今日有血便記錄")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundStyle(.red)
+                    }
+                }
+                if entry.hasMucus {
+                    HStack(spacing: 4) {
+                        Text("💧")
+                            .font(.system(size: 11))
+                        Text("今日有黏液記錄")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundStyle(.orange)
+                    }
                 }
             }
         }

@@ -1,40 +1,67 @@
 import SwiftUI
 
 /// 症狀快速輸入 - 點擊循環 severity 0→1→2→3→0
+/// 常見症狀（3 欄大按鈕）+ 次要症狀（4 欄可收合）
 struct SymptomQuickEntry: View {
     @Binding var symptomEntry: SymptomEntry
-    
+    @State private var showSecondary = false
+
+    private let commonColumns = Array(repeating: GridItem(.flexible()), count: 3)
+    private let secondaryColumns = Array(repeating: GridItem(.flexible()), count: 4)
+
     var body: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-        ], spacing: 8) {
-            ForEach(SymptomType.allCases) { type in
-                symptomButton(type)
+        VStack(spacing: 10) {
+            // 常見症狀 — 3 欄，大按鈕
+            LazyVGrid(columns: commonColumns, spacing: 8) {
+                ForEach(SymptomType.commonSymptoms) { type in
+                    symptomButton(type, height: 76)
+                }
+            }
+
+            // 更多症狀 toggle
+            Button {
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    showSecondary.toggle()
+                }
+            } label: {
+                HStack(spacing: 4) {
+                    Image(systemName: showSecondary ? "chevron.up" : "chevron.down")
+                        .font(.system(size: 10, weight: .semibold))
+                    Text("更多症狀")
+                        .font(.system(size: 12))
+                }
+                .foregroundStyle(.secondary)
+            }
+
+            // 次要症狀 — 4 欄，小按鈕
+            if showSecondary {
+                LazyVGrid(columns: secondaryColumns, spacing: 8) {
+                    ForEach(SymptomType.secondarySymptoms) { type in
+                        symptomButton(type, height: 68)
+                    }
+                }
+                .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
     }
-    
+
     @ViewBuilder
-    private func symptomButton(_ type: SymptomType) -> some View {
+    private func symptomButton(_ type: SymptomType, height: CGFloat) -> some View {
         let severity = getSeverity(for: type)
         let isActive = severity > 0
-        
+
         Button {
-            // Cycle: 0 → 1 → 2 → 3 → 0
             let next = (severity + 1) % 4
             setSeverity(for: type, value: next)
         } label: {
             VStack(spacing: 4) {
                 Text(type.emoji)
-                    .font(.system(size: 20))
-                
+                    .font(.system(size: height > 70 ? 22 : 18))
+
                 Text(type.displayName)
-                    .font(.system(size: 10, weight: isActive ? .semibold : .regular))
+                    .font(.system(size: height > 70 ? 11 : 10, weight: isActive ? .semibold : .regular))
                     .foregroundStyle(isActive ? severityColor(severity) : .secondary)
-                
+
                 // Severity dots
                 HStack(spacing: 2) {
                     ForEach(1...3, id: \.self) { level in
@@ -45,7 +72,7 @@ struct SymptomQuickEntry: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 68)
+            .frame(height: height)
             .background {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .fill(isActive ? severityColor(severity).opacity(0.08) : Color(.tertiarySystemGroupedBackground))
@@ -60,9 +87,9 @@ struct SymptomQuickEntry: View {
         .buttonStyle(.plain)
         .sensoryFeedback(.impact(flexibility: .soft), trigger: severity)
     }
-    
+
     // MARK: - Severity Access
-    
+
     private func getSeverity(for type: SymptomType) -> Int {
         switch type {
         case .abdominalPain: return symptomEntry.abdominalPain
@@ -76,7 +103,7 @@ struct SymptomQuickEntry: View {
         case .jointPain: return symptomEntry.jointPain
         }
     }
-    
+
     private func setSeverity(for type: SymptomType, value: Int) {
         symptomEntry.updatedAt = .now
         switch type {
@@ -91,7 +118,7 @@ struct SymptomQuickEntry: View {
         case .jointPain: symptomEntry.jointPain = value
         }
     }
-    
+
     private func severityColor(_ severity: Int) -> Color {
         switch severity {
         case 1: return .green

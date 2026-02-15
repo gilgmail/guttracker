@@ -6,74 +6,75 @@ struct MediumWidgetView: View {
     let entry: GutTrackerEntry
 
     var body: some View {
-        HStack(spacing: 12) {
-            // 左側：排便
-            VStack(alignment: .leading, spacing: 6) {
-                // Header
-                HStack {
-                    Text("💩")
-                        .font(.system(size: 12))
-                    Text("\(entry.bowelCount)次")
-                        .font(.system(size: 14, weight: .bold, design: .rounded))
-                    if entry.avgBristol > 0 {
-                        Text("avg")
-                            .font(.system(size: 9))
-                            .foregroundStyle(.secondary)
-                        Text(BristolScale.info(for: Int(entry.avgBristol.rounded())).emoji)
-                            .font(.system(size: 12))
-                    }
+        VStack(alignment: .leading, spacing: 6) {
+            // Header: 排便次數 + avg Bristol + 症狀狀態
+            HStack {
+                Text("💩")
+                    .font(.system(size: 13))
+                Text("\(entry.bowelCount)次")
+                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                if entry.avgBristol > 0 {
+                    Text("avg")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.secondary)
+                    Text(BristolScale.info(for: Int(entry.avgBristol.rounded())).emoji)
+                        .font(.system(size: 13))
                 }
-
-                // Bristol 按鈕列
-                HStack(spacing: 3) {
-                    ForEach(1...7, id: \.self) { type in
-                        Button(intent: RecordBowelMovementIntent(bristolType: type)) {
-                            Text(BristolScale.info(for: type).emoji)
-                                .font(.system(size: 14))
-                                .frame(width: 26, height: 26)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                        .fill(bristolBackground(type))
-                                }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-
-                // 症狀
+                Spacer()
                 Text(entry.symptomStatus)
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(severityColor)
             }
 
-            Divider()
-
-            // 右側：用藥
-            VStack(alignment: .leading, spacing: 4) {
-                Text("💊 用藥")
-                    .font(.system(size: 10, weight: .semibold))
-                    .foregroundStyle(.secondary)
-
-                if entry.medications.isEmpty {
-                    Text("尚無藥物")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.tertiary)
-                } else {
-                    ForEach(Array(entry.medications.prefix(3).enumerated()), id: \.offset) { _, med in
-                        HStack(spacing: 4) {
-                            Image(systemName: med.taken ? "checkmark.circle.fill" : "circle")
-                                .font(.system(size: 11))
-                                .foregroundStyle(med.taken ? .green : .secondary)
-                            Text(med.name)
-                                .font(.system(size: 11))
-                                .lineLimit(1)
+            // 全寬 Bristol 互動按鈕
+            HStack(spacing: 3) {
+                ForEach(1...7, id: \.self) { type in
+                    Button(intent: RecordBowelMovementIntent(bristolType: type)) {
+                        VStack(spacing: 2) {
+                            Text(BristolScale.info(for: type).emoji)
+                                .font(.system(size: 18))
+                            Text("\(type)")
+                                .font(.system(size: 9, weight: .medium, design: .rounded))
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 4)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .fill(bristolBackground(type))
                         }
                     }
+                    .buttonStyle(.plain)
                 }
-
-                Spacer()
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+
+            // 底部：活躍症狀 + 血便/黏液標記
+            HStack(spacing: 6) {
+                if !entry.activeSymptomNames.isEmpty {
+                    Text(entry.activeSymptomNames.prefix(3).joined(separator: " "))
+                        .font(.system(size: 11))
+                        .lineLimit(1)
+                }
+                Spacer()
+                if entry.hasBlood {
+                    HStack(spacing: 2) {
+                        Text("🩸")
+                            .font(.system(size: 11))
+                        Text("血便")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundStyle(.red)
+                    }
+                }
+                if entry.hasMucus {
+                    HStack(spacing: 2) {
+                        Text("💧")
+                            .font(.system(size: 11))
+                        Text("黏液")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundStyle(.orange)
+                    }
+                }
+            }
         }
         .containerBackground(.fill.tertiary, for: .widget)
     }

@@ -68,43 +68,85 @@ enum BristolScale {
 struct BristolScalePicker: View {
     @Binding var selectedType: Int
     var onSelect: ((Int) -> Void)?
-    
+
     @State private var animatingType: Int? = nil
-    
+
+    private let spectrumColors: [Color] = [
+        Color(red: 0.55, green: 0.27, blue: 0.07),
+        Color(red: 0.63, green: 0.32, blue: 0.18),
+        Color(red: 0.42, green: 0.56, blue: 0.14),
+        Color(red: 0.18, green: 0.55, blue: 0.34),
+        Color(red: 0.27, green: 0.51, blue: 0.71),
+        Color(red: 0.82, green: 0.41, blue: 0.12),
+        Color(red: 0.80, green: 0.36, blue: 0.36),
+    ]
+
     var body: some View {
-        HStack(spacing: 6) {
-            ForEach(BristolScale.allTypes, id: \.type) { info in
-                bristolButton(info)
+        VStack(spacing: 6) {
+            // 硬 ← → 軟 labels
+            HStack {
+                Text("硬")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Text("軟")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(.secondary)
             }
+            .padding(.horizontal, 4)
+
+            // 7 buttons in one row
+            HStack(spacing: 4) {
+                ForEach(BristolScale.allTypes, id: \.type) { info in
+                    bristolButton(info)
+                }
+            }
+
+            // Gradient spectrum bar
+            LinearGradient(
+                colors: spectrumColors,
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+            .frame(height: 4)
+            .clipShape(Capsule())
+            .opacity(0.6)
+
+            // Selected risk label
+            let selectedInfo = BristolScale.info(for: selectedType)
+            Text(selectedInfo.risk.displayName)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(selectedInfo.color)
+                .animation(.easeInOut(duration: 0.2), value: selectedType)
         }
     }
-    
+
     @ViewBuilder
     private func bristolButton(_ info: BristolScale.Info) -> some View {
         let isSelected = selectedType == info.type
         let isAnimating = animatingType == info.type
-        
+
         Button {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                 selectedType = info.type
                 animatingType = info.type
             }
             onSelect?(info.type)
-            
-            // Reset animation
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 withAnimation { animatingType = nil }
             }
         } label: {
-            VStack(spacing: 4) {
+            VStack(spacing: 3) {
                 Text(info.emoji)
-                    .font(.system(size: 22))
-                
+                    .font(.system(size: 24))
+
                 Text("\(info.type)")
-                    .font(.system(size: 11, weight: .bold, design: .rounded))
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
                     .foregroundStyle(isSelected ? info.color : .secondary)
             }
-            .frame(width: 44, height: 56)
+            .frame(maxWidth: .infinity)
+            .frame(height: 58)
             .background {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .fill(isSelected ? info.color.opacity(0.15) : Color(.systemGray6))

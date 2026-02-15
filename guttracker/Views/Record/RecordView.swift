@@ -45,6 +45,18 @@ struct RecordViewContent: View {
     // HealthKit
     @AppStorage("healthKitEnabled") private var healthKitEnabled = false
 
+    // Navigation
+    @State private var showMedicationSetup = false
+
+    // Problem indicators
+    @State private var showNoBowelAlert = false
+
+    // Medication collapse
+    @State private var showMedsExpanded = false
+
+    // Delete record
+    @State private var recordToDelete: BowelMovement?
+
     // Entrance animation
     @State private var appeared = false
 
@@ -110,6 +122,22 @@ struct RecordViewContent: View {
                 syncSymptomToHealthKit(symptom)
             }
         }
+        .alert("尚無排便記錄", isPresented: $showNoBowelAlert) {
+            Button("好") {}
+        } message: {
+            Text("請先記錄排便，再標記血便/黏液")
+        }
+        .alert("刪除記錄？", isPresented: .init(
+            get: { recordToDelete != nil },
+            set: { if !$0 { recordToDelete = nil } }
+        )) {
+            Button("取消", role: .cancel) { recordToDelete = nil }
+            Button("刪除", role: .destructive) { deleteRecord() }
+        } message: {
+            if let record = recordToDelete {
+                Text("確定刪除 Type \(record.bristolType) (\(record.timestamp.formatted(.dateTime.hour().minute()))) 的記錄？")
+            }
+        }
     }
     
     // MARK: - Today Stats Bar
@@ -124,12 +152,6 @@ struct RecordViewContent: View {
                 value: "\(activeSymptomCount)",
                 label: "活躍症狀",
                 color: activeSymptomCount > 0 ? .orange : .green
-            )
-            Divider().frame(height: 28)
-            statItem(
-                value: "\(todayMedLogs.count)/\(activeMedications.count)",
-                label: "用藥",
-                color: todayMedLogs.count >= activeMedications.count ? .green : .yellow
             )
         }
         .padding(.vertical, 12)
@@ -163,7 +185,10 @@ struct RecordViewContent: View {
                 BristolScalePicker(selectedType: $selectedBristol) { type in
                     quickRecordBowelMovement(bristolType: type)
                 }
-                
+
+                // 問題標記（血便 / 黏液）
+                problemIndicatorsRow
+
                 // 詳細記錄按鈕
                 Button {
                     showBowelDetail = true
@@ -192,6 +217,62 @@ struct RecordViewContent: View {
         }
     }
     
+    // MARK: - Problem Indicators
+
+    private var problemIndicatorsRow: some View {
+        HStack(spacing: 8) {
+            problemToggle(
+                emoji: "🩸", label: "血便",
+                isActive: todayBowelMovements.first?.hasBlood ?? false,
+                activeColor: .red
+            ) {
+                guard let latest = todayBowelMovements.first else {
+                    showNoBowelAlert = true
+                    return
+                }
+                latest.hasBlood.toggle()
+            }
+
+            problemToggle(
+                emoji: "💧", label: "黏液",
+                isActive: todayBowelMovements.first?.hasMucus ?? false,
+                activeColor: .orange
+            ) {
+                guard let latest = todayBowelMovements.first else {
+                    showNoBowelAlert = true
+                    return
+                }
+                latest.hasMucus.toggle()
+            }
+        }
+    }
+
+    private func problemToggle(emoji: String, label: String, isActive: Bool, activeColor: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 6) {
+                Text(emoji)
+                    .font(.system(size: 16))
+                Text(label)
+                    .font(.system(size: 13, weight: .medium))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 10)
+            .background {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(isActive ? activeColor.opacity(0.12) : Color(.tertiarySystemGroupedBackground))
+                    .overlay {
+                        if isActive {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .strokeBorder(activeColor.opacity(0.4), lineWidth: 1.5)
+                        }
+                    }
+            }
+            .foregroundStyle(isActive ? activeColor : .secondary)
+        }
+        .buttonStyle(.plain)
+        .sensoryFeedback(.impact(flexibility: .soft), trigger: isActive)
+    }
+
     // MARK: - Today's Records List
     
     private var todayRecordsList: some View {
@@ -249,8 +330,15 @@ struct RecordViewContent: View {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(Color(.tertiarySystemGroupedBackground))
         }
+        .contextMenu {
+            Button(role: .destructive) {
+                recordToDelete = record
+            } label: {
+                Label("刪除記錄", systemImage: "trash")
+            }
+        }
     }
-    
+
     // MARK: - Symptom Section
     
     private var symptomSection: some View {
@@ -285,43 +373,74 @@ struct RecordViewContent: View {
     // MARK: - Medication Section
     
     private var medicationSection: some View {
-        SectionCard(
-            title: "今日用藥",
-            icon: "💊",
-            accent: .cyan,
-            trailing: {
-                if todayMedLogs.count >= activeMedications.count && !activeMedications.isEmpty {
-                    Text("✓ 完成")
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(.green)
+        VStack(spacing: 0) {
+            // Collapsed header — always visible
+            Button {
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    showMedsExpanded.toggle()
                 }
+            } label: {
+                HStack(spacing: 8) {
+                    Text("💊")
+                        .font(.system(size: 15))
+                    Text("今日用藥")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(.cyan)
+                    Spacer()
+                    if !activeMedications.isEmpty {
+                        let done = todayMedLogs.count >= activeMedications.count
+                        Text("\(todayMedLogs.count)/\(activeMedications.count) \(done ? "✓" : "")")
+                            .font(.system(size: 12, weight: .medium, design: .rounded))
+                            .foregroundStyle(done ? .green : .secondary)
+                    }
+                    Image(systemName: showMedsExpanded ? "chevron.up" : "chevron.down")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                }
+                .padding(14)
             }
-        ) {
-            if activeMedications.isEmpty {
-                Button {
-                    // Navigate to medication setup
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle")
-                        Text("新增藥物")
-                    }
-                    .font(.system(size: 14))
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
-                    .background {
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                            .foregroundStyle(.quaternary)
-                    }
-                }
-            } else {
+            .buttonStyle(.plain)
+
+            // Expanded content
+            if showMedsExpanded {
                 VStack(spacing: 6) {
-                    ForEach(activeMedications) { med in
-                        medicationRow(med)
+                    if activeMedications.isEmpty {
+                        Button {
+                            showMedicationSetup = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus.circle")
+                                Text("新增藥物（前往設定）")
+                            }
+                            .font(.system(size: 14))
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                            .background {
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                                    .foregroundStyle(.quaternary)
+                            }
+                        }
+                        .sheet(isPresented: $showMedicationSetup) {
+                            NavigationStack {
+                                SettingsView()
+                            }
+                        }
+                    } else {
+                        ForEach(activeMedications) { med in
+                            medicationRow(med)
+                        }
                     }
                 }
+                .padding(.horizontal, 14)
+                .padding(.bottom, 14)
+                .transition(.opacity.combined(with: .move(edge: .top)))
             }
+        }
+        .background {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color(.secondarySystemGroupedBackground))
         }
     }
     
@@ -445,6 +564,15 @@ struct RecordViewContent: View {
         }
     }
     
+    private func deleteRecord() {
+        guard let record = recordToDelete else { return }
+        withAnimation {
+            modelContext.delete(record)
+        }
+        WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
+        recordToDelete = nil
+    }
+
     private func toggleMedication(_ med: Medication) {
         if let existing = todayMedLogs.first(where: { $0.medicationName == med.name }) {
             modelContext.delete(existing)

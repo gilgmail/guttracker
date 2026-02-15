@@ -4,16 +4,16 @@ import SwiftData
 /// 用藥紀錄 - 單次服藥記錄
 @Model
 final class MedicationLog {
-    var id: UUID
-    var timestamp: Date
+    var id: UUID = UUID()
+    var timestamp: Date = Date.now
     var medicationId: UUID?
-    var medicationName: String
-    var category: MedCategory
-    var dosage: String
-    var taken: Bool
+    var medicationName: String = ""
+    var category: MedCategory = MedCategory.other
+    var dosage: String = ""
+    var taken: Bool = true
     var skippedReason: String?
-    var notes: String
-    var createdAt: Date
+    var notes: String = ""
+    var createdAt: Date = Date.now
     
     init(
         medicationName: String,
@@ -37,21 +37,21 @@ final class MedicationLog {
 /// 藥物定義 - 使用者的藥物清單
 @Model
 final class Medication {
-    var id: UUID
-    var name: String
-    var nameEN: String
-    var category: MedCategory
-    var defaultDosage: String
-    var frequency: MedFrequency
-    var isActive: Bool
-    var sortOrder: Int
-    
+    var id: UUID = UUID()
+    var name: String = ""
+    var nameEN: String = ""
+    var category: MedCategory = MedCategory.other
+    var defaultDosage: String = ""
+    var frequency: MedFrequency = MedFrequency.daily
+    var isActive: Bool = true
+    var sortOrder: Int = 0
+
     // 提醒
-    var reminderEnabled: Bool
-    var reminderHour: Int
-    var reminderMinute: Int
-    
-    var createdAt: Date
+    var reminderEnabled: Bool = false
+    var reminderHour: Int = 8
+    var reminderMinute: Int = 0
+
+    var createdAt: Date = Date.now
     
     init(
         name: String,
@@ -116,8 +116,9 @@ enum MedFrequency: String, Codable, CaseIterable {
     case weekly
     case biweekly
     case monthly
+    case everyEightWeeks = "every_eight_weeks"
     case asNeeded = "as_needed"
-    
+
     var displayName: String {
         switch self {
         case .daily: return "每日一次"
@@ -126,6 +127,7 @@ enum MedFrequency: String, Codable, CaseIterable {
         case .weekly: return "每週一次"
         case .biweekly: return "每兩週一次"
         case .monthly: return "每月一次"
+        case .everyEightWeeks: return "每8週一次"
         case .asNeeded: return "需要時"
         }
     }

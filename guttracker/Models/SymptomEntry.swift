@@ -5,36 +5,36 @@ import SwiftData
 /// severity: 0=無, 1=輕, 2=中, 3=重
 @Model
 final class SymptomEntry {
-    var id: UUID
-    var timestamp: Date
-    
+    var id: UUID = UUID()
+    var timestamp: Date = Date.now
+
     // ── 腸胃症狀 (0-3) ──
-    var abdominalPain: Int
-    var bloating: Int
-    var gas: Int
-    var nausea: Int
-    var cramping: Int
-    var bowelSounds: Int       // 腸鳴
-    
+    var abdominalPain: Int = 0
+    var bloating: Int = 0
+    var gas: Int = 0
+    var nausea: Int = 0
+    var cramping: Int = 0
+    var bowelSounds: Int = 0       // 腸鳴
+
     // ── 全身症狀 ──
-    var fatigue: Int           // 0-3
-    var fever: Bool
+    var fatigue: Int = 0           // 0-3
+    var fever: Bool = false
     var temperature: Double?   // °C
-    var jointPain: Int         // 0-3
-    
+    var jointPain: Int = 0         // 0-3
+
     // ── 情緒/壓力 ──
-    var stressLevel: Int       // 0-3
-    var mood: Int              // 1=很差 2=差 3=普通 4=好 5=很好
-    var sleepQuality: Int      // 0-3
-    
+    var stressLevel: Int = 0       // 0-3
+    var mood: Int = 3              // 1=很差 2=差 3=普通 4=好 5=很好
+    var sleepQuality: Int = 0      // 0-3
+
     // ── 備註 ──
-    var notes: String
-    
+    var notes: String = ""
+
     // ── HealthKit 同步 ──
-    var healthKitSynced: Bool
-    
-    var createdAt: Date
-    var updatedAt: Date
+    var healthKitSynced: Bool = false
+
+    var createdAt: Date = Date.now
+    var updatedAt: Date = Date.now
     
     init(timestamp: Date = .now) {
         self.id = UUID()
@@ -116,8 +116,16 @@ enum SymptomType: String, CaseIterable, Identifiable {
     case fatigue
     case fever
     case jointPain
-    
+
     var id: String { rawValue }
+
+    static var commonSymptoms: [SymptomType] {
+        [.abdominalPain, .bloating, .nausea, .fatigue, .cramping]
+    }
+
+    static var secondarySymptoms: [SymptomType] {
+        [.gas, .bowelSounds, .fever, .jointPain]
+    }
     
     var displayName: String {
         switch self {

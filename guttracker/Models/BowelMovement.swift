@@ -5,35 +5,35 @@ import SwiftData
 /// Bristol Stool Scale: 1(硬塊) → 7(水狀)
 @Model
 final class BowelMovement {
-    var id: UUID
-    var timestamp: Date
-    
+    var id: UUID = UUID()
+    var timestamp: Date = Date.now
+
     // ── Bristol Stool Scale (1-7) ──
-    var bristolType: Int
-    
+    var bristolType: Int = 4
+
     // ── 特徵標記 ──
-    var hasBlood: Bool
-    var hasMucus: Bool
-    var urgency: Int          // 0=無, 1=輕微, 2=中等, 3=緊急
-    var completeness: Int     // 0=不完全, 1=部分, 2=完全
-    var straining: Int        // 0=無, 1=輕微, 2=中等, 3=嚴重
-    var painLevel: Int        // 0-10
-    var durationMinutes: Int
-    
+    var hasBlood: Bool = false
+    var hasMucus: Bool = false
+    var urgency: Int = 0          // 0=無, 1=輕微, 2=中等, 3=緊急
+    var completeness: Int = 2     // 0=不完全, 1=部分, 2=完全
+    var straining: Int = 0        // 0=無, 1=輕微, 2=中等, 3=嚴重
+    var painLevel: Int = 0        // 0-10
+    var durationMinutes: Int = 0
+
     // ── 外觀 ──
-    var volume: Int           // 1=少, 2=正常, 3=多
-    var color: BowelColor
-    
+    var volume: Int = 2           // 1=少, 2=正常, 3=多
+    var color: BowelColor = BowelColor.brown
+
     // ── 備註 ──
-    var notes: String
-    
+    var notes: String = ""
+
     // ── HealthKit 同步 ──
-    var healthKitSynced: Bool
+    var healthKitSynced: Bool = false
     var healthKitUUID: String?
-    
+
     // ── 時間戳 ──
-    var createdAt: Date
-    var updatedAt: Date
+    var createdAt: Date = Date.now
+    var updatedAt: Date = Date.now
     
     init(
         bristolType: Int = 4,
