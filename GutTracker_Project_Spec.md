@@ -912,12 +912,12 @@ GutTracker/
 - [x] ToggleMedicationIntent（用藥打勾 Intent）
 - [x] Widget Timeline 15 分鐘自動更新
 
-### Phase 4: HealthKit（Week 5）
-- [ ] HealthKit 授權流程 UI
-- [ ] 排便 → HealthKit 症狀同步（Bristol→diarrhea/constipation）
-- [ ] 症狀 → HealthKit 同步（abdominalCramps, bloating, nausea...）
-- [ ] 讀取睡眠/步數/心率資料
-- [ ] 在日詳情中顯示 Health 資料
+### Phase 4: HealthKit（Week 5）✅ 完成
+- [x] HealthKit 授權流程 UI
+- [x] 排便 → HealthKit 症狀同步（Bristol→diarrhea/constipation）
+- [x] 症狀 → HealthKit 同步（abdominalCramps, bloating, nausea...）
+- [x] 讀取睡眠/步數/心率資料
+- [x] 在日詳情中顯示 Health 資料
 
 ### Phase 5: 完善（Week 6）
 - [ ] CloudKit 同步（iCloud 備份）

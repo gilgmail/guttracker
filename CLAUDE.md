@@ -68,26 +68,30 @@ Full spec: `GutTracker_Project_Spec.md`
 - **Views use `SectionCard`**: Reusable card wrapper with title, icon, and accent color for consistent section styling.
 - **App Group**: `group.com.gil.guttracker` — shared SwiftData container between main app and widget. `SharedContainer` handles fallback when entitlement is absent.
 
-## HealthKit Integration (Phase 4)
+## HealthKit Integration (Phase 4 — complete)
 
-Planned bidirectional sync via `HealthKitService` (actor-based singleton):
-- **Write**: BowelMovement → `HKCategoryType` mapping (Bristol 1-2 → `.constipation`, 6-7 → `.diarrhea`), symptoms → `.abdominalCramps`, `.bloating`, `.nausea`, `.fatigue`, `.fever`
-- **Read**: sleep analysis, step count, heart rate, body mass
+Bidirectional sync via `HealthKitService` (actor-based singleton in `Services/`):
+- **Write**: BowelMovement → `HKCategoryType` mapping (Bristol 1-2 → `.constipation`, 6-7 → `.diarrhea`), pain → `.abdominalCramps`; SymptomEntry → `.abdominalCramps`, `.bloating`, `.nausea`, `.fatigue`, `.fever`
+- **Read**: sleep hours (asleep core/deep/REM), step count, resting heart rate — shown in CalendarView day detail
 - Metadata tagged with `"AppSource": "GutTracker"` and `HKMetadataKeyWasUserEntered: true`
+- Authorization flow in SettingsView toggle — stores `@AppStorage("healthKitEnabled")`
+- Sync triggered automatically on bowel/symptom recording when enabled; `healthKitSynced` flag on models prevents duplicate writes
 
-## Widget Extension (Phase 3)
+## Widget Extension (Phase 3 — complete)
 
-Planned `GutTrackerWidget/` target with three sizes:
-- **Small**: read-only today summary (bowel count, status)
-- **Medium**: Bristol one-tap recording buttons + medication status (Interactive Widget via `AppIntent`)
-- **Large**: full daily panel with record list
-- Key intents: `RecordBowelMovementIntent` (Bristol quick-log), `ToggleMedicationIntent` (medication check-off)
-- Timeline refreshes every 15 minutes
+`GutTrackerWidget/` target with three sizes, sharing SwiftData via App Group:
+- **Small**: read-only today summary (bowel count, Bristol types, symptom emoji, medication progress)
+- **Medium**: interactive Bristol one-tap buttons (left) + medication checklist (right)
+- **Large**: full daily panel — Bristol buttons + recent records + medication + blood warning
+- **AppIntents**: `RecordBowelMovementIntent` (Bristol quick-log), `ToggleMedicationIntent` (medication toggle) — shared between both targets
+- Timeline refreshes every 15 minutes; `WidgetCenter.shared.reloadTimelines()` called on in-app changes
+- **Shared files** (target membership in both targets): Models (`SharedContainer`, `BowelMovement`, `SymptomEntry`, `MedicationLog`), Utilities (`Constants`, `DateExtensions`, `BristolScale`), Services (`AnalyticsEngine`), Intents
+- **pbxproj format**: Xcode 26 uses `PBXFileSystemSynchronizedRootGroup` (objectVersion 77). Target membership is controlled via `PBXFileSystemSynchronizedBuildFileExceptionSet` with `membershipExceptions` to exclude files
 
 ## Development Phases
 
 - Phase 1 (complete): MVP core — SwiftData models, bowel/symptom/medication CRUD, tab navigation, AnalyticsEngine
 - Phase 2 (complete): Calendar view, StatsView with 3 Swift Charts (bowel frequency, Bristol distribution, symptom trend), PDF export via UIGraphicsPDFRenderer
-- Phase 3: WidgetKit interactive widget for quick Bristol recording
-- Phase 4: HealthKit bidirectional sync
+- Phase 3 (complete): WidgetKit interactive widget — Small/Medium/Large sizes, AppIntents for Bristol recording + medication toggle
+- Phase 4 (complete): HealthKit bidirectional sync — write bowel/symptom to Health, read sleep/steps/heart rate
 - Phase 5: CloudKit iCloud sync + medication reminders (Local Notification) + UI polish

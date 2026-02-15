@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import HealthKit
 
 struct RecordView: View {
     var body: some View {
@@ -40,6 +41,9 @@ struct RecordViewContent: View {
     // Confirmation animation
     @State private var showConfirmation: Bool = false
     @State private var confirmedBristol: Int = 0
+
+    // HealthKit
+    @AppStorage("healthKitEnabled") private var healthKitEnabled = false
     
     var body: some View {
         NavigationStack {
@@ -81,6 +85,11 @@ struct RecordViewContent: View {
         }
         .onAppear {
             loadTodaySymptom()
+        }
+        .onDisappear {
+            if let symptom = todaySymptom {
+                syncSymptomToHealthKit(symptom)
+            }
         }
     }
     
@@ -159,6 +168,7 @@ struct RecordViewContent: View {
             BowelDetailSheet(initialBristol: selectedBristol) { bm in
                 modelContext.insert(bm)
                 WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
+                syncBowelMovementToHealthKit(bm)
             }
         }
     }
@@ -388,6 +398,7 @@ struct RecordViewContent: View {
         let bm = BowelMovement(bristolType: bristolType)
         modelContext.insert(bm)
         WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
+        syncBowelMovementToHealthKit(bm)
 
         confirmedBristol = bristolType
         withAnimation(.spring(response: 0.3)) {
@@ -437,8 +448,35 @@ struct RecordViewContent: View {
         )
     }
     
+    // MARK: - HealthKit Sync
+
+    private func syncBowelMovementToHealthKit(_ bm: BowelMovement) {
+        guard healthKitEnabled else { return }
+        Task {
+            do {
+                let uuid = try await HealthKitService.shared.syncBowelMovement(bm)
+                bm.healthKitSynced = true
+                bm.healthKitUUID = uuid
+            } catch {
+                // Silently fail — user can see sync status in settings
+            }
+        }
+    }
+
+    private func syncSymptomToHealthKit(_ entry: SymptomEntry) {
+        guard healthKitEnabled, !entry.healthKitSynced, entry.hasActiveSymptoms else { return }
+        Task {
+            do {
+                try await HealthKitService.shared.syncSymptomEntry(entry)
+                entry.healthKitSynced = true
+            } catch {
+                // Silently fail
+            }
+        }
+    }
+
     // MARK: - Helpers
-    
+
     private var avgBristolString: String {
         guard !todayBowelMovements.isEmpty else { return "-" }
         let avg = Double(todayBowelMovements.reduce(0) { $0 + $1.bristolType }) / Double(todayBowelMovements.count)

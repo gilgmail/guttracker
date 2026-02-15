@@ -1,16 +1,18 @@
 import SwiftUI
 import SwiftData
+import HealthKit
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
-    
+
     @Query(sort: \Medication.sortOrder)
     private var medications: [Medication]
-    
+
     @State private var showAddMed: Bool = false
     @State private var showDefaultMeds: Bool = false
     @AppStorage("healthKitEnabled") private var healthKitEnabled = false
     @AppStorage("notificationsEnabled") private var notificationsEnabled = false
+    @State private var healthKitAuthError: String?
     
     var body: some View {
         NavigationStack {
@@ -72,24 +74,67 @@ struct SettingsView: View {
                 
                 // ── HealthKit ──
                 Section {
-                    Toggle(isOn: $healthKitEnabled) {
-                        Label {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Apple Health 同步")
-                                Text("排便/症狀資料同步到健康 App")
-                                    .font(.system(size: 12))
+                    if HKHealthStore.isHealthDataAvailable() {
+                        Toggle(isOn: Binding(
+                            get: { healthKitEnabled },
+                            set: { newValue in
+                                if newValue {
+                                    Task {
+                                        do {
+                                            try await HealthKitService.shared.requestAuthorization()
+                                            healthKitEnabled = true
+                                            healthKitAuthError = nil
+                                        } catch {
+                                            healthKitEnabled = false
+                                            healthKitAuthError = error.localizedDescription
+                                        }
+                                    }
+                                } else {
+                                    healthKitEnabled = false
+                                }
+                            }
+                        )) {
+                            Label {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Apple Health 同步")
+                                    Text("排便/症狀資料同步到健康 App")
+                                        .font(.system(size: 12))
+                                        .foregroundStyle(.secondary)
+                                }
+                            } icon: {
+                                Image(systemName: "heart.fill")
+                                    .foregroundStyle(.red)
+                            }
+                        }
+                        .tint(.green)
+
+                        if healthKitEnabled {
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundStyle(.green)
+                                    .font(.system(size: 14))
+                                Text("已連接 Apple Health")
+                                    .font(.system(size: 13))
                                     .foregroundStyle(.secondary)
                             }
-                        } icon: {
-                            Image(systemName: "heart.fill")
-                                .foregroundStyle(.red)
+                        }
+                    } else {
+                        HStack {
+                            Image(systemName: "heart.slash.fill")
+                                .foregroundStyle(.secondary)
+                            Text("此裝置不支援 HealthKit")
+                                .foregroundStyle(.secondary)
                         }
                     }
-                    .tint(.green)
                 } header: {
                     Text("健康整合")
                 } footer: {
-                    Text("Phase 4 實作 — 將排便類型對應到 HealthKit 的腹瀉/便秘症狀記錄")
+                    if let error = healthKitAuthError {
+                        Text("授權失敗：\(error)")
+                            .foregroundStyle(.red)
+                    } else {
+                        Text("開啟後，排便和症狀記錄會自動同步到 Apple Health，也會讀取睡眠和步數資料。")
+                    }
                 }
                 
                 // ── 通知 ──

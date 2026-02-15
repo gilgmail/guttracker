@@ -8,9 +8,13 @@ struct CalendarView: View {
     @Query(sort: \MedicationLog.timestamp) private var allMedLogs: [MedicationLog]
     @Query(filter: #Predicate<Medication> { $0.isActive == true })
     private var activeMeds: [Medication]
-    
+
     @State private var displayedMonth: Date = .now
     @State private var selectedDate: Date? = nil
+    @AppStorage("healthKitEnabled") private var healthKitEnabled = false
+    @State private var healthSleep: Double?
+    @State private var healthSteps: Int?
+    @State private var healthHR: Int?
     
     private let calendar = Calendar.current
     private let weekdayLabels = ["一", "二", "三", "四", "五", "六", "日"]
@@ -242,11 +246,45 @@ struct CalendarView: View {
                     }
                 }
             }
+
+            // Health data
+            if healthKitEnabled, healthSleep != nil || healthSteps != nil || healthHR != nil {
+                Divider()
+                detailRow(icon: "heart.fill", iconColor: .red, title: "Apple Health") {
+                    HStack(spacing: 16) {
+                        if let sleep = healthSleep {
+                            HStack(spacing: 3) {
+                                Text("😴").font(.system(size: 12))
+                                Text(String(format: "%.1fh", sleep))
+                                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                            }
+                        }
+                        if let steps = healthSteps {
+                            HStack(spacing: 3) {
+                                Text("🚶").font(.system(size: 12))
+                                Text("\(steps.formatted())")
+                                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                            }
+                        }
+                        if let hr = healthHR {
+                            HStack(spacing: 3) {
+                                Text("❤️").font(.system(size: 12))
+                                Text("\(hr) bpm")
+                                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                            }
+                        }
+                    }
+                }
+            }
         }
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color(.secondarySystemGroupedBackground))
+        }
+        .task(id: date) {
+            guard healthKitEnabled else { return }
+            await fetchHealthData(for: date)
         }
     }
     
@@ -263,8 +301,21 @@ struct CalendarView: View {
         }
     }
     
+    // MARK: - Health Data
+
+    private func fetchHealthData(for date: Date) async {
+        healthSleep = nil
+        healthSteps = nil
+        healthHR = nil
+
+        let service = HealthKitService.shared
+        healthSleep = try? await service.fetchSleepHours(for: date)
+        healthSteps = try? await service.fetchSteps(for: date)
+        healthHR = try? await service.fetchRestingHeartRate(for: date)
+    }
+
     // MARK: - Data Helpers
-    
+
     private func daysInMonth() -> [Date?] {
         let firstOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: displayedMonth))!
         let range = calendar.range(of: .day, in: .month, for: firstOfMonth)!
