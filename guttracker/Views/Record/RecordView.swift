@@ -44,30 +44,46 @@ struct RecordViewContent: View {
 
     // HealthKit
     @AppStorage("healthKitEnabled") private var healthKitEnabled = false
-    
+
+    // Entrance animation
+    @State private var appeared = false
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
                     // ── 今日統計條 ──
                     todayStatsBar
-                    
+                        .opacity(appeared ? 1 : 0)
+                        .offset(y: appeared ? 0 : 12)
+
                     // ── 排便快速記錄 ──
                     bowelRecordSection
-                    
+                        .opacity(appeared ? 1 : 0)
+                        .offset(y: appeared ? 0 : 16)
+
                     // ── 今日排便記錄列表 ──
                     if !todayBowelMovements.isEmpty {
                         todayRecordsList
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .top).combined(with: .opacity),
+                                removal: .opacity
+                            ))
                     }
-                    
+
                     // ── 症狀快速記錄 ──
                     symptomSection
-                    
+                        .opacity(appeared ? 1 : 0)
+                        .offset(y: appeared ? 0 : 20)
+
                     // ── 用藥 Checklist ──
                     medicationSection
+                        .opacity(appeared ? 1 : 0)
+                        .offset(y: appeared ? 0 : 24)
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 32)
+                .animation(.easeOut(duration: 0.5), value: todayBowelMovements.count)
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("GutTracker")
@@ -85,6 +101,9 @@ struct RecordViewContent: View {
         }
         .onAppear {
             loadTodaySymptom()
+            withAnimation(.easeOut(duration: 0.6).delay(0.1)) {
+                appeared = true
+            }
         }
         .onDisappear {
             if let symptom = todaySymptom {
@@ -358,38 +377,55 @@ struct RecordViewContent: View {
     // MARK: - Overall Status Badge
     
     private var overallStatusBadge: some View {
-        let status = todaySymptom?.overallStatus ?? .good
+        let score = NotificationService.shared.computeHealthScore(
+            bowelMovements: todayBowelMovements,
+            symptom: todaySymptom,
+            medsTaken: todayMedLogs.count,
+            medsTotal: activeMedications.count
+        )
         return HStack(spacing: 4) {
-            Text(status.emoji)
+            Text(score.level.emoji)
                 .font(.system(size: 14))
-            Text(status.displayName)
-                .font(.system(size: 12, weight: .semibold))
+            Text("\(score.score)")
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .contentTransition(.numericText())
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 5)
         .background {
-            Capsule().fill(statusColor(status).opacity(0.12))
+            Capsule().fill(healthScoreColor(score.level).opacity(0.12))
         }
-        .foregroundStyle(statusColor(status))
+        .foregroundStyle(healthScoreColor(score.level))
+        .animation(.easeInOut(duration: 0.3), value: score.score)
     }
     
     // MARK: - Confirmation Overlay
     
     private var confirmationOverlay: some View {
         let info = BristolScale.info(for: confirmedBristol)
-        return VStack(spacing: 8) {
+        return VStack(spacing: 10) {
             Text(info.emoji)
-                .font(.system(size: 48))
+                .font(.system(size: 52))
+                .scaleEffect(showConfirmation ? 1.0 : 0.3)
+                .animation(.spring(response: 0.4, dampingFraction: 0.5), value: showConfirmation)
+
             Text("已記錄 Type \(confirmedBristol)")
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(.white)
+                .foregroundStyle(.primary)
+
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 24))
+                .foregroundStyle(.green)
+                .scaleEffect(showConfirmation ? 1.0 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.6).delay(0.15), value: showConfirmation)
         }
-        .padding(24)
+        .padding(28)
         .background {
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .fill(.ultraThinMaterial)
+                .shadow(color: .black.opacity(0.1), radius: 20, y: 10)
         }
-        .transition(.scale.combined(with: .opacity))
+        .transition(.scale(scale: 0.8).combined(with: .opacity))
     }
     
     // MARK: - Actions
@@ -503,6 +539,14 @@ struct RecordViewContent: View {
         case .mild: return .green
         case .moderate: return .yellow
         case .severe: return .red
+        }
+    }
+
+    private func healthScoreColor(_ level: HealthScoreLevel) -> Color {
+        switch level {
+        case .excellent, .good: return .green
+        case .fair: return .yellow
+        case .poor: return .red
         }
     }
 }

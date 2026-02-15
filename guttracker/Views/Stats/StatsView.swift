@@ -11,6 +11,7 @@ struct StatsView: View {
     
     @State private var selectedPeriod: StatsPeriod = .week
     @State private var showExport: Bool = false
+    @State private var chartsAppeared: Bool = false
     
     enum StatsPeriod: String, CaseIterable {
         case week = "7天"
@@ -51,12 +52,18 @@ struct StatsView: View {
                     
                     // Summary cards
                     summaryCards
-                    
+
                     // Bowel frequency chart
                     if stats.totalBowelMovements > 0 {
                         bowelFrequencyChart
+                            .opacity(chartsAppeared ? 1 : 0)
+                            .offset(y: chartsAppeared ? 0 : 20)
                         bristolDistributionChart
+                            .opacity(chartsAppeared ? 1 : 0)
+                            .offset(y: chartsAppeared ? 0 : 20)
                         symptomTrendChart
+                            .opacity(chartsAppeared ? 1 : 0)
+                            .offset(y: chartsAppeared ? 0 : 20)
                     } else {
                         emptyState
                     }
@@ -66,6 +73,17 @@ struct StatsView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("統計")
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.6).delay(0.2)) {
+                    chartsAppeared = true
+                }
+            }
+            .onChange(of: selectedPeriod) {
+                chartsAppeared = false
+                withAnimation(.easeOut(duration: 0.5).delay(0.1)) {
+                    chartsAppeared = true
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
