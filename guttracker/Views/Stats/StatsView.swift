@@ -390,25 +390,24 @@ struct ExportSheet: View {
     let stats: AnalyticsEngine.PeriodStats
     let summaries: [AnalyticsEngine.DailySummary]
     let period: StatsView.StatsPeriod
-    
+
     @State private var isExporting = false
-    @State private var exportedURL: URL? = nil
-    
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                Image(systemName: "doc.text.fill")
+                Image(systemName: "doc.richtext.fill")
                     .font(.system(size: 48))
                     .foregroundStyle(.blue)
-                
+
                 Text("匯出報告")
                     .font(.title2.weight(.semibold))
-                
+
                 Text("產生 \(period.rawValue) 的排便/症狀統計報告\n可分享給醫生作為參考")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                
+
                 // Summary preview
                 VStack(alignment: .leading, spacing: 8) {
                     reportRow("期間", "\(period.days) 天")
@@ -425,15 +424,15 @@ struct ExportSheet: View {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
                         .fill(Color(.tertiarySystemGroupedBackground))
                 }
-                
+
                 Spacer()
-                
+
                 Button {
-                    exportAsText()
+                    exportAsPDF()
                 } label: {
                     HStack {
-                        Image(systemName: "square.and.arrow.up")
-                        Text("產生文字報告")
+                        Image(systemName: "doc.fill")
+                        Text("產生 PDF 報告")
                     }
                     .font(.system(size: 16, weight: .semibold))
                     .frame(maxWidth: .infinity)
@@ -455,7 +454,7 @@ struct ExportSheet: View {
             }
         }
     }
-    
+
     private func reportRow(_ label: String, _ value: String) -> some View {
         HStack {
             Text(label)
@@ -466,83 +465,286 @@ struct ExportSheet: View {
                 .font(.system(size: 13, weight: .medium, design: .rounded))
         }
     }
-    
-    private func exportAsText() {
-        let report = generateTextReport()
+
+    // MARK: - PDF Export
+
+    private func exportAsPDF() {
+        let pdfData = PDFReportGenerator.generate(
+            stats: stats,
+            summaries: summaries,
+            period: period
+        )
+
+        let fileName = "GutTracker_報告_\(period.rawValue).pdf"
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+        try? pdfData.write(to: tempURL)
+
         let activityVC = UIActivityViewController(
-            activityItems: [report],
+            activityItems: [tempURL],
             applicationActivities: nil
         )
-        
+
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootVC = windowScene.windows.first?.rootViewController {
             rootVC.present(activityVC, animated: true)
         }
     }
-    
-    private func generateTextReport() -> String {
+}
+
+// MARK: - PDF Report Generator
+
+private enum PDFReportGenerator {
+
+    // A4 page size in points (595 x 842)
+    static let pageWidth: CGFloat = 595
+    static let pageHeight: CGFloat = 842
+    static let margin: CGFloat = 40
+    static let contentWidth: CGFloat = 595 - 80 // pageWidth - 2*margin
+
+    static func generate(
+        stats: AnalyticsEngine.PeriodStats,
+        summaries: [AnalyticsEngine.DailySummary],
+        period: StatsView.StatsPeriod
+    ) -> Data {
+        let pageRect = CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
+        let renderer = UIGraphicsPDFRenderer(bounds: pageRect)
+
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "zh_TW")
         dateFormatter.dateFormat = "yyyy/MM/dd"
-        
         let endDate = dateFormatter.string(from: Date.now)
         let startDate = dateFormatter.string(from: Date.now.daysAgo(period.days))
-        
-        var report = """
-        ═══════════════════════════════
-        GutTracker 腸胃健康報告
-        期間：\(startDate) — \(endDate) (\(period.days)天)
-        ═══════════════════════════════
-        
-        【排便統計】
-        總次數：\(stats.totalBowelMovements) 次
-        平均：\(String(format: "%.1f", stats.avgBowelPerDay)) 次/天
-        Bristol 均值：\(String(format: "%.1f", stats.avgBristol))
-        血便天數：\(stats.bloodDays) 天
-        腹瀉天數：\(stats.diarrheaDays) 天
-        便秘天數：\(stats.constipationDays) 天
-        正常天數：\(stats.normalDays) 天
-        
-        【Bristol 分布】
-        """
-        
+
+        return renderer.pdfData { context in
+            context.beginPage()
+            var y = margin
+
+            // === Header ===
+            y = drawHeader(y: y, startDate: startDate, endDate: endDate, days: period.days)
+
+            // === Summary Stats ===
+            y = drawSectionTitle("排便統計", y: y)
+            y = drawStatsTable(stats: stats, y: y)
+
+            // === Bristol Distribution ===
+            y += 16
+            y = drawSectionTitle("Bristol 分布", y: y)
+            y = drawBristolDistribution(stats: stats, y: y)
+
+            // === Symptom Trend ===
+            y += 16
+            y = drawSectionTitle("症狀趨勢", y: y)
+            y = drawSymptomSummary(stats: stats, y: y)
+
+            // === Daily Detail ===
+            y += 16
+            y = drawSectionTitle("每日明細", y: y)
+
+            let activeDays = summaries.reversed().filter { $0.bowelCount > 0 || $0.symptomSeverity > 0 }
+            for day in activeDays {
+                // Check if we need a new page
+                if y > pageHeight - margin - 20 {
+                    drawFooter()
+                    context.beginPage()
+                    y = margin
+                }
+                y = drawDailyRow(day: day, dateFormatter: dateFormatter, y: y)
+            }
+
+            // === Footer ===
+            drawFooter()
+        }
+    }
+
+    // MARK: - Drawing Helpers
+
+    private static func drawHeader(y: CGFloat, startDate: String, endDate: String, days: Int) -> CGFloat {
+        var currentY = y
+
+        let titleAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 22, weight: .bold),
+            .foregroundColor: UIColor.label
+        ]
+        let title = "GutTracker 腸胃健康報告"
+        title.draw(at: CGPoint(x: margin, y: currentY), withAttributes: titleAttrs)
+        currentY += 32
+
+        let subtitleAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 13, weight: .regular),
+            .foregroundColor: UIColor.secondaryLabel
+        ]
+        let subtitle = "期間：\(startDate) — \(endDate)（\(days) 天）"
+        subtitle.draw(at: CGPoint(x: margin, y: currentY), withAttributes: subtitleAttrs)
+        currentY += 22
+
+        // Divider line
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: margin, y: currentY))
+        path.addLine(to: CGPoint(x: pageWidth - margin, y: currentY))
+        UIColor.separator.setStroke()
+        path.lineWidth = 1
+        path.stroke()
+        currentY += 16
+
+        return currentY
+    }
+
+    private static func drawSectionTitle(_ title: String, y: CGFloat) -> CGFloat {
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
+            .foregroundColor: UIColor.label
+        ]
+        title.draw(at: CGPoint(x: margin, y: y), withAttributes: attrs)
+        return y + 26
+    }
+
+    private static func drawStatsTable(stats: AnalyticsEngine.PeriodStats, y: CGFloat) -> CGFloat {
+        let rows: [(String, String)] = [
+            ("排便總次數", "\(stats.totalBowelMovements) 次"),
+            ("平均排便", String(format: "%.1f 次/天", stats.avgBowelPerDay)),
+            ("Bristol 均值", String(format: "%.1f", stats.avgBristol)),
+            ("血便天數", "\(stats.bloodDays) 天"),
+            ("平均疼痛", String(format: "%.1f / 10", stats.avgPain)),
+            ("腹瀉天數", "\(stats.diarrheaDays) 天"),
+            ("便秘天數", "\(stats.constipationDays) 天"),
+            ("正常天數", "\(stats.normalDays) 天"),
+        ]
+
+        let labelAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 12, weight: .regular),
+            .foregroundColor: UIColor.secondaryLabel
+        ]
+        let valueAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.monospacedDigitSystemFont(ofSize: 12, weight: .medium),
+            .foregroundColor: UIColor.label
+        ]
+
+        var currentY = y
+        let colWidth = contentWidth / 2
+
+        for (i, row) in rows.enumerated() {
+            let col = CGFloat(i % 2)
+            let x = margin + col * colWidth
+
+            // Alternate row background
+            if i % 2 == 0 && i % 4 < 2 {
+                let bgRect = CGRect(x: margin, y: currentY - 2, width: contentWidth, height: 20)
+                UIColor.systemGray6.setFill()
+                UIBezierPath(roundedRect: bgRect, cornerRadius: 3).fill()
+            }
+
+            row.0.draw(at: CGPoint(x: x, y: currentY), withAttributes: labelAttrs)
+            row.1.draw(at: CGPoint(x: x + 90, y: currentY), withAttributes: valueAttrs)
+
+            if i % 2 == 1 { currentY += 22 }
+        }
+        if rows.count % 2 == 1 { currentY += 22 }
+
+        return currentY
+    }
+
+    private static func drawBristolDistribution(stats: AnalyticsEngine.PeriodStats, y: CGFloat) -> CGFloat {
+        var currentY = y
+        let maxCount = stats.bristolDistribution.values.max() ?? 1
+        let barMaxWidth: CGFloat = contentWidth - 140
+
+        let labelAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 11, weight: .regular),
+            .foregroundColor: UIColor.secondaryLabel
+        ]
+        let countAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.monospacedDigitSystemFont(ofSize: 11, weight: .semibold),
+            .foregroundColor: UIColor.label
+        ]
+
         for type in 1...7 {
             let count = stats.bristolDistribution[type] ?? 0
             let info = BristolScale.info(for: type)
-            let bar = String(repeating: "█", count: min(count, 20))
-            report += "\n  Type \(type) \(info.name): \(bar) \(count)次"
-        }
-        
-        report += """
-        
-        
-        【症狀趨勢】
-        趨勢：\(stats.symptomTrend.displayName)
-        平均疼痛：\(String(format: "%.1f", stats.avgPain))/10
-        
-        【每日明細】
-        """
-        
-        for day in summaries.reversed().prefix(period.days) {
-            if day.bowelCount > 0 || day.symptomSeverity > 0 {
-                let dateStr = dateFormatter.string(from: day.date)
-                let bristolStr = day.bristolTypes.map { "\($0)" }.joined(separator: ",")
-                let blood = day.hasBlood ? " 🩸" : ""
-                let severity = day.symptomSeverity > 0 ? " 症狀:\(severityLabels[day.symptomSeverity])" : ""
-                report += "\n  \(dateStr): 排便\(day.bowelCount)次 Bristol[\(bristolStr)]\(blood)\(severity)"
+            let label = "Type \(type) \(info.name)"
+            label.draw(at: CGPoint(x: margin, y: currentY), withAttributes: labelAttrs)
+
+            // Bar
+            let barWidth = maxCount > 0 ? barMaxWidth * CGFloat(count) / CGFloat(maxCount) : 0
+            if barWidth > 0 {
+                let barRect = CGRect(x: margin + 100, y: currentY + 2, width: barWidth, height: 12)
+                let barColor = bristolUIColor(for: type)
+                barColor.setFill()
+                UIBezierPath(roundedRect: barRect, cornerRadius: 3).fill()
             }
+
+            // Count
+            "\(count)".draw(at: CGPoint(x: margin + 106 + barWidth, y: currentY), withAttributes: countAttrs)
+
+            currentY += 20
         }
-        
-        report += """
-        
-        
-        ═══════════════════════════════
-        此報告由 GutTracker App 自動產生
-        僅供參考，不構成醫療建議
-        ═══════════════════════════════
-        """
-        
-        return report
+
+        return currentY
+    }
+
+    private static func drawSymptomSummary(stats: AnalyticsEngine.PeriodStats, y: CGFloat) -> CGFloat {
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 12, weight: .regular),
+            .foregroundColor: UIColor.label
+        ]
+
+        var currentY = y
+        let trendText = "趨勢：\(stats.symptomTrend.displayName)"
+        trendText.draw(at: CGPoint(x: margin, y: currentY), withAttributes: attrs)
+        currentY += 20
+
+        let painText = String(format: "平均疼痛：%.1f / 10", stats.avgPain)
+        painText.draw(at: CGPoint(x: margin, y: currentY), withAttributes: attrs)
+        currentY += 20
+
+        let bowelTrendText = "排便趨勢：\(stats.bowelTrend.displayName)"
+        bowelTrendText.draw(at: CGPoint(x: margin, y: currentY), withAttributes: attrs)
+        currentY += 20
+
+        return currentY
+    }
+
+    private static func drawDailyRow(
+        day: AnalyticsEngine.DailySummary,
+        dateFormatter: DateFormatter,
+        y: CGFloat
+    ) -> CGFloat {
+        let dateStr = dateFormatter.string(from: day.date)
+        let bristolStr = day.bristolTypes.map { "\($0)" }.joined(separator: ", ")
+        let blood = day.hasBlood ? " [血便]" : ""
+        let severity = day.symptomSeverity > 0 ? "  症狀: \(severityLabels[day.symptomSeverity])" : ""
+        let medInfo = day.medicationsTotal > 0 ? "  用藥: \(day.medicationsTaken)/\(day.medicationsTotal)" : ""
+
+        let text = "\(dateStr)  排便 \(day.bowelCount) 次  Bristol [\(bristolStr)]\(blood)\(severity)\(medInfo)"
+
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular),
+            .foregroundColor: day.hasBlood ? UIColor.systemRed : UIColor.label
+        ]
+        text.draw(at: CGPoint(x: margin, y: y), withAttributes: attrs)
+
+        return y + 16
+    }
+
+    private static func drawFooter() {
+        let footerAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 9, weight: .regular),
+            .foregroundColor: UIColor.tertiaryLabel
+        ]
+        let footer = "此報告由 GutTracker App 自動產生，僅供參考，不構成醫療建議"
+        footer.draw(at: CGPoint(x: margin, y: pageHeight - margin + 8), withAttributes: footerAttrs)
+    }
+
+    private static func bristolUIColor(for type: Int) -> UIColor {
+        switch type {
+        case 1: return UIColor(red: 0.55, green: 0.27, blue: 0.07, alpha: 1)
+        case 2: return UIColor(red: 0.63, green: 0.32, blue: 0.18, alpha: 1)
+        case 3: return UIColor(red: 0.42, green: 0.56, blue: 0.14, alpha: 1)
+        case 4: return UIColor(red: 0.18, green: 0.55, blue: 0.34, alpha: 1)
+        case 5: return UIColor(red: 0.27, green: 0.51, blue: 0.71, alpha: 1)
+        case 6: return UIColor(red: 0.82, green: 0.41, blue: 0.12, alpha: 1)
+        case 7: return UIColor(red: 0.80, green: 0.36, blue: 0.36, alpha: 1)
+        default: return .systemGray
+        }
     }
 }
 

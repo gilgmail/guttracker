@@ -897,20 +897,20 @@ GutTracker/
 - [x] AnalyticsEngine 本地統計分析引擎
 - [x] SharedContainer App Group fallback（模擬器相容）
 
-### Phase 2: 數據 & 分析（Week 3）🟡 部分完成
+### Phase 2: 數據 & 分析（Week 3）✅ 完成
 - [x] 日曆頁（顏色標記嚴重度 + 每日詳情展開）
 - [x] 統計頁框架（StatsView）
-- [ ] Swift Charts 圖表（排便頻率趨勢圖、Bristol 分布圖、症狀趨勢圖）
-- [ ] PDF 報告匯出（給醫生用）
+- [x] Swift Charts 圖表（排便頻率趨勢圖、Bristol 分布圖、症狀趨勢圖）
+- [x] PDF 報告匯出（給醫生用）
 
-### Phase 3: Widget（Week 4 — 高優先）
-- [ ] App Group 共享 SwiftData container
-- [ ] Small Widget（今日統計純顯示）
-- [ ] Medium Widget（Bristol 一鍵記錄 + 用藥狀態）
-- [ ] Large Widget（完整今日面板 + 記錄列表）
-- [ ] RecordBowelMovementIntent（Interactive Widget）
-- [ ] ToggleMedicationIntent（用藥打勾 Intent）
-- [ ] Widget Timeline 15 分鐘自動更新
+### Phase 3: Widget（Week 4 — 高優先）✅ 完成
+- [x] App Group 共享 SwiftData container
+- [x] Small Widget（今日統計純顯示）
+- [x] Medium Widget（Bristol 一鍵記錄 + 用藥狀態）
+- [x] Large Widget（完整今日面板 + 記錄列表）
+- [x] RecordBowelMovementIntent（Interactive Widget）
+- [x] ToggleMedicationIntent（用藥打勾 Intent）
+- [x] Widget Timeline 15 分鐘自動更新
 
 ### Phase 4: HealthKit（Week 5）
 - [ ] HealthKit 授權流程 UI

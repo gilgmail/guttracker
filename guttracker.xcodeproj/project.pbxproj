@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CED71CD22F4168C400084608 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED71CD12F4168C300084608 /* WidgetKit.framework */; };
+		CED71CD42F4168C400084608 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED71CD32F4168C400084608 /* SwiftUI.framework */; };
+		CED71CE52F4168C600084608 /* GutTrackerWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CED71CCF2F4168C300084608 /* GutTrackerWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		CED71C852F405C5000084608 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +27,37 @@
 			remoteGlobalIDString = CED71C722F405C4E00084608;
 			remoteInfo = guttracker;
 		};
+		CED71CE32F4168C600084608 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CED71C6B2F405C4E00084608 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CED71CCE2F4168C300084608;
+			remoteInfo = GutTrackerWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CED71CEA2F4168C600084608 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CED71CE52F4168C600084608 /* GutTrackerWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CED71C732F405C4E00084608 /* guttracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = guttracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED71C842F405C5000084608 /* guttrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = guttrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED71C8E2F405C5000084608 /* guttrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = guttrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CED71CCF2F4168C300084608 /* GutTrackerWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GutTrackerWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CED71CD12F4168C300084608 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		CED71CD32F4168C400084608 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		CED71CFD2F416B7B00084608 /* GutTrackerWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GutTrackerWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -37,6 +68,29 @@
 			);
 			target = CED71C722F405C4E00084608 /* guttracker */;
 		};
+		CED71CE92F4168C600084608 /* Exceptions for "GutTrackerWidget" folder in "GutTrackerWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CED71CCE2F4168C300084608 /* GutTrackerWidgetExtension */;
+		};
+		CED71D012F416D0000084608 /* Exceptions for "guttracker" folder in "GutTrackerWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/GutTrackerApp.swift,
+				Assets.xcassets,
+				Info.plist,
+				Views/Calendar/CalendarView.swift,
+				Views/MainTabView.swift,
+				Views/Record/BowelDetailSheet.swift,
+				Views/Record/RecordView.swift,
+				Views/Record/SymptomQuickEntry.swift,
+				Views/Settings/SettingsView.swift,
+				Views/Stats/StatsView.swift,
+			);
+			target = CED71CCE2F4168C300084608 /* GutTrackerWidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +98,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				CED71C962F405C5000084608 /* Exceptions for "guttracker" folder in "guttracker" target */,
+				CED71D012F416D0000084608 /* Exceptions for "guttracker" folder in "GutTrackerWidgetExtension" target */,
 			);
 			path = guttracker;
 			sourceTree = "<group>";
@@ -56,6 +111,14 @@
 		CED71C912F405C5000084608 /* guttrackerUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = guttrackerUITests;
+			sourceTree = "<group>";
+		};
+		CED71CD52F4168C400084608 /* GutTrackerWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CED71CE92F4168C600084608 /* Exceptions for "GutTrackerWidget" folder in "GutTrackerWidgetExtension" target */,
+			);
+			path = GutTrackerWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,15 +145,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CED71CCC2F4168C300084608 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED71CD42F4168C400084608 /* SwiftUI.framework in Frameworks */,
+				CED71CD22F4168C400084608 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		CED71C6A2F405C4D00084608 = {
 			isa = PBXGroup;
 			children = (
+				CED71CFD2F416B7B00084608 /* GutTrackerWidgetExtension.entitlements */,
 				CED71C752F405C4E00084608 /* guttracker */,
 				CED71C872F405C5000084608 /* guttrackerTests */,
 				CED71C912F405C5000084608 /* guttrackerUITests */,
+				CED71CD52F4168C400084608 /* GutTrackerWidget */,
+				CED71CD02F4168C300084608 /* Frameworks */,
 				CED71C742F405C4E00084608 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,8 +176,18 @@
 				CED71C732F405C4E00084608 /* guttracker.app */,
 				CED71C842F405C5000084608 /* guttrackerTests.xctest */,
 				CED71C8E2F405C5000084608 /* guttrackerUITests.xctest */,
+				CED71CCF2F4168C300084608 /* GutTrackerWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CED71CD02F4168C300084608 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CED71CD12F4168C300084608 /* WidgetKit.framework */,
+				CED71CD32F4168C400084608 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -115,10 +200,12 @@
 				CED71C6F2F405C4E00084608 /* Sources */,
 				CED71C702F405C4E00084608 /* Frameworks */,
 				CED71C712F405C4E00084608 /* Resources */,
+				CED71CEA2F4168C600084608 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CED71CE42F4168C600084608 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				CED71C752F405C4E00084608 /* guttracker */,
@@ -176,6 +263,29 @@
 			productReference = CED71C8E2F405C5000084608 /* guttrackerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		CED71CCE2F4168C300084608 /* GutTrackerWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CED71CE62F4168C600084608 /* Build configuration list for PBXNativeTarget "GutTrackerWidgetExtension" */;
+			buildPhases = (
+				CED71CCB2F4168C300084608 /* Sources */,
+				CED71CCC2F4168C300084608 /* Frameworks */,
+				CED71CCD2F4168C300084608 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CED71C752F405C4E00084608 /* guttracker */,
+				CED71CD52F4168C400084608 /* GutTrackerWidget */,
+			);
+			name = GutTrackerWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = GutTrackerWidgetExtension;
+			productReference = CED71CCF2F4168C300084608 /* GutTrackerWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,6 +307,9 @@
 						CreatedOnToolsVersion = 26.0.1;
 						TestTargetID = CED71C722F405C4E00084608;
 					};
+					CED71CCE2F4168C300084608 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
 				};
 			};
 			buildConfigurationList = CED71C6E2F405C4E00084608 /* Build configuration list for PBXProject "guttracker" */;
@@ -216,6 +329,7 @@
 				CED71C722F405C4E00084608 /* guttracker */,
 				CED71C832F405C5000084608 /* guttrackerTests */,
 				CED71C8D2F405C5000084608 /* guttrackerUITests */,
+				CED71CCE2F4168C300084608 /* GutTrackerWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +350,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CED71C8C2F405C5000084608 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CED71CCD2F4168C300084608 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -266,6 +387,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CED71CCB2F4168C300084608 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -278,6 +406,11 @@
 			isa = PBXTargetDependency;
 			target = CED71C722F405C4E00084608 /* guttracker */;
 			targetProxy = CED71C8F2F405C5000084608 /* PBXContainerItemProxy */;
+		};
+		CED71CE42F4168C600084608 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CED71CCE2F4168C300084608 /* GutTrackerWidgetExtension */;
+			targetProxy = CED71CE32F4168C600084608 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -555,6 +688,68 @@
 			};
 			name = Release;
 		};
+		CED71CE72F4168C600084608 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = GutTrackerWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 686AGNJMGN;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GutTrackerWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GutTrackerWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gilko.guttracker.GutTrackerWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CED71CE82F4168C600084608 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = GutTrackerWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 686AGNJMGN;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GutTrackerWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GutTrackerWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gilko.guttracker.GutTrackerWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -590,6 +785,15 @@
 			buildConfigurations = (
 				CED71CA02F405C5000084608 /* Debug */,
 				CED71CA12F405C5000084608 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CED71CE62F4168C600084608 /* Build configuration list for PBXNativeTarget "GutTrackerWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CED71CE72F4168C600084608 /* Debug */,
+				CED71CE82F4168C600084608 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

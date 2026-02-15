@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct RecordView: View {
     var body: some View {
@@ -157,6 +158,7 @@ struct RecordViewContent: View {
         .sheet(isPresented: $showBowelDetail) {
             BowelDetailSheet(initialBristol: selectedBristol) { bm in
                 modelContext.insert(bm)
+                WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
             }
         }
     }
@@ -385,7 +387,8 @@ struct RecordViewContent: View {
     private func quickRecordBowelMovement(bristolType: Int) {
         let bm = BowelMovement(bristolType: bristolType)
         modelContext.insert(bm)
-        
+        WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
+
         confirmedBristol = bristolType
         withAnimation(.spring(response: 0.3)) {
             showConfirmation = true
@@ -407,6 +410,7 @@ struct RecordViewContent: View {
             log.medicationId = med.id
             modelContext.insert(log)
         }
+        WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
     }
     
     private func loadTodaySymptom() {
