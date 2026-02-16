@@ -9,16 +9,17 @@ struct MediumWidgetView: View {
         VStack(alignment: .leading, spacing: 6) {
             // Header: 排便次數 + avg Bristol + 症狀狀態
             HStack {
-                Text("💩")
-                    .font(.system(size: 13))
                 Text("\(entry.bowelCount)次")
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                    .font(.system(size: 15, weight: .light, design: .rounded))
                 if entry.avgBristol > 0 {
                     Text("avg")
                         .font(.system(size: 9))
                         .foregroundStyle(.secondary)
-                    Text(BristolScale.info(for: Int(entry.avgBristol.rounded())).emoji)
-                        .font(.system(size: 13))
+                    BristolShapeView(
+                        type: Int(entry.avgBristol.rounded()),
+                        color: ZenColors.bristolZone(for: Int(entry.avgBristol.rounded())),
+                        size: 14
+                    )
                 }
                 Spacer()
                 Text(entry.symptomStatus)
@@ -31,14 +32,17 @@ struct MediumWidgetView: View {
                 ForEach(1...7, id: \.self) { type in
                     Button(intent: RecordBowelMovementIntent(bristolType: type)) {
                         VStack(spacing: 2) {
-                            Text(BristolScale.info(for: type).emoji)
-                                .font(.system(size: 18))
+                            BristolShapeView(
+                                type: type,
+                                color: bristolIconColor(type),
+                                size: 18
+                            )
                             Text("\(type)")
                                 .font(.system(size: 9, weight: .medium, design: .rounded))
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 4)
+                        .aspectRatio(1, contentMode: .fit)
                         .background {
                             RoundedRectangle(cornerRadius: 8, style: .continuous)
                                 .fill(bristolBackground(type))
@@ -57,22 +61,14 @@ struct MediumWidgetView: View {
                 }
                 Spacer()
                 if entry.hasBlood {
-                    HStack(spacing: 2) {
-                        Text("🩸")
-                            .font(.system(size: 11))
-                        Text("血便")
-                            .font(.system(size: 10, weight: .medium))
-                            .foregroundStyle(.red)
-                    }
+                    Text("血便")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.red)
                 }
                 if entry.hasMucus {
-                    HStack(spacing: 2) {
-                        Text("💧")
-                            .font(.system(size: 11))
-                        Text("黏液")
-                            .font(.system(size: 10, weight: .medium))
-                            .foregroundStyle(.orange)
-                    }
+                    Text("黏液")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.orange)
                 }
             }
         }
@@ -82,9 +78,14 @@ struct MediumWidgetView: View {
     private func bristolBackground(_ type: Int) -> Color {
         let isCurrent = entry.bristolTypes.last == type
         if isCurrent {
-            return BristolScale.info(for: type).color.opacity(0.3)
+            return ZenColors.bristolZone(for: type).opacity(0.2)
         }
         return Color(.systemGray5)
+    }
+
+    private func bristolIconColor(_ type: Int) -> Color {
+        let isCurrent = entry.bristolTypes.last == type
+        return isCurrent ? ZenColors.bristolZone(for: type) : .secondary
     }
 
     private var severityColor: Color {

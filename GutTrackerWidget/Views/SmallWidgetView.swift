@@ -20,11 +20,9 @@ struct SmallWidgetView: View {
 
             // 排便次數
             HStack(alignment: .firstTextBaseline, spacing: 2) {
-                Text("💩")
-                    .font(.system(size: 14))
                 Text("\(entry.bowelCount)")
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
-                Text("次")
+                    .font(.system(size: 28, weight: .light, design: .rounded))
+                Text("次排便")
                     .font(.system(size: 12))
                     .foregroundStyle(.secondary)
             }
@@ -36,8 +34,7 @@ struct SmallWidgetView: View {
                     Text("最近:")
                         .font(.system(size: 10))
                         .foregroundStyle(.secondary)
-                    Text(info.emoji)
-                        .font(.system(size: 12))
+                    BristolShapeView(type: lastType, color: info.color, size: 14)
                     Text("Type \(lastType)")
                         .font(.system(size: 10, weight: .medium))
                 }
@@ -54,12 +51,14 @@ struct SmallWidgetView: View {
                 }
                 Spacer()
                 if entry.hasBlood {
-                    Text("🩸")
-                        .font(.system(size: 12))
+                    Text("血")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(.red)
                 }
                 if entry.hasMucus {
-                    Text("💧")
-                        .font(.system(size: 12))
+                    Text("液")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(.orange)
                 }
             }
         }

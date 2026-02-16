@@ -32,12 +32,12 @@ struct RecordViewContent: View {
             filter: #Predicate<MedicationLog> { $0.timestamp >= startOfToday }
         )
     }
-    
+
     @State private var selectedBristol: Int = 4
     @State private var showBowelDetail: Bool = false
     @State private var showSymptomSheet: Bool = false
     @State private var todaySymptom: SymptomEntry?
-    
+
     // Confirmation animation
     @State private var showConfirmation: Bool = false
     @State private var confirmedBristol: Int = 0
@@ -139,9 +139,9 @@ struct RecordViewContent: View {
             }
         }
     }
-    
+
     // MARK: - Today Stats Bar
-    
+
     private var todayStatsBar: some View {
         HStack(spacing: 0) {
             statItem(value: "\(todayBowelMovements.count)", label: "排便次數", color: .primary)
@@ -151,20 +151,16 @@ struct RecordViewContent: View {
             statItem(
                 value: "\(activeSymptomCount)",
                 label: "活躍症狀",
-                color: activeSymptomCount > 0 ? .orange : .green
+                color: activeSymptomCount > 0 ? ZenColors.amber : ZenColors.bristolNormal
             )
         }
         .padding(.vertical, 12)
-        .background {
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
-        }
     }
-    
+
     private func statItem(value: String, label: String, color: Color) -> some View {
         VStack(spacing: 2) {
             Text(value)
-                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .font(.system(size: 20, weight: .light, design: .rounded))
                 .foregroundStyle(color)
             Text(label)
                 .font(.system(size: 10))
@@ -172,16 +168,16 @@ struct RecordViewContent: View {
         }
         .frame(maxWidth: .infinity)
     }
-    
+
     // MARK: - Bowel Record Section
-    
+
     private var bowelRecordSection: some View {
-        SectionCard(title: "排便記錄", icon: "💩", accent: .brown) {
+        ZenSection(title: "排便記錄") {
             VStack(spacing: 12) {
                 Text("點擊 Bristol 類型即可記錄")
                     .font(.system(size: 12))
                     .foregroundStyle(.tertiary)
-                
+
                 BristolScalePicker(selectedType: $selectedBristol) { type in
                     quickRecordBowelMovement(bristolType: type)
                 }
@@ -216,13 +212,13 @@ struct RecordViewContent: View {
             }
         }
     }
-    
+
     // MARK: - Problem Indicators
 
     private var problemIndicatorsRow: some View {
         HStack(spacing: 8) {
             problemToggle(
-                emoji: "🩸", label: "血便",
+                label: "血便",
                 isActive: todayBowelMovements.first?.hasBlood ?? false,
                 activeColor: .red
             ) {
@@ -234,7 +230,7 @@ struct RecordViewContent: View {
             }
 
             problemToggle(
-                emoji: "💧", label: "黏液",
+                label: "黏液",
                 isActive: todayBowelMovements.first?.hasMucus ?? false,
                 activeColor: .orange
             ) {
@@ -247,36 +243,32 @@ struct RecordViewContent: View {
         }
     }
 
-    private func problemToggle(emoji: String, label: String, isActive: Bool, activeColor: Color, action: @escaping () -> Void) -> some View {
+    private func problemToggle(label: String, isActive: Bool, activeColor: Color, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            HStack(spacing: 6) {
-                Text(emoji)
-                    .font(.system(size: 16))
-                Text(label)
-                    .font(.system(size: 13, weight: .medium))
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 10)
-            .background {
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(isActive ? activeColor.opacity(0.12) : Color(.tertiarySystemGroupedBackground))
-                    .overlay {
-                        if isActive {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .strokeBorder(activeColor.opacity(0.4), lineWidth: 1.5)
+            Text(label)
+                .font(.system(size: 13, weight: .medium))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .background {
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .fill(isActive ? activeColor.opacity(0.12) : Color(.tertiarySystemGroupedBackground))
+                        .overlay {
+                            if isActive {
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .strokeBorder(activeColor.opacity(0.4), lineWidth: 1.5)
+                            }
                         }
-                    }
-            }
-            .foregroundStyle(isActive ? activeColor : .secondary)
+                }
+                .foregroundStyle(isActive ? activeColor : .secondary)
         }
         .buttonStyle(.plain)
         .sensoryFeedback(.impact(flexibility: .soft), trigger: isActive)
     }
 
     // MARK: - Today's Records List
-    
+
     private var todayRecordsList: some View {
-        SectionCard(title: "今日記錄", icon: "📋", accent: .blue) {
+        ZenSection(title: "今日記錄") {
             VStack(spacing: 6) {
                 ForEach(todayBowelMovements) { record in
                     bowelRecordRow(record)
@@ -284,33 +276,32 @@ struct RecordViewContent: View {
             }
         }
     }
-    
+
     private func bowelRecordRow(_ record: BowelMovement) -> some View {
         let info = record.bristolInfo
         return HStack(spacing: 10) {
-            Text(info.emoji)
-                .font(.system(size: 20))
-            
+            BristolShapeView(type: record.bristolType, color: info.color, size: 20)
+
             VStack(alignment: .leading, spacing: 1) {
                 Text("Type \(record.bristolType)")
                     .font(.system(size: 14, weight: .medium))
-                
+
                 HStack(spacing: 8) {
                     if record.hasBlood {
-                        Label("血便", systemImage: "drop.fill")
+                        Text("血便")
                             .font(.system(size: 10, weight: .semibold))
                             .foregroundStyle(.red)
                     }
                     if record.hasMucus {
-                        Label("黏液", systemImage: "humidity.fill")
+                        Text("黏液")
                             .font(.system(size: 10))
                             .foregroundStyle(.orange)
                     }
                 }
             }
-            
+
             Spacer()
-            
+
             // Risk badge
             Text(info.risk.displayName)
                 .font(.system(size: 10, weight: .semibold))
@@ -320,7 +311,7 @@ struct RecordViewContent: View {
                     Capsule().fill(info.color.opacity(0.12))
                 }
                 .foregroundStyle(info.color)
-            
+
             Text(record.timestamp.formatted(.dateTime.hour().minute()))
                 .font(.system(size: 12, design: .monospaced))
                 .foregroundStyle(.tertiary)
@@ -340,38 +331,37 @@ struct RecordViewContent: View {
     }
 
     // MARK: - Symptom Section
-    
+
     private var symptomSection: some View {
-        SectionCard(title: "症狀追蹤", icon: "🤒", accent: .orange) {
+        ZenSection(title: "症狀追蹤") {
             VStack(spacing: 8) {
                 SymptomQuickEntry(symptomEntry: todaySymptomBinding)
-                
+
                 if let symptom = todaySymptom, symptom.hasActiveSymptoms {
                     Divider()
-                    
+
                     FlowLayout(spacing: 6) {
                         ForEach(symptom.activeSymptomList, id: \.0) { (type, severity) in
                             HStack(spacing: 3) {
-                                Text(type.emoji)
-                                    .font(.system(size: 12))
+                                SymptomIconView(type: type, color: ZenColors.amber, size: 12)
                                 Text("\(type.displayName)(\(severityLabels[severity]))")
                                     .font(.system(size: 11, weight: .medium))
                             }
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background {
-                                Capsule().fill(severityColor(severity).opacity(0.12))
+                                Capsule().fill(ZenColors.amber.opacity(0.12))
                             }
-                            .foregroundStyle(severityColor(severity))
+                            .foregroundStyle(ZenColors.amber)
                         }
                     }
                 }
             }
         }
     }
-    
+
     // MARK: - Medication Section
-    
+
     private var medicationSection: some View {
         VStack(spacing: 0) {
             // Collapsed header — always visible
@@ -381,23 +371,22 @@ struct RecordViewContent: View {
                 }
             } label: {
                 HStack(spacing: 8) {
-                    Text("💊")
-                        .font(.system(size: 15))
                     Text("今日用藥")
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(.cyan)
+                        .font(.system(size: 12, weight: .medium))
+                        .tracking(1)
+                        .foregroundStyle(.secondary)
                     Spacer()
                     if !activeMedications.isEmpty {
                         let done = todayMedLogs.count >= activeMedications.count
                         Text("\(todayMedLogs.count)/\(activeMedications.count) \(done ? "✓" : "")")
                             .font(.system(size: 12, weight: .medium, design: .rounded))
-                            .foregroundStyle(done ? .green : .secondary)
+                            .foregroundStyle(done ? ZenColors.bristolNormal : .secondary)
                     }
                     Image(systemName: showMedsExpanded ? "chevron.up" : "chevron.down")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.secondary)
                 }
-                .padding(14)
+                .padding(.vertical, 14)
             }
             .buttonStyle(.plain)
 
@@ -433,20 +422,15 @@ struct RecordViewContent: View {
                         }
                     }
                 }
-                .padding(.horizontal, 14)
                 .padding(.bottom, 14)
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
-        .background {
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
-        }
     }
-    
+
     private func medicationRow(_ med: Medication) -> some View {
         let isTaken = todayMedLogs.contains { $0.medicationName == med.name }
-        
+
         return Button {
             toggleMedication(med)
         } label: {
@@ -454,20 +438,20 @@ struct RecordViewContent: View {
                 Image(systemName: isTaken ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 18))
                     .foregroundStyle(isTaken ? .green : .secondary)
-                
+
                 VStack(alignment: .leading, spacing: 1) {
                     Text(med.name)
                         .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(isTaken ? .secondary : .primary)
                         .strikethrough(isTaken)
-                    
+
                     Text(med.defaultDosage)
                         .font(.system(size: 11))
                         .foregroundStyle(.tertiary)
                 }
-                
+
                 Spacer()
-                
+
                 Text(med.category.displayName)
                     .font(.system(size: 10, weight: .medium))
                     .padding(.horizontal, 8)
@@ -492,9 +476,9 @@ struct RecordViewContent: View {
         .buttonStyle(.plain)
         .sensoryFeedback(.impact(flexibility: .soft), trigger: isTaken)
     }
-    
-    // MARK: - Overall Status Badge
-    
+
+    // MARK: - Overall Status Badge (WellnessRing)
+
     private var overallStatusBadge: some View {
         let score = NotificationService.shared.computeHealthScore(
             bowelMovements: todayBowelMovements,
@@ -502,29 +486,16 @@ struct RecordViewContent: View {
             medsTaken: todayMedLogs.count,
             medsTotal: activeMedications.count
         )
-        return HStack(spacing: 4) {
-            Text(score.level.emoji)
-                .font(.system(size: 14))
-            Text("\(score.score)")
-                .font(.system(size: 14, weight: .bold, design: .rounded))
-                .contentTransition(.numericText())
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 5)
-        .background {
-            Capsule().fill(healthScoreColor(score.level).opacity(0.12))
-        }
-        .foregroundStyle(healthScoreColor(score.level))
-        .animation(.easeInOut(duration: 0.3), value: score.score)
+        return WellnessRing(score: score.score, level: score.level, diameter: 32)
+            .animation(.easeInOut(duration: 0.3), value: score.score)
     }
-    
+
     // MARK: - Confirmation Overlay
-    
+
     private var confirmationOverlay: some View {
         let info = BristolScale.info(for: confirmedBristol)
         return VStack(spacing: 10) {
-            Text(info.emoji)
-                .font(.system(size: 52))
+            BristolShapeView(type: confirmedBristol, color: info.color, size: 52)
                 .scaleEffect(showConfirmation ? 1.0 : 0.3)
                 .animation(.spring(response: 0.4, dampingFraction: 0.5), value: showConfirmation)
 
@@ -546,9 +517,9 @@ struct RecordViewContent: View {
         }
         .transition(.scale(scale: 0.8).combined(with: .opacity))
     }
-    
+
     // MARK: - Actions
-    
+
     private func quickRecordBowelMovement(bristolType: Int) {
         let bm = BowelMovement(bristolType: bristolType)
         modelContext.insert(bm)
@@ -563,7 +534,7 @@ struct RecordViewContent: View {
             withAnimation { showConfirmation = false }
         }
     }
-    
+
     private func deleteRecord() {
         guard let record = recordToDelete else { return }
         withAnimation {
@@ -587,7 +558,7 @@ struct RecordViewContent: View {
         }
         WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
     }
-    
+
     private func loadTodaySymptom() {
         // Find or create today's symptom entry
         let today = Calendar.current.startOfDay(for: .now)
@@ -595,7 +566,7 @@ struct RecordViewContent: View {
             predicate: #Predicate { $0.timestamp >= today },
             sortBy: [SortDescriptor(\.timestamp, order: .reverse)]
         )
-        
+
         if let existing = try? modelContext.fetch(descriptor).first {
             todaySymptom = existing
         } else {
@@ -604,14 +575,14 @@ struct RecordViewContent: View {
             todaySymptom = entry
         }
     }
-    
+
     private var todaySymptomBinding: Binding<SymptomEntry> {
         Binding(
             get: { todaySymptom ?? SymptomEntry() },
             set: { todaySymptom = $0 }
         )
     }
-    
+
     // MARK: - HealthKit Sync
 
     private func syncBowelMovementToHealthKit(_ bm: BowelMovement) {
@@ -646,28 +617,9 @@ struct RecordViewContent: View {
         let avg = Double(todayBowelMovements.reduce(0) { $0 + $1.bristolType }) / Double(todayBowelMovements.count)
         return String(format: "%.1f", avg)
     }
-    
+
     private var activeSymptomCount: Int {
         todaySymptom?.activeSymptomList.count ?? 0
-    }
-    
-    private func severityColor(_ severity: Int) -> Color {
-        switch severity {
-        case 0: return .secondary
-        case 1: return .green
-        case 2: return .yellow
-        case 3: return .red
-        default: return .secondary
-        }
-    }
-    
-    private func statusColor(_ status: OverallStatus) -> Color {
-        switch status {
-        case .good: return .green
-        case .mild: return .green
-        case .moderate: return .yellow
-        case .severe: return .red
-        }
     }
 
     private func healthScoreColor(_ level: HealthScoreLevel) -> Color {
@@ -679,7 +631,30 @@ struct RecordViewContent: View {
     }
 }
 
-// MARK: - Section Card
+// MARK: - Zen Section (minimal header + divider)
+
+struct ZenSection<Content: View>: View {
+    let title: String
+    let content: () -> Content
+
+    init(title: String, @ViewBuilder content: @escaping () -> Content) {
+        self.title = title
+        self.content = content
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title)
+                .font(.system(size: 12, weight: .medium))
+                .tracking(1)
+                .foregroundStyle(.secondary)
+
+            content()
+        }
+    }
+}
+
+// MARK: - Section Card (retained for BowelDetailSheet)
 
 struct SectionCard<Content: View, Trailing: View>: View {
     let title: String
@@ -687,7 +662,7 @@ struct SectionCard<Content: View, Trailing: View>: View {
     let accent: Color
     let trailing: () -> Trailing
     let content: () -> Content
-    
+
     init(
         title: String,
         icon: String,
@@ -701,7 +676,7 @@ struct SectionCard<Content: View, Trailing: View>: View {
         self.trailing = trailing
         self.content = content
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -713,7 +688,7 @@ struct SectionCard<Content: View, Trailing: View>: View {
                 Spacer()
                 trailing()
             }
-            
+
             content()
         }
         .padding(14)
@@ -728,12 +703,12 @@ struct SectionCard<Content: View, Trailing: View>: View {
 
 struct FlowLayout: Layout {
     var spacing: CGFloat = 8
-    
+
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let result = FlowResult(in: proposal.replacingUnspecifiedDimensions().width, subviews: subviews, spacing: spacing)
         return result.size
     }
-    
+
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         let result = FlowResult(in: bounds.width, subviews: subviews, spacing: spacing)
         for (index, subview) in subviews.enumerated() {
@@ -742,16 +717,16 @@ struct FlowLayout: Layout {
                           proposal: .unspecified)
         }
     }
-    
+
     struct FlowResult {
         var positions: [CGPoint] = []
         var size: CGSize = .zero
-        
+
         init(in maxWidth: CGFloat, subviews: Subviews, spacing: CGFloat) {
             var x: CGFloat = 0
             var y: CGFloat = 0
             var rowHeight: CGFloat = 0
-            
+
             for subview in subviews {
                 let size = subview.sizeThatFits(.unspecified)
                 if x + size.width > maxWidth && x > 0 {
@@ -778,4 +753,3 @@ struct FlowLayout: Layout {
             Medication.self,
         ], inMemory: true)
 }
-

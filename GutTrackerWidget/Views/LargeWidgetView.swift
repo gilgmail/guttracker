@@ -23,7 +23,7 @@ struct LargeWidgetView: View {
 
             // 排便區
             HStack {
-                Text("💩 排便 \(entry.bowelCount)次")
+                Text("排便 \(entry.bowelCount)次")
                     .font(.system(size: 13, weight: .semibold))
                 Spacer()
                 if entry.avgBristol > 0 {
@@ -38,14 +38,17 @@ struct LargeWidgetView: View {
                 ForEach(1...7, id: \.self) { type in
                     Button(intent: RecordBowelMovementIntent(bristolType: type)) {
                         VStack(spacing: 1) {
-                            Text(BristolScale.info(for: type).emoji)
-                                .font(.system(size: 18))
+                            BristolShapeView(
+                                type: type,
+                                color: bristolIconColor(type),
+                                size: 18
+                            )
                             Text("\(type)")
                                 .font(.system(size: 9, weight: .medium, design: .rounded))
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 4)
+                        .aspectRatio(1, contentMode: .fit)
                         .background {
                             RoundedRectangle(cornerRadius: 8, style: .continuous)
                                 .fill(bristolBackground(type))
@@ -65,8 +68,11 @@ struct LargeWidgetView: View {
                                 .foregroundStyle(.secondary)
                             Text("Type \(record.bristolType)")
                                 .font(.system(size: 11, weight: .medium))
-                            Text(BristolScale.info(for: record.bristolType).emoji)
-                                .font(.system(size: 11))
+                            BristolShapeView(
+                                type: record.bristolType,
+                                color: ZenColors.bristolZone(for: record.bristolType),
+                                size: 12
+                            )
                             Text(record.risk.displayName)
                                 .font(.system(size: 10))
                                 .foregroundStyle(riskColor(record.risk))
@@ -94,22 +100,14 @@ struct LargeWidgetView: View {
             // 警示標記
             HStack(spacing: 12) {
                 if entry.hasBlood {
-                    HStack(spacing: 4) {
-                        Text("🩸")
-                            .font(.system(size: 11))
-                        Text("今日有血便記錄")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(.red)
-                    }
+                    Text("今日有血便記錄")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.red)
                 }
                 if entry.hasMucus {
-                    HStack(spacing: 4) {
-                        Text("💧")
-                            .font(.system(size: 11))
-                        Text("今日有黏液記錄")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(.orange)
-                    }
+                    Text("今日有黏液記錄")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.orange)
                 }
             }
         }
@@ -118,9 +116,13 @@ struct LargeWidgetView: View {
 
     private func bristolBackground(_ type: Int) -> Color {
         if entry.bristolTypes.contains(type) {
-            return BristolScale.info(for: type).color.opacity(0.25)
+            return ZenColors.bristolZone(for: type).opacity(0.2)
         }
         return Color(.systemGray5)
+    }
+
+    private func bristolIconColor(_ type: Int) -> Color {
+        entry.bristolTypes.contains(type) ? ZenColors.bristolZone(for: type) : .secondary
     }
 
     private func riskColor(_ risk: BristolRisk) -> Color {

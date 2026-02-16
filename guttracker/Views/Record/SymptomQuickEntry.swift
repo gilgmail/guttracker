@@ -1,52 +1,22 @@
 import SwiftUI
 
-/// 症狀快速輸入 - 點擊循環 severity 0→1→2→3→0
-/// 常見症狀（3 欄大按鈕）+ 次要症狀（4 欄可收合）
+/// 症狀快速輸入 — 統一 4 欄 flat grid + 抽象圖標
+/// 點擊循環 severity 0→1→2→3→0
 struct SymptomQuickEntry: View {
     @Binding var symptomEntry: SymptomEntry
-    @State private var showSecondary = false
 
-    private let commonColumns = Array(repeating: GridItem(.flexible()), count: 3)
-    private let secondaryColumns = Array(repeating: GridItem(.flexible()), count: 4)
+    private let columns = Array(repeating: GridItem(.flexible()), count: 4)
 
     var body: some View {
-        VStack(spacing: 10) {
-            // 常見症狀 — 3 欄，大按鈕
-            LazyVGrid(columns: commonColumns, spacing: 8) {
-                ForEach(SymptomType.commonSymptoms) { type in
-                    symptomButton(type, height: 76)
-                }
-            }
-
-            // 更多症狀 toggle
-            Button {
-                withAnimation(.easeInOut(duration: 0.25)) {
-                    showSecondary.toggle()
-                }
-            } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: showSecondary ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 10, weight: .semibold))
-                    Text("更多症狀")
-                        .font(.system(size: 12))
-                }
-                .foregroundStyle(.secondary)
-            }
-
-            // 次要症狀 — 4 欄，小按鈕
-            if showSecondary {
-                LazyVGrid(columns: secondaryColumns, spacing: 8) {
-                    ForEach(SymptomType.secondarySymptoms) { type in
-                        symptomButton(type, height: 68)
-                    }
-                }
-                .transition(.opacity.combined(with: .move(edge: .top)))
+        LazyVGrid(columns: columns, spacing: 8) {
+            ForEach(SymptomType.allCases) { type in
+                symptomButton(type)
             }
         }
     }
 
     @ViewBuilder
-    private func symptomButton(_ type: SymptomType, height: CGFloat) -> some View {
+    private func symptomButton(_ type: SymptomType) -> some View {
         let severity = getSeverity(for: type)
         let isActive = severity > 0
 
@@ -54,32 +24,37 @@ struct SymptomQuickEntry: View {
             let next = (severity + 1) % 4
             setSeverity(for: type, value: next)
         } label: {
-            VStack(spacing: 4) {
-                Text(type.emoji)
-                    .font(.system(size: height > 70 ? 22 : 18))
+            VStack(spacing: 5) {
+                SymptomIconView(
+                    type: type,
+                    color: isActive ? ZenColors.amber : .secondary,
+                    size: 20
+                )
 
                 Text(type.displayName)
-                    .font(.system(size: height > 70 ? 11 : 10, weight: isActive ? .semibold : .regular))
-                    .foregroundStyle(isActive ? severityColor(severity) : .secondary)
+                    .font(.system(size: 10, weight: isActive ? .semibold : .regular))
+                    .foregroundStyle(isActive ? ZenColors.amber : .secondary)
 
-                // Severity dots
-                HStack(spacing: 2) {
-                    ForEach(1...3, id: \.self) { level in
-                        Circle()
-                            .fill(severity >= level ? severityColor(level) : Color(.systemGray5))
-                            .frame(width: 5, height: 5)
+                // Severity dots — only when active
+                if isActive {
+                    HStack(spacing: 2) {
+                        ForEach(1...3, id: \.self) { level in
+                            Circle()
+                                .fill(severity >= level ? ZenColors.amber : Color(.systemGray5))
+                                .frame(width: 5, height: 5)
+                        }
                     }
                 }
             }
             .frame(maxWidth: .infinity)
-            .frame(height: height)
+            .frame(minHeight: 68)
             .background {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(isActive ? severityColor(severity).opacity(0.08) : Color(.tertiarySystemGroupedBackground))
+                    .fill(Color.clear)
                     .overlay {
                         if isActive {
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .strokeBorder(severityColor(severity).opacity(0.25), lineWidth: 1)
+                                .strokeBorder(ZenColors.amber.opacity(0.3), lineWidth: 1)
                         }
                     }
             }
@@ -116,15 +91,6 @@ struct SymptomQuickEntry: View {
         case .fatigue: symptomEntry.fatigue = value
         case .fever: symptomEntry.fever = value > 0
         case .jointPain: symptomEntry.jointPain = value
-        }
-    }
-
-    private func severityColor(_ severity: Int) -> Color {
-        switch severity {
-        case 1: return .green
-        case 2: return .yellow
-        case 3: return .red
-        default: return .secondary
         }
     }
 }
