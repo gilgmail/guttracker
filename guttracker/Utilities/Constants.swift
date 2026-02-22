@@ -1,6 +1,70 @@
 import Foundation
 import SwiftUI
 
+// MARK: - App Theme
+
+enum AppTheme: String, CaseIterable, Codable {
+    case cream
+    case dark
+
+    var displayName: String {
+        switch self {
+        case .cream: return "米色（和紙）"
+        case .dark: return "深色"
+        }
+    }
+
+    var colorScheme: ColorScheme {
+        switch self {
+        case .cream: return .light
+        case .dark: return .dark
+        }
+    }
+
+    var background: Color {
+        switch self {
+        case .cream: return Color(red: 0.973, green: 0.957, blue: 0.922) // #f8f4eb
+        case .dark: return Color(.systemGroupedBackground)
+        }
+    }
+
+    var card: Color {
+        switch self {
+        case .cream: return Color(red: 0.949, green: 0.929, blue: 0.894) // #f2ede4
+        case .dark: return Color(.secondarySystemGroupedBackground)
+        }
+    }
+
+    var elevated: Color {
+        switch self {
+        case .cream: return Color(red: 0.925, green: 0.906, blue: 0.867) // #ece7dd
+        case .dark: return Color(.tertiarySystemGroupedBackground)
+        }
+    }
+
+    var inactive: Color {
+        switch self {
+        case .cream: return Color(red: 0.878, green: 0.847, blue: 0.784) // #e0d8c8
+        case .dark: return Color(.systemGray5)
+        }
+    }
+}
+
+// MARK: - Theme Environment Key
+
+struct AppThemeKey: EnvironmentKey {
+    static let defaultValue: AppTheme = .cream
+}
+
+extension EnvironmentValues {
+    var appTheme: AppTheme {
+        get { self[AppThemeKey.self] }
+        set { self[AppThemeKey.self] = newValue }
+    }
+}
+
+// MARK: - Constants
+
 enum Constants {
     static let appName = "GutTracker"
     static let appGroupIdentifier = "group.com.gil.guttracker"

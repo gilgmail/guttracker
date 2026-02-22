@@ -12,6 +12,7 @@ struct RecordView: View {
 struct RecordViewContent: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.appTheme) private var theme
 
     @Query(sort: \BowelMovement.timestamp, order: .reverse)
     private var allBowelMovements: [BowelMovement]
@@ -100,7 +101,7 @@ struct RecordViewContent: View {
                 .padding(.bottom, 32)
                 .animation(.easeOut(duration: 0.5), value: todayBowelMovements.count)
             }
-            .background(Color(.systemGroupedBackground))
+            .background(theme.background)
             .navigationTitle("GutTracker")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -209,7 +210,7 @@ struct RecordViewContent: View {
                     .frame(maxWidth: .infinity)
                     .background {
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color(.tertiarySystemGroupedBackground))
+                            .fill(theme.elevated)
                     }
                 }
             }
@@ -261,7 +262,7 @@ struct RecordViewContent: View {
                 .padding(.vertical, 10)
                 .background {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(isActive ? activeColor.opacity(0.12) : Color(.tertiarySystemGroupedBackground))
+                        .fill(isActive ? activeColor.opacity(0.12) : theme.elevated)
                         .overlay {
                             if isActive {
                                 RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -357,7 +358,7 @@ struct RecordViewContent: View {
         .padding(10)
         .background {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(Color(.tertiarySystemGroupedBackground))
+                .fill(theme.elevated)
         }
         .contextMenu {
             Button(role: .destructive) {
@@ -495,14 +496,14 @@ struct RecordViewContent: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
                     .background {
-                        Capsule().fill(Color(.tertiarySystemGroupedBackground))
+                        Capsule().fill(theme.elevated)
                     }
                     .foregroundStyle(.secondary)
             }
             .padding(10)
             .background {
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(isTaken ? Color.green.opacity(0.04) : Color(.tertiarySystemGroupedBackground))
+                    .fill(isTaken ? Color.green.opacity(0.04) : theme.elevated)
                     .overlay {
                         if isTaken {
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -695,6 +696,7 @@ struct ZenSection<Content: View>: View {
 // MARK: - Section Card (retained for BowelDetailSheet)
 
 struct SectionCard<Content: View, Trailing: View>: View {
+    @Environment(\.appTheme) private var theme
     let title: String
     let icon: String
     let accent: Color
@@ -732,7 +734,7 @@ struct SectionCard<Content: View, Trailing: View>: View {
         .padding(14)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
+                .fill(theme.card)
         }
     }
 }

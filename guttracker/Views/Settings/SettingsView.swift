@@ -4,12 +4,15 @@ import HealthKit
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appTheme) private var theme
 
     @Query(sort: \Medication.sortOrder)
     private var medications: [Medication]
 
     @State private var showAddMed: Bool = false
     @State private var showDefaultMeds: Bool = false
+    @AppStorage("appTheme", store: UserDefaults(suiteName: Constants.appGroupIdentifier))
+    private var selectedTheme: String = AppTheme.cream.rawValue
     @AppStorage("healthKitEnabled") private var healthKitEnabled = false
     @AppStorage("notificationsEnabled") private var notificationsEnabled = false
     @AppStorage("dailyScoreEnabled") private var dailyScoreEnabled = false
@@ -42,7 +45,7 @@ struct SettingsView: View {
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 3)
                                     .background {
-                                        Capsule().fill(Color(.tertiarySystemGroupedBackground))
+                                        Capsule().fill(theme.elevated)
                                     }
                                     .foregroundStyle(.secondary)
                                 
@@ -200,6 +203,20 @@ struct SettingsView: View {
                     }
                 }
                 
+                // ── 外觀 ──
+                Section {
+                    Picker("主題", selection: Binding(
+                        get: { AppTheme(rawValue: selectedTheme) ?? .cream },
+                        set: { selectedTheme = $0.rawValue }
+                    )) {
+                        ForEach(AppTheme.allCases, id: \.self) { t in
+                            Text(t.displayName).tag(t)
+                        }
+                    }
+                } header: {
+                    Text("外觀")
+                }
+
                 // ── 資料 ──
                 Section {
                     NavigationLink {
@@ -335,6 +352,7 @@ struct MedicationAddSheet: View {
 
 struct DefaultMedicationPicker: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
     let onSelect: ([Medication]) -> Void
     
     @State private var selected: Set<Int> = []
@@ -369,7 +387,7 @@ struct DefaultMedicationPicker: View {
                                 .font(.system(size: 10, weight: .medium))
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 3)
-                                .background { Capsule().fill(Color(.tertiarySystemGroupedBackground)) }
+                                .background { Capsule().fill(theme.elevated) }
                                 .foregroundStyle(.secondary)
                         }
                     }

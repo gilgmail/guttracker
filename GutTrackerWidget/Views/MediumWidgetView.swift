@@ -5,6 +5,11 @@ import WidgetKit
 struct MediumWidgetView: View {
     let entry: GutTrackerEntry
 
+    @AppStorage("appTheme", store: UserDefaults(suiteName: Constants.appGroupIdentifier))
+    private var themeRaw: String = AppTheme.cream.rawValue
+
+    private var theme: AppTheme { AppTheme(rawValue: themeRaw) ?? .cream }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             // Header: 排便次數 + avg Bristol + 症狀狀態
@@ -52,27 +57,44 @@ struct MediumWidgetView: View {
                 }
             }
 
-            // 底部：活躍症狀 + 血便/黏液標記
-            HStack(spacing: 6) {
-                if !entry.activeSymptomNames.isEmpty {
-                    Text(entry.activeSymptomNames.prefix(3).joined(separator: " "))
-                        .font(.system(size: 11))
-                        .lineLimit(1)
-                }
-                Spacer()
-                if entry.hasBlood {
-                    Text("血便")
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundStyle(.red)
-                }
-                if entry.hasMucus {
-                    Text("黏液")
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundStyle(.orange)
+            // 症狀快速 toggle
+            HStack(spacing: 4) {
+                ForEach(widgetSymptoms, id: \.rawValue) { type in
+                    let isActive = entry.activeSymptomTypes.contains(type.rawValue)
+                    Button(intent: ToggleSymptomIntent(symptomType: type)) {
+                        HStack(spacing: 2) {
+                            Text(widgetSymptomIcon(type))
+                                .font(.system(size: 10))
+                            Text(type.displayName)
+                                .font(.system(size: 10, weight: isActive ? .semibold : .regular))
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 4)
+                        .background {
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .fill(isActive ? ZenColors.amber.opacity(0.2) : theme.inactive)
+                        }
+                        .foregroundStyle(isActive ? ZenColors.amber : .secondary)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
         }
-        .containerBackground(.fill.tertiary, for: .widget)
+        .containerBackground(theme.elevated, for: .widget)
+    }
+
+    private var widgetSymptoms: [SymptomType] {
+        [.abdominalPain, .bloating, .nausea, .fatigue]
+    }
+
+    private func widgetSymptomIcon(_ type: SymptomType) -> String {
+        switch type {
+        case .abdominalPain: return "◎"
+        case .bloating: return "○"
+        case .nausea: return "〜"
+        case .fatigue: return "⌒"
+        default: return ""
+        }
     }
 
     private func bristolBackground(_ type: Int) -> Color {
@@ -80,7 +102,7 @@ struct MediumWidgetView: View {
         if isCurrent {
             return ZenColors.bristolZone(for: type).opacity(0.2)
         }
-        return Color(.systemGray5)
+        return theme.inactive
     }
 
     private func bristolIconColor(_ type: Int) -> Color {

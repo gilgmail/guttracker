@@ -3,6 +3,7 @@ import SwiftUI
 /// 症狀快速輸入 — 統一 4 欄 flat grid + 抽象圖標
 /// 點擊循環 severity 0→1→2→3→0
 struct SymptomQuickEntry: View {
+    @Environment(\.appTheme) private var theme
     @Binding var symptomEntry: SymptomEntry
 
     private let columns = Array(repeating: GridItem(.flexible()), count: 4)
@@ -40,7 +41,7 @@ struct SymptomQuickEntry: View {
                     HStack(spacing: 2) {
                         ForEach(1...3, id: \.self) { level in
                             Circle()
-                                .fill(severity >= level ? ZenColors.amber : Color(.systemGray5))
+                                .fill(severity >= level ? ZenColors.amber : theme.inactive)
                                 .frame(width: 5, height: 5)
                         }
                     }

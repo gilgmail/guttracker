@@ -66,6 +66,7 @@ enum BristolScale {
 // MARK: - Bristol Scale Picker View
 
 struct BristolScalePicker: View {
+    @Environment(\.appTheme) private var theme
     @Binding var selectedType: Int
     var onSelect: ((Int) -> Void)?
 
@@ -157,7 +158,7 @@ struct BristolScalePicker: View {
                     .overlay {
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .strokeBorder(
-                                isSelected ? zoneColor.opacity(0.4) : Color(.systemGray5),
+                                isSelected ? zoneColor.opacity(0.4) : theme.inactive,
                                 lineWidth: isSelected ? 1.5 : 0.5
                             )
                     }

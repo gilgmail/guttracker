@@ -14,6 +14,7 @@ struct GutTrackerEntry: TimelineEntry {
     let symptomStatus: String
     let symptomSeverity: Int
     let activeSymptomNames: [String]
+    let activeSymptomTypes: [String]  // SymptomType rawValues for toggle buttons
     let hasMucus: Bool
 
     // 用藥
@@ -48,6 +49,7 @@ struct GutTrackerEntry: TimelineEntry {
             symptomStatus: "😊 良好",
             symptomSeverity: 0,
             activeSymptomNames: ["😣腹痛", "🎈腹脹"],
+            activeSymptomTypes: ["abdominalPain", "bloating"],
             hasMucus: false,
             medications: [
                 MedStatus(name: "Pentasa", taken: true, category: .aminosalicylate, dosage: "500mg"),
@@ -70,6 +72,7 @@ struct GutTrackerEntry: TimelineEntry {
             symptomStatus: "😊 良好",
             symptomSeverity: 0,
             activeSymptomNames: [],
+            activeSymptomTypes: [],
             hasMucus: false,
             medications: [],
             medsTaken: 0,

@@ -3,6 +3,7 @@ import SwiftData
 import Charts
 
 struct StatsView: View {
+    @Environment(\.appTheme) private var theme
     @Query(sort: \BowelMovement.timestamp) private var allBMs: [BowelMovement]
     @Query(sort: \SymptomEntry.timestamp) private var allSymptoms: [SymptomEntry]
     @Query(sort: \MedicationLog.timestamp) private var allMedLogs: [MedicationLog]
@@ -71,7 +72,7 @@ struct StatsView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 32)
             }
-            .background(Color(.systemGroupedBackground))
+            .background(theme.background)
             .navigationTitle("統計")
             .onAppear {
                 withAnimation(.easeOut(duration: 0.6).delay(0.2)) {
@@ -177,7 +178,7 @@ struct StatsView: View {
         .padding(12)
         .background {
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
+                .fill(theme.card)
         }
     }
     
@@ -238,7 +239,7 @@ struct StatsView: View {
         .padding(14)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
+                .fill(theme.card)
         }
     }
     
@@ -286,7 +287,7 @@ struct StatsView: View {
         .padding(14)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
+                .fill(theme.card)
         }
     }
     
@@ -361,7 +362,7 @@ struct StatsView: View {
         .padding(14)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
+                .fill(theme.card)
         }
     }
     
@@ -405,6 +406,7 @@ struct StatsView: View {
 
 struct ExportSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
     let stats: AnalyticsEngine.PeriodStats
     let summaries: [AnalyticsEngine.DailySummary]
     let period: StatsView.StatsPeriod
@@ -440,7 +442,7 @@ struct ExportSheet: View {
                 .padding(16)
                 .background {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .fill(Color(.tertiarySystemGroupedBackground))
+                        .fill(theme.elevated)
                 }
 
                 Spacer()

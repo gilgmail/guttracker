@@ -4,6 +4,11 @@ import WidgetKit
 struct SmallWidgetView: View {
     let entry: GutTrackerEntry
 
+    @AppStorage("appTheme", store: UserDefaults(suiteName: Constants.appGroupIdentifier))
+    private var themeRaw: String = AppTheme.cream.rawValue
+
+    private var theme: AppTheme { AppTheme(rawValue: themeRaw) ?? .cream }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             // Header
@@ -62,6 +67,6 @@ struct SmallWidgetView: View {
                 }
             }
         }
-        .containerBackground(.fill.tertiary, for: .widget)
+        .containerBackground(theme.elevated, for: .widget)
     }
 }

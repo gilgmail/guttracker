@@ -91,8 +91,12 @@ struct GutTrackerTimelineProvider: TimelineProvider {
         case 2: statusEmoji = "😣 中等"
         default: statusEmoji = "🚨 嚴重"
         }
-        let activeSymptomNames: [String] = (latestSymptom?.activeSymptomList ?? []).map { type, _ in
+        let activeSymptomList = latestSymptom?.activeSymptomList ?? []
+        let activeSymptomNames: [String] = activeSymptomList.map { type, _ in
             type.displayName
+        }
+        let activeSymptomTypes: [String] = activeSymptomList.map { type, _ in
+            type.rawValue
         }
         let hasMucus = bowelMovements.contains { $0.hasMucus }
 
@@ -117,6 +121,7 @@ struct GutTrackerTimelineProvider: TimelineProvider {
             symptomStatus: statusEmoji,
             symptomSeverity: severity,
             activeSymptomNames: activeSymptomNames,
+            activeSymptomTypes: activeSymptomTypes,
             hasMucus: hasMucus,
             medications: medications,
             medsTaken: takenNames.intersection(Set(activeMeds.map(\.name))).count,

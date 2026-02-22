@@ -3,6 +3,7 @@ import SwiftData
 
 struct CalendarView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appTheme) private var theme
     @Query(sort: \BowelMovement.timestamp) private var allBowelMovements: [BowelMovement]
     @Query(sort: \SymptomEntry.timestamp) private var allSymptoms: [SymptomEntry]
     @Query(sort: \MedicationLog.timestamp) private var allMedLogs: [MedicationLog]
@@ -36,7 +37,7 @@ struct CalendarView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 32)
             }
-            .background(Color(.systemGroupedBackground))
+            .background(theme.background)
             .navigationTitle("日曆")
             .animation(.easeInOut(duration: 0.25), value: selectedDate)
         }
@@ -146,7 +147,7 @@ struct CalendarView: View {
             .frame(height: 44)
             .background {
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(isSelected ? .green : dayBMs.isEmpty ? Color(.tertiarySystemGroupedBackground) :
+                    .fill(isSelected ? .green : dayBMs.isEmpty ? theme.elevated :
                             hasBlood ? .red.opacity(0.08) : severityColor(severity).opacity(0.06))
             }
             .overlay {
@@ -280,7 +281,7 @@ struct CalendarView: View {
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
+                .fill(theme.card)
         }
         .task(id: date) {
             guard healthKitEnabled else { return }
