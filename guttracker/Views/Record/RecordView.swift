@@ -5,32 +5,33 @@ import HealthKit
 
 struct RecordView: View {
     var body: some View {
-        RecordViewContent(startOfToday: Calendar.current.startOfDay(for: .now))
+        RecordViewContent()
     }
 }
 
 struct RecordViewContent: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
 
-    let startOfToday: Date
+    @Query(sort: \BowelMovement.timestamp, order: .reverse)
+    private var allBowelMovements: [BowelMovement]
 
-    @Query private var todayBowelMovements: [BowelMovement]
-    @Query private var todayMedLogs: [MedicationLog]
+    @Query(sort: \MedicationLog.timestamp, order: .reverse)
+    private var allMedLogs: [MedicationLog]
 
     @Query(filter: #Predicate<Medication> { $0.isActive == true },
            sort: \Medication.sortOrder)
     private var activeMedications: [Medication]
 
-    init(startOfToday: Date) {
-        self.startOfToday = startOfToday
-        _todayBowelMovements = Query(
-            filter: #Predicate<BowelMovement> { $0.timestamp >= startOfToday },
-            sort: \BowelMovement.timestamp,
-            order: .reverse
-        )
-        _todayMedLogs = Query(
-            filter: #Predicate<MedicationLog> { $0.timestamp >= startOfToday }
-        )
+    // Computed: always-fresh today filter
+    private var todayBowelMovements: [BowelMovement] {
+        let today = Calendar.current.startOfDay(for: .now)
+        return allBowelMovements.filter { $0.timestamp >= today }
+    }
+
+    private var todayMedLogs: [MedicationLog] {
+        let today = Calendar.current.startOfDay(for: .now)
+        return allMedLogs.filter { $0.timestamp >= today }
     }
 
     @State private var selectedBristol: Int = 4
@@ -57,6 +58,12 @@ struct RecordViewContent: View {
     // Delete record
     @State private var recordToDelete: BowelMovement?
 
+    // Records collapse
+    @State private var showRecordsExpanded = false
+
+    // Refresh trigger for date change
+    @State private var refreshID = UUID()
+
     // Entrance animation
     @State private var appeared = false
 
@@ -77,10 +84,6 @@ struct RecordViewContent: View {
                     // ── 今日排便記錄列表 ──
                     if !todayBowelMovements.isEmpty {
                         todayRecordsList
-                            .transition(.asymmetric(
-                                insertion: .move(edge: .top).combined(with: .opacity),
-                                removal: .opacity
-                            ))
                     }
 
                     // ── 症狀快速記錄 ──
@@ -117,6 +120,13 @@ struct RecordViewContent: View {
                 appeared = true
             }
         }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                refreshID = UUID()
+                loadTodaySymptom()
+            }
+        }
+        .id(refreshID)
         .onDisappear {
             if let symptom = todaySymptom {
                 syncSymptomToHealthKit(symptom)
@@ -268,11 +278,39 @@ struct RecordViewContent: View {
     // MARK: - Today's Records List
 
     private var todayRecordsList: some View {
-        ZenSection(title: "今日記錄") {
-            VStack(spacing: 6) {
-                ForEach(todayBowelMovements) { record in
-                    bowelRecordRow(record)
+        VStack(spacing: 0) {
+            // Collapsed header
+            Button {
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    showRecordsExpanded.toggle()
                 }
+            } label: {
+                HStack(spacing: 8) {
+                    Text("今日記錄")
+                        .font(.system(size: 12, weight: .medium))
+                        .tracking(1)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Text("\(todayBowelMovements.count) 筆")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundStyle(.secondary)
+                    Image(systemName: showRecordsExpanded ? "chevron.up" : "chevron.down")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 14)
+            }
+            .buttonStyle(.plain)
+
+            // Expanded records
+            if showRecordsExpanded {
+                VStack(spacing: 6) {
+                    ForEach(todayBowelMovements) { record in
+                        bowelRecordRow(record)
+                    }
+                }
+                .padding(.bottom, 8)
+                .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
     }
