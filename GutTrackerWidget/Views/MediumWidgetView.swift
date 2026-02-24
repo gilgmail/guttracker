@@ -16,10 +16,11 @@ struct MediumWidgetView: View {
             HStack {
                 Text("\(entry.bowelCount)次")
                     .font(.system(size: 15, weight: .light, design: .rounded))
+                    .foregroundStyle(widgetPrimaryText)
                 if entry.avgBristol > 0 {
                     Text("avg")
                         .font(.system(size: 9))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(widgetSecondaryText)
                     BristolShapeView(
                         type: Int(entry.avgBristol.rounded()),
                         color: ZenColors.bristolZone(for: Int(entry.avgBristol.rounded())),
@@ -69,20 +70,20 @@ struct MediumWidgetView: View {
                         HStack(spacing: 2) {
                             Text(widgetSymptomIcon(type))
                                 .font(.system(size: 11))
-                                .foregroundStyle(isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15))
+                                .foregroundStyle(isActive ? ZenColors.amber : widgetPrimaryText)
                             Text(type.displayName)
                                 .font(.system(size: 11, weight: isActive ? .semibold : .medium))
-                                .foregroundStyle(isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15))
+                                .foregroundStyle(isActive ? ZenColors.amber : widgetPrimaryText)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 5)
                         .background {
                             RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                .fill(isActive ? ZenColors.amber.opacity(0.18) : Color.white.opacity(0.82))
+                                .fill(isActive ? ZenColors.amber.opacity(0.18) : symptomInactiveBg)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 6, style: .continuous)
                                         .strokeBorder(
-                                            isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15).opacity(0.25),
+                                            isActive ? ZenColors.amber : widgetPrimaryText.opacity(0.25),
                                             lineWidth: 1
                                         )
                                 }
@@ -102,11 +103,37 @@ struct MediumWidgetView: View {
     private func widgetSymptomIcon(_ type: SymptomType) -> String {
         switch type {
         case .abdominalPain: return "◎"
-        case .bloating: return "○"
-        case .nausea: return "〜"
-        case .fatigue: return "⌒"
-        default: return ""
+        case .bloating:      return "○"
+        case .gas:           return "≋"
+        case .nausea:        return "〜"
+        case .cramping:      return "⚡"
+        case .bowelSounds:   return "♪"
+        case .fatigue:       return "⌒"
+        case .fever:         return "△"
+        case .jointPain:     return "⊕"
         }
+    }
+
+    // MARK: - Theme-Aware Colors
+
+    /// 米色主題：深森林綠；深色主題：近白色 — 都能明顯對比背景
+    private var widgetPrimaryText: Color {
+        theme == .cream
+            ? Color(red: 0.114, green: 0.227, blue: 0.165)  // #1C3A2A 深森林綠
+            : Color.white.opacity(0.90)
+    }
+
+    private var widgetSecondaryText: Color {
+        theme == .cream
+            ? Color(red: 0.114, green: 0.227, blue: 0.165).opacity(0.55)
+            : Color.white.opacity(0.55)
+    }
+
+    /// 症狀按鈕未啟動背景：米色主題白卡片；深色主題深卡片
+    private var symptomInactiveBg: Color {
+        theme == .cream
+            ? Color.white.opacity(0.82)
+            : Color(white: 0.28).opacity(0.80)
     }
 
     // MARK: - Button Appearance

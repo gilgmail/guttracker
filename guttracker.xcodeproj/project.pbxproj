@@ -81,6 +81,7 @@
 				App/GutTrackerApp.swift,
 				Assets.xcassets,
 				Info.plist,
+				Intents/GutTrackerShortcuts.swift,
 				Views/Calendar/CalendarView.swift,
 				Views/MainTabView.swift,
 				Views/Record/BowelDetailSheet.swift,

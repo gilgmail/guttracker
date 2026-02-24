@@ -2,24 +2,50 @@ import AppIntents
 import SwiftData
 import WidgetKit
 
+enum SymptomTypeEntity: String, AppEnum {
+    case abdominalPain, bloating, nausea, fatigue, cramping, gas, fever, jointPain, bowelSounds
+
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "症狀類型"
+    static var caseDisplayRepresentations: [Self: DisplayRepresentation] = [
+        .abdominalPain: "腹痛",
+        .bloating: "腹脹",
+        .nausea: "噁心",
+        .fatigue: "疲倦",
+        .cramping: "絞痛",
+        .gas: "脹氣",
+        .fever: "發燒",
+        .jointPain: "關節痛",
+        .bowelSounds: "腸鳴",
+    ]
+}
+
 struct ToggleSymptomIntent: AppIntent {
     static var title: LocalizedStringResource = "記錄症狀"
     static var description: IntentDescription = "切換今日症狀狀態"
+    static var openAppWhenRun = false
 
-    @Parameter(title: "Symptom Type")
-    var symptomRaw: String
+    @Parameter(title: "症狀類型")
+    var symptomType: SymptomTypeEntity
+
+    static var parameterSummary: some ParameterSummary {
+        Summary("記錄 \(\.$symptomType)")
+    }
 
     init() {
-        self.symptomRaw = ""
+        self.symptomType = .abdominalPain
+    }
+
+    init(symptomType: SymptomTypeEntity) {
+        self.symptomType = symptomType
     }
 
     init(symptomType: SymptomType) {
-        self.symptomRaw = symptomType.rawValue
+        self.symptomType = SymptomTypeEntity(rawValue: symptomType.rawValue) ?? .abdominalPain
     }
 
-    func perform() async throws -> some IntentResult {
-        guard let symptomType = SymptomType(rawValue: symptomRaw) else {
-            return .result()
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        guard let modelSymptomType = SymptomType(rawValue: symptomType.rawValue) else {
+            return .result(dialog: "無法識別症狀類型")
         }
 
         let container = SharedContainer.modelContainer
@@ -40,16 +66,16 @@ struct ToggleSymptomIntent: AppIntent {
             context.insert(entry)
         }
 
-        // Toggle: 0 → 1, >0 → 0
-        let current = getSeverity(entry: entry, type: symptomType)
+        let current = getSeverity(entry: entry, type: modelSymptomType)
         let next = current > 0 ? 0 : 1
-        setSeverity(entry: entry, type: symptomType, value: next)
+        setSeverity(entry: entry, type: modelSymptomType, value: next)
         entry.updatedAt = .now
 
         try context.save()
         WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
 
-        return .result()
+        let actionText = next > 0 ? "已記錄" : "已取消"
+        return .result(dialog: "\(actionText)：\(modelSymptomType.displayName)")
     }
 
     private func getSeverity(entry: SymptomEntry, type: SymptomType) -> Int {

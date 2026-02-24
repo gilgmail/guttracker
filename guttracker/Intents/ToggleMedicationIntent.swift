@@ -5,6 +5,7 @@ import WidgetKit
 struct ToggleMedicationIntent: AppIntent {
     static var title: LocalizedStringResource = "記錄用藥"
     static var description: IntentDescription = "切換今日用藥狀態"
+    static var openAppWhenRun = false
 
     @Parameter(title: "Medication Name")
     var medicationName: String
@@ -14,6 +15,10 @@ struct ToggleMedicationIntent: AppIntent {
 
     @Parameter(title: "Dosage")
     var dosage: String
+
+    static var parameterSummary: some ParameterSummary {
+        Summary("記錄用藥 \(\.$medicationName)")
+    }
 
     init() {
         self.medicationName = ""
@@ -27,7 +32,7 @@ struct ToggleMedicationIntent: AppIntent {
         self.dosage = dosage
     }
 
-    func perform() async throws -> some IntentResult {
+    func perform() async throws -> some IntentResult & ProvidesDialog {
         let container = SharedContainer.modelContainer
         let context = ModelContext(container)
 
@@ -39,8 +44,10 @@ struct ToggleMedicationIntent: AppIntent {
         )
         let existing = try context.fetch(descriptor)
 
+        let action: String
         if let log = existing.first {
             context.delete(log)
+            action = "已取消"
         } else {
             let category = MedCategory(rawValue: categoryRaw) ?? .other
             let log = MedicationLog(
@@ -49,11 +56,12 @@ struct ToggleMedicationIntent: AppIntent {
                 dosage: dosage
             )
             context.insert(log)
+            action = "已記錄"
         }
 
         try context.save()
         WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)
 
-        return .result()
+        return .result(dialog: "\(action)：\(medicationName)")
     }
 }

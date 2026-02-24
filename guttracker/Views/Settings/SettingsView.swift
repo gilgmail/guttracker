@@ -62,7 +62,7 @@ struct SettingsView: View {
             guard current.count < Constants.widgetSymptomCountMax else { return }
             current.insert(rawValue)
         }
-        let order = ["abdominalPain", "bloating", "nausea", "vomiting", "fatigue", "fever", "jointPain", "skinRash", "eyeIrritation", "moodChange"]
+        let order = ["abdominalPain", "bloating", "gas", "nausea", "cramping", "bowelSounds", "fatigue", "fever", "jointPain"]
         widgetSymptomTypesRaw = order.filter { current.contains($0) }.joined(separator: ",")
         WidgetCenter.shared.reloadAllTimelines()
     }
@@ -605,17 +605,17 @@ struct WidgetCustomizationView: View {
     let onToggleBristol: (Int) -> Void
     let onToggleSymptom: (String) -> Void
 
+    // 必須與 SymptomType enum 的 rawValue 完全對應
     private let allSymptoms: [(String, String)] = [
         ("abdominalPain", "腹痛"),
         ("bloating",      "腹脹"),
+        ("gas",           "脹氣"),
         ("nausea",        "噁心"),
-        ("vomiting",      "嘔吐"),
-        ("fatigue",       "疲勞"),
+        ("cramping",      "絞痛"),
+        ("bowelSounds",   "腸鳴"),
+        ("fatigue",       "疲倦"),
         ("fever",         "發燒"),
         ("jointPain",     "關節痛"),
-        ("skinRash",      "皮膚疹"),
-        ("eyeIrritation", "眼睛不適"),
-        ("moodChange",    "情緒變化"),
     ]
 
     private let bristolDescriptions: [Int: String] = [

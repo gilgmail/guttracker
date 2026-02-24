@@ -1,3 +1,4 @@
+import AppIntents
 import SwiftUI
 import SwiftData
 import WidgetKit
@@ -33,6 +34,7 @@ struct GutTrackerApp: App {
                 .onAppear {
                     NotificationService.shared.rescheduleAll(container: sharedModelContainer)
                     WidgetCenter.shared.reloadAllTimelines()
+                    GutTrackerShortcuts.updateAppShortcutParameters()
                 }
         }
         .modelContainer(sharedModelContainer)

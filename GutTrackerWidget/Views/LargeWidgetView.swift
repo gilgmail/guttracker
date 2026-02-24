@@ -16,12 +16,14 @@ struct LargeWidgetView: View {
             HStack {
                 Text("GutTracker")
                     .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(widgetPrimaryText)
                 Text(Date.now.shortDateString)
                     .font(.system(size: 12))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(widgetSecondaryText)
                 Spacer()
                 Text(entry.symptomStatus)
                     .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(widgetPrimaryText)
             }
 
             Divider()
@@ -30,11 +32,12 @@ struct LargeWidgetView: View {
             HStack {
                 Text("排便 \(entry.bowelCount)次")
                     .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(widgetPrimaryText)
                 Spacer()
                 if entry.avgBristol > 0 {
                     Text("Bristol avg: \(String(format: "%.1f", entry.avgBristol))")
                         .font(.system(size: 11))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(widgetSecondaryText)
                 }
             }
 
@@ -74,9 +77,10 @@ struct LargeWidgetView: View {
                         HStack(spacing: 8) {
                             Text(record.time)
                                 .font(.system(size: 11, weight: .medium, design: .monospaced))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(widgetSecondaryText)
                             Text("Type \(record.bristolType)")
                                 .font(.system(size: 11, weight: .medium))
+                                .foregroundStyle(widgetPrimaryText)
                             BristolShapeView(
                                 type: record.bristolType,
                                 color: ZenColors.bristolZone(for: record.bristolType),
@@ -102,20 +106,20 @@ struct LargeWidgetView: View {
                         HStack(spacing: 2) {
                             Text(widgetSymptomIcon(type))
                                 .font(.system(size: 11))
-                                .foregroundStyle(isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15))
+                                .foregroundStyle(isActive ? ZenColors.amber : widgetPrimaryText)
                             Text(type.displayName)
                                 .font(.system(size: 11, weight: isActive ? .semibold : .medium))
-                                .foregroundStyle(isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15))
+                                .foregroundStyle(isActive ? ZenColors.amber : widgetPrimaryText)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 5)
                         .background {
                             RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                .fill(isActive ? ZenColors.amber.opacity(0.18) : Color.white.opacity(0.82))
+                                .fill(isActive ? ZenColors.amber.opacity(0.18) : symptomInactiveBg)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 6, style: .continuous)
                                         .strokeBorder(
-                                            isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15).opacity(0.25),
+                                            isActive ? ZenColors.amber : widgetPrimaryText.opacity(0.25),
                                             lineWidth: 1
                                         )
                                 }
@@ -149,11 +153,35 @@ struct LargeWidgetView: View {
     private func widgetSymptomIcon(_ type: SymptomType) -> String {
         switch type {
         case .abdominalPain: return "◎"
-        case .bloating: return "○"
-        case .nausea: return "〜"
-        case .fatigue: return "⌒"
-        default: return ""
+        case .bloating:      return "○"
+        case .gas:           return "≋"
+        case .nausea:        return "〜"
+        case .cramping:      return "⚡"
+        case .bowelSounds:   return "♪"
+        case .fatigue:       return "⌒"
+        case .fever:         return "△"
+        case .jointPain:     return "⊕"
         }
+    }
+
+    // MARK: - Theme-Aware Colors
+
+    private var widgetPrimaryText: Color {
+        theme == .cream
+            ? Color(red: 0.114, green: 0.227, blue: 0.165)  // #1C3A2A 深森林綠
+            : Color.white.opacity(0.90)
+    }
+
+    private var widgetSecondaryText: Color {
+        theme == .cream
+            ? Color(red: 0.114, green: 0.227, blue: 0.165).opacity(0.55)
+            : Color.white.opacity(0.55)
+    }
+
+    private var symptomInactiveBg: Color {
+        theme == .cream
+            ? Color.white.opacity(0.82)
+            : Color(white: 0.28).opacity(0.80)
     }
 
     private func bristolBackground(_ type: Int) -> Color {
