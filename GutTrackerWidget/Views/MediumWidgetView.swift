@@ -12,7 +12,7 @@ struct MediumWidgetView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            // Header: 排便次數 + avg Bristol + 症狀狀態
+            // Header: 排便次數 + avg Bristol shape + 症狀狀態
             HStack {
                 Text("\(entry.bowelCount)次")
                     .font(.system(size: 15, weight: .light, design: .rounded))
@@ -32,25 +32,29 @@ struct MediumWidgetView: View {
                     .foregroundStyle(severityColor)
             }
 
-            // 全寬 Bristol 互動按鈕
-            HStack(spacing: 3) {
-                ForEach(1...7, id: \.self) { type in
+            // 智慧 Bristol 互動按鈕（只顯示近 30 天最常用的類型）
+            HStack(spacing: 5) {
+                ForEach(entry.smartBristolTypes, id: \.self) { type in
                     Button(intent: RecordBowelMovementIntent(bristolType: type)) {
-                        VStack(spacing: 2) {
+                        VStack(spacing: 3) {
                             BristolShapeView(
                                 type: type,
                                 color: bristolIconColor(type),
-                                size: 18
+                                size: 22
                             )
                             Text("\(type)")
-                                .font(.system(size: 9, weight: .medium, design: .rounded))
-                                .foregroundStyle(.secondary)
+                                .font(.system(size: 11, weight: .semibold, design: .rounded))
+                                .foregroundStyle(bristolIconColor(type))
                         }
                         .frame(maxWidth: .infinity)
-                        .aspectRatio(1, contentMode: .fit)
+                        .frame(height: 54)
                         .background {
-                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
                                 .fill(bristolBackground(type))
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .strokeBorder(bristolStroke(type), lineWidth: 1.5)
+                                }
                         }
                     }
                     .buttonStyle(.plain)
@@ -64,17 +68,25 @@ struct MediumWidgetView: View {
                     Button(intent: ToggleSymptomIntent(symptomType: type)) {
                         HStack(spacing: 2) {
                             Text(widgetSymptomIcon(type))
-                                .font(.system(size: 10))
+                                .font(.system(size: 11))
+                                .foregroundStyle(isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15))
                             Text(type.displayName)
-                                .font(.system(size: 10, weight: isActive ? .semibold : .regular))
+                                .font(.system(size: 11, weight: isActive ? .semibold : .medium))
+                                .foregroundStyle(isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15))
                         }
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 4)
+                        .padding(.vertical, 5)
                         .background {
                             RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                .fill(isActive ? ZenColors.amber.opacity(0.2) : theme.inactive)
+                                .fill(isActive ? ZenColors.amber.opacity(0.18) : Color.white.opacity(0.82))
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                        .strokeBorder(
+                                            isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15).opacity(0.25),
+                                            lineWidth: 1
+                                        )
+                                }
                         }
-                        .foregroundStyle(isActive ? ZenColors.amber : .secondary)
                     }
                     .buttonStyle(.plain)
                 }
@@ -97,17 +109,27 @@ struct MediumWidgetView: View {
         }
     }
 
+    // MARK: - Button Appearance
+
+    /// 已記錄今日：zone 色 tint；未記錄：白色卡片（與米色背景明確分隔）
     private func bristolBackground(_ type: Int) -> Color {
-        let isCurrent = entry.bristolTypes.last == type
-        if isCurrent {
-            return ZenColors.bristolZone(for: type).opacity(0.2)
-        }
-        return theme.inactive
+        entry.bristolTypes.contains(type)
+            ? ZenColors.bristolZone(for: type).opacity(0.18)
+            : Color.white.opacity(0.82)
     }
 
+    /// 已記錄：zone 顏色實線；未記錄：zone 顏色 60% 邊框
+    private func bristolStroke(_ type: Int) -> Color {
+        entry.bristolTypes.contains(type)
+            ? ZenColors.bristolZone(for: type)
+            : ZenColors.bristolZone(for: type).opacity(0.60)
+    }
+
+    /// 已記錄：zone 顏色；未記錄：zone 顏色 80%
     private func bristolIconColor(_ type: Int) -> Color {
-        let isCurrent = entry.bristolTypes.last == type
-        return isCurrent ? ZenColors.bristolZone(for: type) : .secondary
+        entry.bristolTypes.contains(type)
+            ? ZenColors.bristolZone(for: type)
+            : ZenColors.bristolZone(for: type).opacity(0.80)
     }
 
     private var severityColor: Color {
@@ -118,4 +140,16 @@ struct MediumWidgetView: View {
         default: return .red
         }
     }
+}
+
+#Preview("Medium — 有記錄", as: .systemMedium) {
+    GutTrackerWidget()
+} timeline: {
+    GutTrackerEntry.placeholder
+}
+
+#Preview("Medium — 空白", as: .systemMedium) {
+    GutTrackerWidget()
+} timeline: {
+    GutTrackerEntry.empty
 }

@@ -38,25 +38,29 @@ struct LargeWidgetView: View {
                 }
             }
 
-            // Bristol 互動按鈕
+            // Bristol 互動按鈕（全 7 種，顏色對比改善）
             HStack(spacing: 4) {
                 ForEach(1...7, id: \.self) { type in
                     Button(intent: RecordBowelMovementIntent(bristolType: type)) {
-                        VStack(spacing: 1) {
+                        VStack(spacing: 2) {
                             BristolShapeView(
                                 type: type,
                                 color: bristolIconColor(type),
-                                size: 18
+                                size: 20
                             )
                             Text("\(type)")
-                                .font(.system(size: 9, weight: .medium, design: .rounded))
-                                .foregroundStyle(.secondary)
+                                .font(.system(size: 10, weight: .semibold, design: .rounded))
+                                .foregroundStyle(bristolIconColor(type))
                         }
                         .frame(maxWidth: .infinity)
-                        .aspectRatio(1, contentMode: .fit)
+                        .frame(height: 46)
                         .background {
-                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            RoundedRectangle(cornerRadius: 9, style: .continuous)
                                 .fill(bristolBackground(type))
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 9, style: .continuous)
+                                        .strokeBorder(bristolStroke(type), lineWidth: 1.5)
+                                }
                         }
                     }
                     .buttonStyle(.plain)
@@ -97,17 +101,25 @@ struct LargeWidgetView: View {
                     Button(intent: ToggleSymptomIntent(symptomType: type)) {
                         HStack(spacing: 2) {
                             Text(widgetSymptomIcon(type))
-                                .font(.system(size: 10))
+                                .font(.system(size: 11))
+                                .foregroundStyle(isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15))
                             Text(type.displayName)
-                                .font(.system(size: 10, weight: isActive ? .semibold : .regular))
+                                .font(.system(size: 11, weight: isActive ? .semibold : .medium))
+                                .foregroundStyle(isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15))
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 5)
                         .background {
                             RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                .fill(isActive ? ZenColors.amber.opacity(0.2) : theme.inactive)
+                                .fill(isActive ? ZenColors.amber.opacity(0.18) : Color.white.opacity(0.82))
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                        .strokeBorder(
+                                            isActive ? ZenColors.amber : Color(red: 0.2, green: 0.18, blue: 0.15).opacity(0.25),
+                                            lineWidth: 1
+                                        )
+                                }
                         }
-                        .foregroundStyle(isActive ? ZenColors.amber : .secondary)
                     }
                     .buttonStyle(.plain)
                 }
@@ -145,14 +157,21 @@ struct LargeWidgetView: View {
     }
 
     private func bristolBackground(_ type: Int) -> Color {
-        if entry.bristolTypes.contains(type) {
-            return ZenColors.bristolZone(for: type).opacity(0.2)
-        }
-        return theme.inactive
+        entry.bristolTypes.contains(type)
+            ? ZenColors.bristolZone(for: type).opacity(0.18)
+            : Color.white.opacity(0.82)
+    }
+
+    private func bristolStroke(_ type: Int) -> Color {
+        entry.bristolTypes.contains(type)
+            ? ZenColors.bristolZone(for: type)
+            : ZenColors.bristolZone(for: type).opacity(0.60)
     }
 
     private func bristolIconColor(_ type: Int) -> Color {
-        entry.bristolTypes.contains(type) ? ZenColors.bristolZone(for: type) : .secondary
+        entry.bristolTypes.contains(type)
+            ? ZenColors.bristolZone(for: type)
+            : ZenColors.bristolZone(for: type).opacity(0.80)
     }
 
     private func riskColor(_ risk: BristolRisk) -> Color {
@@ -162,4 +181,16 @@ struct LargeWidgetView: View {
         case .diarrhea: return .red
         }
     }
+}
+
+#Preview("Large — 有記錄", as: .systemLarge) {
+    GutTrackerWidget()
+} timeline: {
+    GutTrackerEntry.placeholder
+}
+
+#Preview("Large — 空白", as: .systemLarge) {
+    GutTrackerWidget()
+} timeline: {
+    GutTrackerEntry.empty
 }

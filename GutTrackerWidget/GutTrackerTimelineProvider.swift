@@ -24,6 +24,18 @@ struct GutTrackerTimelineProvider: TimelineProvider {
         completion(timeline)
     }
 
+    // MARK: - Smart Bristol Types
+
+    /// 從歷史記錄計算最常用的 top-4 Bristol 類型。
+    /// 新用戶無記錄時回傳 [3, 4, 5, 6]（最常見的 IBD 範圍）。
+    private static func computeSmartBristolTypes(from bms: [BowelMovement]) -> [Int] {
+        guard !bms.isEmpty else { return [3, 4, 5, 6] }
+        var freq = [Int: Int]()
+        for bm in bms { freq[bm.bristolType, default: 0] += 1 }
+        let top4 = freq.sorted { $0.value > $1.value }.prefix(4).map(\.key).sorted()
+        return top4.isEmpty ? [3, 4, 5, 6] : top4
+    }
+
     // MARK: - Data Fetching
 
     private func fetchEntry() -> GutTrackerEntry {
@@ -66,6 +78,14 @@ struct GutTrackerTimelineProvider: TimelineProvider {
             sortBy: [SortDescriptor(\.sortOrder)]
         )
         let activeMeds = (try? context.fetch(medDescriptor)) ?? []
+
+        // 計算近 30 天最常用 Bristol 類型（用於 Medium widget 智慧按鈕）
+        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: .now)!
+        let histDescriptor = FetchDescriptor<BowelMovement>(
+            predicate: #Predicate { $0.timestamp >= thirtyDaysAgo }
+        )
+        let histBMs = (try? context.fetch(histDescriptor)) ?? []
+        let smartBristolTypes = Self.computeSmartBristolTypes(from: histBMs)
 
         // 組裝排便資料
         let bowelCount = bowelMovements.count
@@ -116,6 +136,7 @@ struct GutTrackerTimelineProvider: TimelineProvider {
             bowelCount: bowelCount,
             avgBristol: avgBristol,
             bristolTypes: bristolTypes,
+            smartBristolTypes: smartBristolTypes,
             recentRecords: recentRecords,
             hasBlood: hasBlood,
             symptomStatus: statusEmoji,

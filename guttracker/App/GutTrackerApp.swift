@@ -1,8 +1,11 @@
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 @main
 struct GutTrackerApp: App {
+
+    @Environment(\.scenePhase) private var scenePhase
 
     @AppStorage("appTheme", store: UserDefaults(suiteName: Constants.appGroupIdentifier))
     private var selectedTheme: String = AppTheme.cream.rawValue
@@ -29,8 +32,14 @@ struct GutTrackerApp: App {
                 .preferredColorScheme(theme.colorScheme)
                 .onAppear {
                     NotificationService.shared.rescheduleAll(container: sharedModelContainer)
+                    WidgetCenter.shared.reloadAllTimelines()
                 }
         }
         .modelContainer(sharedModelContainer)
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+        }
     }
 }

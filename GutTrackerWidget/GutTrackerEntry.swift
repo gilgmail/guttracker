@@ -6,7 +6,8 @@ struct GutTrackerEntry: TimelineEntry {
     // 排便
     let bowelCount: Int
     let avgBristol: Double
-    let bristolTypes: [Int]
+    let bristolTypes: [Int]           // 今日已記錄的類型
+    let smartBristolTypes: [Int]      // 近 30 天最常用的 top-4 類型（用於 Medium widget 按鈕）
     let recentRecords: [RecentRecord]
     let hasBlood: Bool
 
@@ -41,6 +42,7 @@ struct GutTrackerEntry: TimelineEntry {
             bowelCount: 2,
             avgBristol: 4.0,
             bristolTypes: [4, 5],
+            smartBristolTypes: [3, 4, 5, 6],
             recentRecords: [
                 RecentRecord(time: "08:30", bristolType: 4, risk: .normal),
                 RecentRecord(time: "14:15", bristolType: 5, risk: .normal),
@@ -67,6 +69,7 @@ struct GutTrackerEntry: TimelineEntry {
             bowelCount: 0,
             avgBristol: 0,
             bristolTypes: [],
+            smartBristolTypes: [3, 4, 5, 6],
             recentRecords: [],
             hasBlood: false,
             symptomStatus: "😊 良好",

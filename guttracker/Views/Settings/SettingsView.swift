@@ -37,9 +37,9 @@ struct SettingsView: View {
                                         .font(.system(size: 12))
                                         .foregroundStyle(.secondary)
                                 }
-                                
+
                                 Spacer()
-                                
+
                                 Text(med.category.displayName)
                                     .font(.system(size: 11, weight: .medium))
                                     .padding(.horizontal, 8)
@@ -48,7 +48,7 @@ struct SettingsView: View {
                                         Capsule().fill(theme.elevated)
                                     }
                                     .foregroundStyle(.secondary)
-                                
+
                                 if !med.isActive {
                                     Text("停用")
                                         .font(.system(size: 10))
@@ -58,13 +58,13 @@ struct SettingsView: View {
                         }
                     }
                     .onDelete(perform: deleteMedication)
-                    
+
                     Button {
                         showAddMed = true
                     } label: {
                         Label("新增藥物", systemImage: "plus.circle")
                     }
-                    
+
                     if medications.isEmpty {
                         Button {
                             showDefaultMeds = true
@@ -77,6 +77,7 @@ struct SettingsView: View {
                 } footer: {
                     Text("設定目前使用的藥物，每日用藥清單會顯示在記錄頁")
                 }
+                .listRowBackground(theme.card)
                 
                 // ── HealthKit ──
                 Section {
@@ -142,6 +143,7 @@ struct SettingsView: View {
                         Text("開啟後，排便和症狀記錄會自動同步到 Apple Health，也會讀取睡眠和步數資料。")
                     }
                 }
+                .listRowBackground(theme.card)
                 
                 // ── 通知 ──
                 Section {
@@ -202,6 +204,7 @@ struct SettingsView: View {
                         Text("用藥提醒時間可在各藥物的編輯頁面設定。健康評分會根據排便、症狀、用藥計算 0-100 分。")
                     }
                 }
+                .listRowBackground(theme.card)
                 
                 // ── 外觀 ──
                 Section {
@@ -216,6 +219,7 @@ struct SettingsView: View {
                 } header: {
                     Text("外觀")
                 }
+                .listRowBackground(theme.card)
 
                 // ── 資料 ──
                 Section {
@@ -227,6 +231,7 @@ struct SettingsView: View {
                 } header: {
                     Text("資料")
                 }
+                .listRowBackground(theme.card)
                 
                 // ── 關於 ──
                 Section {
@@ -239,7 +244,10 @@ struct SettingsView: View {
                 } header: {
                     Text("關於")
                 }
+                .listRowBackground(theme.card)
             }
+            .scrollContentBackground(.hidden)
+            .background(theme.background)
             .navigationTitle("設定")
             .sheet(isPresented: $showAddMed) {
                 MedicationAddSheet { med in
