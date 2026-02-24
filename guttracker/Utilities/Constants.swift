@@ -82,6 +82,12 @@ enum Constants {
     // Widget
     static let widgetKind = "GutTrackerWidget"
     static let widgetRefreshIntervalMinutes = 15
+
+    // Widget Customization (stored in App Group UserDefaults)
+    static let widgetBristolTypesKey = "widgetBristolTypes"   // e.g. "3,4,5,6"
+    static let widgetSymptomTypesKey = "widgetSymptomTypes"   // e.g. "abdominalPain,bloating"
+    static let widgetBristolCountMax = 4
+    static let widgetSymptomCountMax = 4
     
     // Data
     static let maxRecentRecords = 50

@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import HealthKit
+import WidgetKit
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -19,6 +20,52 @@ struct SettingsView: View {
     @AppStorage("dailyScoreHour") private var dailyScoreHour = 9
     @AppStorage("dailyScoreMinute") private var dailyScoreMinute = 0
     @State private var healthKitAuthError: String?
+
+    // Widget 自訂（存在 App Group，讓 widget 讀得到）
+    @AppStorage(Constants.widgetBristolTypesKey, store: UserDefaults(suiteName: Constants.appGroupIdentifier))
+    private var widgetBristolTypesRaw: String = ""
+    @AppStorage(Constants.widgetSymptomTypesKey, store: UserDefaults(suiteName: Constants.appGroupIdentifier))
+    private var widgetSymptomTypesRaw: String = ""
+
+    private var selectedBristolTypes: Set<Int> {
+        get {
+            guard !widgetBristolTypesRaw.isEmpty else { return [] }
+            return Set(widgetBristolTypesRaw.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+        }
+    }
+    private var selectedSymptomTypes: Set<String> {
+        get {
+            guard !widgetSymptomTypesRaw.isEmpty else { return [] }
+            return Set(widgetSymptomTypesRaw.split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) })
+        }
+    }
+
+    private func toggleBristol(_ type: Int) {
+        var current = selectedBristolTypes
+        if current.contains(type) {
+            guard current.count > 1 else { return } // 至少保留 1 個
+            current.remove(type)
+        } else {
+            guard current.count < Constants.widgetBristolCountMax else { return }
+            current.insert(type)
+        }
+        widgetBristolTypesRaw = current.sorted().map(String.init).joined(separator: ",")
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    private func toggleSymptom(_ rawValue: String) {
+        var current = selectedSymptomTypes
+        if current.contains(rawValue) {
+            guard current.count > 1 else { return }
+            current.remove(rawValue)
+        } else {
+            guard current.count < Constants.widgetSymptomCountMax else { return }
+            current.insert(rawValue)
+        }
+        let order = ["abdominalPain", "bloating", "nausea", "vomiting", "fatigue", "fever", "jointPain", "skinRash", "eyeIrritation", "moodChange"]
+        widgetSymptomTypesRaw = order.filter { current.contains($0) }.joined(separator: ",")
+        WidgetCenter.shared.reloadAllTimelines()
+    }
     
     var body: some View {
         NavigationStack {
@@ -206,6 +253,33 @@ struct SettingsView: View {
                 }
                 .listRowBackground(theme.card)
                 
+                // ── Widget 自訂 ──
+                Section {
+                    NavigationLink {
+                        WidgetCustomizationView(
+                            selectedBristolTypes: selectedBristolTypes,
+                            selectedSymptomTypes: selectedSymptomTypes,
+                            onToggleBristol: toggleBristol,
+                            onToggleSymptom: toggleSymptom
+                        )
+                    } label: {
+                        HStack {
+                            Label("Widget 按鈕自訂", systemImage: "square.grid.2x2")
+                            Spacer()
+                            let bCount = selectedBristolTypes.isEmpty ? 4 : selectedBristolTypes.count
+                            let sCount = selectedSymptomTypes.isEmpty ? 4 : selectedSymptomTypes.count
+                            Text("\(bCount) 大便 · \(sCount) 症狀")
+                                .font(.system(size: 12))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } header: {
+                    Text("Widget")
+                } footer: {
+                    Text("選擇顯示在 Widget 中的大便型態（最多 4 個）和症狀（最多 4 個）。未設定時自動顯示近 30 天最常用的類型。")
+                }
+                .listRowBackground(theme.card)
+
                 // ── 外觀 ──
                 Section {
                     Picker("主題", selection: Binding(
@@ -519,6 +593,121 @@ struct DataManagementView: View {
                 .foregroundStyle(.secondary)
         }
         .navigationTitle("資料管理")
+    }
+}
+
+// MARK: - Widget Customization View
+
+struct WidgetCustomizationView: View {
+    @Environment(\.appTheme) private var theme
+    let selectedBristolTypes: Set<Int>
+    let selectedSymptomTypes: Set<String>
+    let onToggleBristol: (Int) -> Void
+    let onToggleSymptom: (String) -> Void
+
+    private let allSymptoms: [(String, String)] = [
+        ("abdominalPain", "腹痛"),
+        ("bloating",      "腹脹"),
+        ("nausea",        "噁心"),
+        ("vomiting",      "嘔吐"),
+        ("fatigue",       "疲勞"),
+        ("fever",         "發燒"),
+        ("jointPain",     "關節痛"),
+        ("skinRash",      "皮膚疹"),
+        ("eyeIrritation", "眼睛不適"),
+        ("moodChange",    "情緒變化"),
+    ]
+
+    private let bristolDescriptions: [Int: String] = [
+        1: "硬塊", 2: "硬條", 3: "裂痕條",
+        4: "光滑條", 5: "柎碎", 6: "糊狀", 7: "水狀"
+    ]
+
+    var body: some View {
+        Form {
+            // ── 大便型態 ──
+            Section {
+                let effectiveBristol = selectedBristolTypes.isEmpty
+                    ? Set([3, 4, 5, 6]) : selectedBristolTypes
+                let atMax = effectiveBristol.count >= Constants.widgetBristolCountMax
+
+                ForEach(1...7, id: \.self) { type in
+                    let isOn = effectiveBristol.contains(type)
+                    Button {
+                        onToggleBristol(type)
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: isOn ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(isOn ? ZenColors.bristolZone(for: type) : .secondary)
+                                .font(.system(size: 20))
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Type \(type)")
+                                    .font(.system(size: 15, weight: .medium))
+                                Text(bristolDescriptions[type] ?? "")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            if !isOn && atMax {
+                                Text("已達上限")
+                                    .font(.system(size: 11))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(!isOn && atMax)
+                }
+            } header: {
+                Text("大便型態（最多 \(Constants.widgetBristolCountMax) 個）")
+            } footer: {
+                let effectiveBristol = selectedBristolTypes.isEmpty ? Set([3, 4, 5, 6]) : selectedBristolTypes
+                Text("已選：\(effectiveBristol.sorted().map { "Type \($0)" }.joined(separator: "、"))")
+            }
+            .listRowBackground(theme.card)
+
+            // ── 症狀 ──
+            Section {
+                let effectiveSymptoms = selectedSymptomTypes.isEmpty
+                    ? Set(["abdominalPain", "bloating", "nausea", "fatigue"]) : selectedSymptomTypes
+                let atMax = effectiveSymptoms.count >= Constants.widgetSymptomCountMax
+
+                ForEach(allSymptoms, id: \.0) { rawValue, displayName in
+                    let isOn = effectiveSymptoms.contains(rawValue)
+                    Button {
+                        onToggleSymptom(rawValue)
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: isOn ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(isOn ? ZenColors.amber : .secondary)
+                                .font(.system(size: 20))
+                            Text(displayName)
+                                .font(.system(size: 15))
+                            Spacer()
+                            if !isOn && atMax {
+                                Text("已達上限")
+                                    .font(.system(size: 11))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(!isOn && atMax)
+                }
+            } header: {
+                Text("症狀（最多 \(Constants.widgetSymptomCountMax) 個）")
+            } footer: {
+                let effectiveSymptoms = selectedSymptomTypes.isEmpty
+                    ? Set(["abdominalPain", "bloating", "nausea", "fatigue"]) : selectedSymptomTypes
+                let names = allSymptoms.filter { effectiveSymptoms.contains($0.0) }.map(\.1)
+                Text("已選：\(names.joined(separator: "、"))")
+            }
+            .listRowBackground(theme.card)
+        }
+        .scrollContentBackground(.hidden)
+        .background(theme.background)
+        .navigationTitle("Widget 自訂")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

@@ -79,13 +79,39 @@ struct GutTrackerTimelineProvider: TimelineProvider {
         )
         let activeMeds = (try? context.fetch(medDescriptor)) ?? []
 
-        // 計算近 30 天最常用 Bristol 類型（用於 Medium widget 智慧按鈕）
-        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: .now)!
-        let histDescriptor = FetchDescriptor<BowelMovement>(
-            predicate: #Predicate { $0.timestamp >= thirtyDaysAgo }
-        )
-        let histBMs = (try? context.fetch(histDescriptor)) ?? []
-        let smartBristolTypes = Self.computeSmartBristolTypes(from: histBMs)
+        // 讀取 App Group UserDefaults 中使用者自訂的 widget 按鈕清單
+        let appGroupDefaults = UserDefaults(suiteName: Constants.appGroupIdentifier)
+
+        // Bristol 類型：優先使用設定，否則從 30 天歷史自動計算
+        let userBristolTypes: [Int] = {
+            guard
+                let raw = appGroupDefaults?.string(forKey: Constants.widgetBristolTypesKey),
+                !raw.isEmpty
+            else { return [] }
+            return raw.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
+        }()
+
+        let smartBristolTypes: [Int]
+        if !userBristolTypes.isEmpty {
+            smartBristolTypes = userBristolTypes
+        } else {
+            let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: .now)!
+            let histDescriptor = FetchDescriptor<BowelMovement>(
+                predicate: #Predicate { $0.timestamp >= thirtyDaysAgo }
+            )
+            let histBMs = (try? context.fetch(histDescriptor)) ?? []
+            smartBristolTypes = Self.computeSmartBristolTypes(from: histBMs)
+        }
+
+        // 症狀類型：優先使用設定，否則預設 4 種
+        let widgetSymptomTypes: [String] = {
+            guard
+                let raw = appGroupDefaults?.string(forKey: Constants.widgetSymptomTypesKey),
+                !raw.isEmpty
+            else { return ["abdominalPain", "bloating", "nausea", "fatigue"] }
+            let parsed = raw.split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) }
+            return parsed.isEmpty ? ["abdominalPain", "bloating", "nausea", "fatigue"] : parsed
+        }()
 
         // 組裝排便資料
         let bowelCount = bowelMovements.count
@@ -143,6 +169,7 @@ struct GutTrackerTimelineProvider: TimelineProvider {
             symptomSeverity: severity,
             activeSymptomNames: activeSymptomNames,
             activeSymptomTypes: activeSymptomTypes,
+            widgetSymptomTypes: widgetSymptomTypes,
             hasMucus: hasMucus,
             medications: medications,
             medsTaken: takenNames.intersection(Set(activeMeds.map(\.name))).count,

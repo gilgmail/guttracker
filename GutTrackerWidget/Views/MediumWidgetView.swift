@@ -96,7 +96,7 @@ struct MediumWidgetView: View {
     }
 
     private var widgetSymptoms: [SymptomType] {
-        [.abdominalPain, .bloating, .nausea, .fatigue]
+        entry.widgetSymptomTypes.compactMap { SymptomType(rawValue: $0) }
     }
 
     private func widgetSymptomIcon(_ type: SymptomType) -> String {
