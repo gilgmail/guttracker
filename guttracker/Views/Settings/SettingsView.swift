@@ -1,3 +1,4 @@
+import AppIntents
 import SwiftUI
 import SwiftData
 import HealthKit
@@ -280,6 +281,19 @@ struct SettingsView: View {
                 }
                 .listRowBackground(theme.card)
 
+                // ── Siri 捷徑 ──
+                Section {
+                    ShortcutsLink()
+                        .shortcutsLinkStyle(.automaticOutline)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                } header: {
+                    Text("Siri 捷徑")
+                } footer: {
+                    Text("點擊後可在捷徑 App 中查看所有語音指令。說話範例：\n「記錄排便 5 GutTracker」\n「記錄腹痛 GutTracker」")
+                }
+                .listRowBackground(theme.card)
+
                 // ── 外觀 ──
                 Section {
                     Picker("主題", selection: Binding(
@@ -312,7 +326,7 @@ struct SettingsView: View {
                     HStack {
                         Text("版本")
                         Spacer()
-                        Text("1.0.0")
+                        Text("1.0.3")
                             .foregroundStyle(.secondary)
                     }
                 } header: {

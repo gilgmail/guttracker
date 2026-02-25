@@ -87,7 +87,7 @@ enum Constants {
     static let widgetBristolTypesKey = "widgetBristolTypes"   // e.g. "3,4,5,6"
     static let widgetSymptomTypesKey = "widgetSymptomTypes"   // e.g. "abdominalPain,bloating"
     static let widgetBristolCountMax = 4
-    static let widgetSymptomCountMax = 4
+    static let widgetSymptomCountMax = 3
     
     // Data
     static let maxRecentRecords = 50
