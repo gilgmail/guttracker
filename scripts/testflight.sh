@@ -172,7 +172,7 @@ xcodebuild \
 UPLOAD_END=$(date +%s)
 UPLOAD_DURATION=$((UPLOAD_END - UPLOAD_START))
 
-if [ -d "$EXPORT_PATH" ]; then
+if grep -q "EXPORT SUCCEEDED\|Upload succeeded" "$ARCHIVE_LOG"; then
     echo ""
     echo -e "${GREEN}${BOLD}━━━ UPLOAD SUCCEEDED ━━━${NC}  (${UPLOAD_DURATION}s)"
     echo ""
