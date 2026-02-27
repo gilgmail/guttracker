@@ -1,0 +1,72 @@
+{
+  "sourceLanguage" : "zh-Hant-TW",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GutTracker"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "腸活記録"
+          }
+        },
+        "zh-Hant-TW" : {
+          "stringUnit" : {
+            "state" : "sourceLanguage",
+            "value" : "腸健追蹤"
+          }
+        }
+      }
+    },
+    "NSHealthShareUsageDescription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GutTracker needs access to your sleep, step count, and heart rate data to analyze correlations between GI symptoms and lifestyle habits."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "GutTrackerは、消化器症状と生活習慣の関連を分析するために、睡眠、歩数、心拍数データへのアクセスが必要です。"
+          }
+        },
+        "zh-Hant-TW" : {
+          "stringUnit" : {
+            "state" : "sourceLanguage",
+            "value" : "GutTracker 需要讀取您的睡眠、步數和心率資料，以分析腸胃症狀與生活習慣的關聯。"
+          }
+        }
+      }
+    },
+    "NSHealthUpdateUsageDescription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GutTracker will sync bowel movements and symptom records to Apple Health for integrated viewing in the Health app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "GutTrackerは、排便・症状記録をApple Healthと同期し、ヘルスケアAppで一括管理できます。"
+          }
+        },
+        "zh-Hant-TW" : {
+          "stringUnit" : {
+            "state" : "sourceLanguage",
+            "value" : "GutTracker 會將排便和症狀記錄同步到 Apple Health，方便您在健康 App 中整合查看。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

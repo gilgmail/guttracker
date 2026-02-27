@@ -1,0 +1,28 @@
+{
+  "sourceLanguage" : "zh-Hant-TW",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GutTracker"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "腸活記録"
+          }
+        },
+        "zh-Hant-TW" : {
+          "stringUnit" : {
+            "state" : "sourceLanguage",
+            "value" : "腸健追蹤"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
