@@ -49,3 +49,4 @@ scripts/logs/
 # Misc
 *.log
 *.tmp
+.claude/
