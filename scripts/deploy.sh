@@ -52,7 +52,7 @@ echo ""
 # ── 檢查裝置連線 ──
 echo -e "${CYAN}[裝置]${NC} 檢查 $DEVICE_NAME 連線..."
 DEVICE_LIST=$(xcrun devicectl list devices 2>&1 || true)
-if ! echo "$DEVICE_LIST" | grep -q "$DEVICE_NAME.*connected"; then
+if ! echo "$DEVICE_LIST" | grep -qE "$DEVICE_NAME.*(connected|available \(paired\))"; then
     echo -e "${RED}[錯誤]${NC} $DEVICE_NAME 未連線"
     echo -e "  請確認 iPhone 已透過 USB 或 WiFi 連接"
     exit 1
