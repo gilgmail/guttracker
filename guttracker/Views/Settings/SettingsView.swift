@@ -13,6 +13,7 @@ struct SettingsView: View {
 
     @State private var showAddMed: Bool = false
     @State private var showDefaultMeds: Bool = false
+    @State private var showRestartAlert = false
     @AppStorage("appTheme", store: UserDefaults(suiteName: Constants.appGroupIdentifier))
     private var selectedTheme: String = AppTheme.cream.rawValue
     @AppStorage("healthKitEnabled") private var healthKitEnabled = false
@@ -333,6 +334,30 @@ struct SettingsView: View {
                     Text("關於")
                 }
                 .listRowBackground(theme.card)
+
+                #if DEBUG
+                // ── 語言切換（開發用）──
+                Section {
+                    Picker("語言 / Language", selection: Binding(
+                        get: {
+                            UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first ?? "zh-Hant-TW"
+                        },
+                        set: { newValue in
+                            UserDefaults.standard.set([newValue], forKey: "AppleLanguages")
+                            showRestartAlert = true
+                        }
+                    )) {
+                        Text("繁體中文").tag("zh-Hant-TW")
+                        Text("English").tag("en")
+                        Text("日本語").tag("ja")
+                    }
+                } header: {
+                    Text("🛠 開發工具")
+                } footer: {
+                    Text("切換後立即重啟套用（僅 Debug 版本可見）")
+                }
+                .listRowBackground(theme.card)
+                #endif
             }
             .scrollContentBackground(.hidden)
             .background(theme.background)
@@ -349,6 +374,16 @@ struct SettingsView: View {
                     }
                 }
             }
+            #if DEBUG
+            .alert("語言已變更 / Language Changed", isPresented: $showRestartAlert) {
+                Button("稍後重啟", role: .cancel) {}
+                Button("立即重啟", role: .destructive) {
+                    exit(0)
+                }
+            } message: {
+                Text("請重新啟動 App 以套用語言設定\nRestart the app to apply the language change.")
+            }
+            #endif
         }
     }
     
