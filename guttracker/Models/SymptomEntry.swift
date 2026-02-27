@@ -129,15 +129,15 @@ enum SymptomType: String, CaseIterable, Identifiable {
     
     var displayName: String {
         switch self {
-        case .abdominalPain: return "腹痛"
-        case .bloating: return "腹脹"
-        case .gas: return "脹氣"
-        case .nausea: return "噁心"
-        case .cramping: return "絞痛"
-        case .bowelSounds: return "腸鳴"
-        case .fatigue: return "疲倦"
-        case .fever: return "發燒"
-        case .jointPain: return "關節痛"
+        case .abdominalPain: return String(localized: "腹痛")
+        case .bloating: return String(localized: "腹脹")
+        case .gas: return String(localized: "脹氣")
+        case .nausea: return String(localized: "噁心")
+        case .cramping: return String(localized: "絞痛")
+        case .bowelSounds: return String(localized: "腸鳴")
+        case .fatigue: return String(localized: "疲倦")
+        case .fever: return String(localized: "發燒")
+        case .jointPain: return String(localized: "關節痛")
         }
     }
     
@@ -174,10 +174,10 @@ enum OverallStatus {
     
     var displayName: String {
         switch self {
-        case .good: return "良好"
-        case .mild: return "輕微"
-        case .moderate: return "中等"
-        case .severe: return "嚴重"
+        case .good: return String(localized: "良好")
+        case .mild: return String(localized: "輕微")
+        case .moderate: return String(localized: "中等")
+        case .severe: return String(localized: "嚴重")
         }
     }
     
@@ -200,4 +200,12 @@ enum OverallStatus {
     }
 }
 
-let severityLabels = ["無", "輕", "中", "重"]
+func severityLabel(for level: Int) -> String {
+    switch level {
+    case 0: return String(localized: "無")
+    case 1: return String(localized: "輕")
+    case 2: return String(localized: "中")
+    case 3: return String(localized: "重")
+    default: return String(localized: "無")
+    }
+}

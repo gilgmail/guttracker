@@ -19,44 +19,44 @@ enum BristolScale {
     }
 
     static let allTypes: [Info] = [
-        Info(type: 1, emoji: "🪨", name: "硬塊",
-             description: "分離的硬塊，如堅果狀",
+        Info(type: 1, emoji: "🪨", name: String(localized: "硬塊"),
+             description: String(localized: "分離的硬塊，如堅果狀"),
              risk: .constipation,
              color: ZenColors.bristolHard,
              sfSymbol: "circle.grid.3x3.fill"),
 
-        Info(type: 2, emoji: "🥜", name: "塊狀",
-             description: "表面凹凸的條狀",
+        Info(type: 2, emoji: "🥜", name: String(localized: "塊狀"),
+             description: String(localized: "表面凹凸的條狀"),
              risk: .constipation,
              color: ZenColors.bristolHard,
              sfSymbol: "oval.fill"),
 
-        Info(type: 3, emoji: "🌰", name: "裂紋",
-             description: "表面有裂紋的條狀",
+        Info(type: 3, emoji: "🌰", name: String(localized: "裂紋"),
+             description: String(localized: "表面有裂紋的條狀"),
              risk: .normal,
              color: ZenColors.bristolNormal,
              sfSymbol: "rectangle.roundedtop.fill"),
 
-        Info(type: 4, emoji: "🍌", name: "正常",
-             description: "光滑柔軟的條狀",
+        Info(type: 4, emoji: "🍌", name: String(localized: "正常"),
+             description: String(localized: "光滑柔軟的條狀"),
              risk: .normal,
              color: ZenColors.bristolNormal,
              sfSymbol: "rectangle.fill"),
 
-        Info(type: 5, emoji: "☁️", name: "軟塊",
-             description: "邊緣清楚的軟塊",
+        Info(type: 5, emoji: "☁️", name: String(localized: "軟塊"),
+             description: String(localized: "邊緣清楚的軟塊"),
              risk: .normal,
              color: ZenColors.bristolNormal,
              sfSymbol: "cloud.fill"),
 
-        Info(type: 6, emoji: "🫧", name: "糊狀",
-             description: "邊緣不規則的糊狀",
+        Info(type: 6, emoji: "🫧", name: String(localized: "糊狀"),
+             description: String(localized: "邊緣不規則的糊狀"),
              risk: .diarrhea,
              color: ZenColors.bristolSoft,
              sfSymbol: "drop.halffull"),
 
-        Info(type: 7, emoji: "💧", name: "水狀",
-             description: "完全液體狀，無固體",
+        Info(type: 7, emoji: "💧", name: String(localized: "水狀"),
+             description: String(localized: "完全液體狀，無固體"),
              risk: .diarrhea,
              color: ZenColors.bristolSoft,
              sfSymbol: "drop.fill"),
@@ -94,6 +94,7 @@ struct BristolScalePicker: View {
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.secondary)
             }
+            // Note: "硬" and "軟" are localized via Localizable.xcstrings
             .padding(.horizontal, 4)
 
             // 7 buttons in one row

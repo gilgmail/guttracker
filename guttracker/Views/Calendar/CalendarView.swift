@@ -18,7 +18,11 @@ struct CalendarView: View {
     @State private var healthHR: Int?
     
     private let calendar = Calendar.current
-    private let weekdayLabels = ["一", "二", "三", "四", "五", "六", "日"]
+
+    private var weekdayLabels: [String] {
+        let symbols = Calendar.current.shortStandaloneWeekdaySymbols
+        return Array(symbols[1...]) + [symbols[0]]
+    }
     
     var body: some View {
         NavigationStack {
@@ -67,8 +71,8 @@ struct CalendarView: View {
     
     private var monthYearString: String {
         let f = DateFormatter()
-        f.locale = Locale(identifier: "zh_TW")
-        f.dateFormat = "yyyy年 M月"
+        f.locale = Locale.current
+        f.dateFormat = DateFormatter.dateFormat(fromTemplate: "yyyyMMMM", options: 0, locale: .current)
         return f.string(from: displayedMonth)
     }
     
@@ -165,7 +169,12 @@ struct CalendarView: View {
     
     private var legendRow: some View {
         HStack(spacing: 16) {
-            ForEach([(Color.green, "良好"), (.yellow, "輕微"), (.orange, "中等"), (.red, "嚴重")], id: \.1) { c in
+            ForEach([
+                (Color.green, String(localized: "良好")),
+                (.yellow, String(localized: "輕微")),
+                (.orange, String(localized: "中等")),
+                (.red, String(localized: "嚴重"))
+            ], id: \.1) { c in
                 HStack(spacing: 3) {
                     Circle().fill(c.0).frame(width: 6, height: 6)
                     Text(c.1).font(.system(size: 10)).foregroundStyle(.secondary)
@@ -219,7 +228,7 @@ struct CalendarView: View {
                 detailRow(icon: "waveform.path.ecg", iconColor: .orange, title: "症狀") {
                     FlowLayout(spacing: 4) {
                         ForEach(sym.activeSymptomList, id: \.0) { (type, sev) in
-                            Text("\(type.emoji) \(type.displayName)(\(severityLabels[sev]))")
+                            Text("\(type.emoji) \(type.displayName)(\(severityLabel(for: sev)))")
                                 .font(.system(size: 11))
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)

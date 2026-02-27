@@ -42,7 +42,7 @@ final class NotificationService {
 
         for med in meds {
             let content = UNMutableNotificationContent()
-            content.title = "💊 用藥提醒"
+            content.title = String(localized: "💊 用藥提醒")
             content.body = "\(med.name) \(med.defaultDosage)"
             content.sound = .default
             content.categoryIdentifier = "MEDICATION_REMINDER"
@@ -71,7 +71,7 @@ final class NotificationService {
         let minute = UserDefaults.standard.integer(forKey: "dailyScoreMinute")
 
         let content = UNMutableNotificationContent()
-        content.title = "📊 昨日健康評分"
+        content.title = String(localized: "📊 昨日健康評分")
         content.body = computeYesterdayScoreSummary(context: context)
         content.sound = .default
         content.categoryIdentifier = "DAILY_SCORE"
@@ -213,10 +213,10 @@ enum HealthScoreLevel {
 
     var displayName: String {
         switch self {
-        case .excellent: return "非常好"
-        case .good: return "良好"
-        case .fair: return "一般"
-        case .poor: return "需注意"
+        case .excellent: return String(localized: "非常好")
+        case .good: return String(localized: "良好")
+        case .fair: return String(localized: "一般")
+        case .poor: return String(localized: "需注意")
         }
     }
 

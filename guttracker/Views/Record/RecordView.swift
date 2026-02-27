@@ -383,7 +383,7 @@ struct RecordViewContent: View {
                         ForEach(symptom.activeSymptomList, id: \.0) { (type, severity) in
                             HStack(spacing: 3) {
                                 SymptomIconView(type: type, color: ZenColors.amber, size: 12)
-                                Text("\(type.displayName)(\(severityLabels[severity]))")
+                                Text("\(type.displayName)(\(severityLabel(for: severity)))")
                                     .font(.system(size: 11, weight: .medium))
                             }
                             .padding(.horizontal, 8)

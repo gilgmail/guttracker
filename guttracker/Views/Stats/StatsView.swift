@@ -18,12 +18,20 @@ struct StatsView: View {
         case week = "7天"
         case month = "30天"
         case quarter = "90天"
-        
+
         var days: Int {
             switch self {
             case .week: return 7
             case .month: return 30
             case .quarter: return 90
+            }
+        }
+
+        var displayName: String {
+            switch self {
+            case .week: return String(localized: "7天")
+            case .month: return String(localized: "30天")
+            case .quarter: return String(localized: "90天")
             }
         }
     }
@@ -105,7 +113,7 @@ struct StatsView: View {
     private var periodPicker: some View {
         Picker("期間", selection: $selectedPeriod) {
             ForEach(StatsPeriod.allCases, id: \.self) { period in
-                Text(period.rawValue).tag(period)
+                Text(period.displayName).tag(period)
             }
         }
         .pickerStyle(.segmented)
@@ -116,29 +124,29 @@ struct StatsView: View {
     private var summaryCards: some View {
         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
             summaryCard(
-                title: "平均排便",
+                title: String(localized: "平均排便"),
                 value: String(format: "%.1f", stats.avgBowelPerDay),
-                unit: "次/天",
+                unit: String(localized: "次/天"),
                 icon: "💩",
                 trend: stats.bowelTrend
             )
             summaryCard(
-                title: "Bristol 均值",
+                title: String(localized: "Bristol 均值"),
                 value: String(format: "%.1f", stats.avgBristol),
                 unit: "",
                 icon: BristolScale.info(for: Int(stats.avgBristol.rounded())).emoji,
                 trend: nil
             )
             summaryCard(
-                title: "血便天數",
+                title: String(localized: "血便天數"),
                 value: "\(stats.bloodDays)",
-                unit: "天",
+                unit: String(localized: "天"),
                 icon: "🩸",
                 trend: nil,
                 isWarning: stats.bloodDays > 0
             )
             summaryCard(
-                title: "平均疼痛",
+                title: String(localized: "平均疼痛"),
                 value: String(format: "%.1f", stats.avgPain),
                 unit: "/10",
                 icon: "😣",
@@ -279,9 +287,9 @@ struct StatsView: View {
             
             // Risk summary
             HStack(spacing: 16) {
-                riskBadge(label: "便秘", count: stats.constipationDays, color: .orange, icon: "🪨")
-                riskBadge(label: "正常", count: stats.normalDays, color: .green, icon: "🍌")
-                riskBadge(label: "腹瀉", count: stats.diarrheaDays, color: .red, icon: "💧")
+                riskBadge(label: String(localized: "便秘"), count: stats.constipationDays, color: .orange, icon: "🪨")
+                riskBadge(label: String(localized: "正常"), count: stats.normalDays, color: .green, icon: "🍌")
+                riskBadge(label: String(localized: "腹瀉"), count: stats.diarrheaDays, color: .red, icon: "💧")
             }
         }
         .padding(14)
@@ -345,7 +353,7 @@ struct StatsView: View {
                 AxisMarks(values: [0, 1, 2, 3]) { value in
                     AxisValueLabel {
                         if let v = value.as(Int.self) {
-                            Text(severityLabels[v]).font(.system(size: 10))
+                            Text(severityLabel(for: v)).font(.system(size: 10))
                         }
                     }
                     AxisGridLine()
@@ -423,7 +431,7 @@ struct ExportSheet: View {
                 Text("匯出報告")
                     .font(.title2.weight(.semibold))
 
-                Text("產生 \(period.rawValue) 的排便/症狀統計報告\n可分享給醫生作為參考")
+                Text("產生 \(period.displayName) 的排便/症狀統計報告\n可分享給醫生作為參考")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -530,7 +538,7 @@ private enum PDFReportGenerator {
         let renderer = UIGraphicsPDFRenderer(bounds: pageRect)
 
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "zh_TW")
+        dateFormatter.locale = Locale.current
         dateFormatter.dateFormat = "yyyy/MM/dd"
         let endDate = dateFormatter.string(from: Date.now)
         let startDate = dateFormatter.string(from: Date.now.daysAgo(period.days))
@@ -543,22 +551,22 @@ private enum PDFReportGenerator {
             y = drawHeader(y: y, startDate: startDate, endDate: endDate, days: period.days)
 
             // === Summary Stats ===
-            y = drawSectionTitle("排便統計", y: y)
+            y = drawSectionTitle(String(localized: "排便統計"), y: y)
             y = drawStatsTable(stats: stats, y: y)
 
             // === Bristol Distribution ===
             y += 16
-            y = drawSectionTitle("Bristol 分布", y: y)
+            y = drawSectionTitle(String(localized: "Bristol 分布"), y: y)
             y = drawBristolDistribution(stats: stats, y: y)
 
             // === Symptom Trend ===
             y += 16
-            y = drawSectionTitle("症狀趨勢", y: y)
+            y = drawSectionTitle(String(localized: "症狀趨勢"), y: y)
             y = drawSymptomSummary(stats: stats, y: y)
 
             // === Daily Detail ===
             y += 16
-            y = drawSectionTitle("每日明細", y: y)
+            y = drawSectionTitle(String(localized: "每日明細"), y: y)
 
             let activeDays = summaries.reversed().filter { $0.bowelCount > 0 || $0.symptomSeverity > 0 }
             for day in activeDays {
@@ -585,7 +593,7 @@ private enum PDFReportGenerator {
             .font: UIFont.systemFont(ofSize: 22, weight: .bold),
             .foregroundColor: UIColor.label
         ]
-        let title = "GutTracker 腸胃健康報告"
+        let title = String(localized: "GutTracker 腸胃健康報告")
         title.draw(at: CGPoint(x: margin, y: currentY), withAttributes: titleAttrs)
         currentY += 32
 
@@ -593,7 +601,7 @@ private enum PDFReportGenerator {
             .font: UIFont.systemFont(ofSize: 13, weight: .regular),
             .foregroundColor: UIColor.secondaryLabel
         ]
-        let subtitle = "期間：\(startDate) — \(endDate)（\(days) 天）"
+        let subtitle = String(localized: "期間：") + "\(startDate) — \(endDate)（\(days) " + String(localized: "天") + "）"
         subtitle.draw(at: CGPoint(x: margin, y: currentY), withAttributes: subtitleAttrs)
         currentY += 22
 
@@ -620,14 +628,14 @@ private enum PDFReportGenerator {
 
     private static func drawStatsTable(stats: AnalyticsEngine.PeriodStats, y: CGFloat) -> CGFloat {
         let rows: [(String, String)] = [
-            ("排便總次數", "\(stats.totalBowelMovements) 次"),
-            ("平均排便", String(format: "%.1f 次/天", stats.avgBowelPerDay)),
-            ("Bristol 均值", String(format: "%.1f", stats.avgBristol)),
-            ("血便天數", "\(stats.bloodDays) 天"),
-            ("平均疼痛", String(format: "%.1f / 10", stats.avgPain)),
-            ("腹瀉天數", "\(stats.diarrheaDays) 天"),
-            ("便秘天數", "\(stats.constipationDays) 天"),
-            ("正常天數", "\(stats.normalDays) 天"),
+            (String(localized: "排便總次數"), "\(stats.totalBowelMovements) " + String(localized: "次")),
+            (String(localized: "平均排便"), String(format: "%.1f " + String(localized: "次/天"), stats.avgBowelPerDay)),
+            (String(localized: "Bristol 均值"), String(format: "%.1f", stats.avgBristol)),
+            (String(localized: "血便天數"), "\(stats.bloodDays) " + String(localized: "天")),
+            (String(localized: "平均疼痛"), String(format: "%.1f / 10", stats.avgPain)),
+            (String(localized: "腹瀉天數"), "\(stats.diarrheaDays) " + String(localized: "天")),
+            (String(localized: "便秘天數"), "\(stats.constipationDays) " + String(localized: "天")),
+            (String(localized: "正常天數"), "\(stats.normalDays) " + String(localized: "天")),
         ]
 
         let labelAttrs: [NSAttributedString.Key: Any] = [
@@ -708,15 +716,15 @@ private enum PDFReportGenerator {
         ]
 
         var currentY = y
-        let trendText = "趨勢：\(stats.symptomTrend.displayName)"
+        let trendText = String(localized: "趨勢：") + stats.symptomTrend.displayName
         trendText.draw(at: CGPoint(x: margin, y: currentY), withAttributes: attrs)
         currentY += 20
 
-        let painText = String(format: "平均疼痛：%.1f / 10", stats.avgPain)
+        let painText = String(localized: "平均疼痛：") + String(format: "%.1f / 10", stats.avgPain)
         painText.draw(at: CGPoint(x: margin, y: currentY), withAttributes: attrs)
         currentY += 20
 
-        let bowelTrendText = "排便趨勢：\(stats.bowelTrend.displayName)"
+        let bowelTrendText = String(localized: "排便趨勢：") + stats.bowelTrend.displayName
         bowelTrendText.draw(at: CGPoint(x: margin, y: currentY), withAttributes: attrs)
         currentY += 20
 
@@ -730,11 +738,11 @@ private enum PDFReportGenerator {
     ) -> CGFloat {
         let dateStr = dateFormatter.string(from: day.date)
         let bristolStr = day.bristolTypes.map { "\($0)" }.joined(separator: ", ")
-        let blood = day.hasBlood ? " [血便]" : ""
-        let severity = day.symptomSeverity > 0 ? "  症狀: \(severityLabels[day.symptomSeverity])" : ""
-        let medInfo = day.medicationsTotal > 0 ? "  用藥: \(day.medicationsTaken)/\(day.medicationsTotal)" : ""
+        let blood = day.hasBlood ? " " + String(localized: "[血便]") : ""
+        let severity = day.symptomSeverity > 0 ? "  " + String(localized: "症狀:") + " \(severityLabel(for: day.symptomSeverity))" : ""
+        let medInfo = day.medicationsTotal > 0 ? "  " + String(localized: "用藥:") + " \(day.medicationsTaken)/\(day.medicationsTotal)" : ""
 
-        let text = "\(dateStr)  排便 \(day.bowelCount) 次  Bristol [\(bristolStr)]\(blood)\(severity)\(medInfo)"
+        let text = "\(dateStr)  " + String(localized: "排便") + " \(day.bowelCount) " + String(localized: "次") + "  Bristol [\(bristolStr)]\(blood)\(severity)\(medInfo)"
 
         let attrs: [NSAttributedString.Key: Any] = [
             .font: UIFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular),
@@ -750,7 +758,7 @@ private enum PDFReportGenerator {
             .font: UIFont.systemFont(ofSize: 9, weight: .regular),
             .foregroundColor: UIColor.tertiaryLabel
         ]
-        let footer = "此報告由 GutTracker App 自動產生，僅供參考，不構成醫療建議"
+        let footer = String(localized: "此報告由 GutTracker App 自動產生，僅供參考，不構成醫療建議")
         footer.draw(at: CGPoint(x: margin, y: pageHeight - margin + 8), withAttributes: footerAttrs)
     }
 

@@ -132,10 +132,10 @@ struct GutTrackerTimelineProvider: TimelineProvider {
         let severity = latestSymptom?.overallSeverity ?? 0
         let statusEmoji: String
         switch severity {
-        case 0: statusEmoji = "😊 良好"
-        case 1: statusEmoji = "😐 輕微"
-        case 2: statusEmoji = "😣 中等"
-        default: statusEmoji = "🚨 嚴重"
+        case 0: statusEmoji = String(localized: "😊 良好")
+        case 1: statusEmoji = String(localized: "😐 輕微")
+        case 2: statusEmoji = String(localized: "😣 中等")
+        default: statusEmoji = String(localized: "🚨 嚴重")
         }
         let activeSymptomList = latestSymptom?.activeSymptomList ?? []
         let activeSymptomNames: [String] = activeSymptomList.map { type, _ in

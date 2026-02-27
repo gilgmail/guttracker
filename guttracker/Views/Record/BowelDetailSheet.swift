@@ -68,15 +68,15 @@ struct BowelDetailSheet: View {
                 // ── 程度評估 ──
                 Section {
                     severityPicker(title: "急迫感", value: $urgency,
-                                   labels: ["無", "輕微", "中等", "緊急"],
+                                   labels: [String(localized: "無"), String(localized: "輕微"), String(localized: "中等"), String(localized: "緊急")],
                                    icon: "bolt.fill", tint: .yellow)
-                    
+
                     severityPicker(title: "用力程度", value: $straining,
-                                   labels: ["無", "輕微", "中等", "嚴重"],
+                                   labels: [String(localized: "無"), String(localized: "輕微"), String(localized: "中等"), String(localized: "嚴重")],
                                    icon: "arrow.down.circle.fill", tint: .purple)
-                    
+
                     severityPicker(title: "排空感", value: $completeness,
-                                   labels: ["不完全", "部分", "完全"],
+                                   labels: [String(localized: "不完全"), String(localized: "部分"), String(localized: "完全")],
                                    icon: "checkmark.circle.fill", tint: .green)
                     
                     VStack(alignment: .leading, spacing: 8) {

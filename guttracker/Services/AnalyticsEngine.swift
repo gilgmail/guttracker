@@ -54,9 +54,9 @@ struct AnalyticsEngine {
         
         var displayName: String {
             switch self {
-            case .improving: return "改善中"
-            case .stable: return "穩定"
-            case .worsening: return "惡化中"
+            case .improving: return String(localized: "改善中")
+            case .stable: return String(localized: "穩定")
+            case .worsening: return String(localized: "惡化中")
             }
         }
         

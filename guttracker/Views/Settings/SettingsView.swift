@@ -621,20 +621,20 @@ struct WidgetCustomizationView: View {
 
     // 必須與 SymptomType enum 的 rawValue 完全對應
     private let allSymptoms: [(String, String)] = [
-        ("abdominalPain", "腹痛"),
-        ("bloating",      "腹脹"),
-        ("gas",           "脹氣"),
-        ("nausea",        "噁心"),
-        ("cramping",      "絞痛"),
-        ("bowelSounds",   "腸鳴"),
-        ("fatigue",       "疲倦"),
-        ("fever",         "發燒"),
-        ("jointPain",     "關節痛"),
+        ("abdominalPain", String(localized: "腹痛")),
+        ("bloating",      String(localized: "腹脹")),
+        ("gas",           String(localized: "脹氣")),
+        ("nausea",        String(localized: "噁心")),
+        ("cramping",      String(localized: "絞痛")),
+        ("bowelSounds",   String(localized: "腸鳴")),
+        ("fatigue",       String(localized: "疲倦")),
+        ("fever",         String(localized: "發燒")),
+        ("jointPain",     String(localized: "關節痛")),
     ]
 
     private let bristolDescriptions: [Int: String] = [
-        1: "硬塊", 2: "硬條", 3: "裂痕條",
-        4: "光滑條", 5: "柎碎", 6: "糊狀", 7: "水狀"
+        1: String(localized: "硬塊"), 2: String(localized: "硬條"), 3: String(localized: "裂痕條"),
+        4: String(localized: "光滑條"), 5: String(localized: "柎碎"), 6: String(localized: "糊狀"), 7: String(localized: "水狀")
     ]
 
     var body: some View {
@@ -676,7 +676,7 @@ struct WidgetCustomizationView: View {
                 Text("大便型態（最多 \(Constants.widgetBristolCountMax) 個）")
             } footer: {
                 let effectiveBristol = selectedBristolTypes.isEmpty ? Set([3, 4, 5, 6]) : selectedBristolTypes
-                Text("已選：\(effectiveBristol.sorted().map { "Type \($0)" }.joined(separator: "、"))")
+                Text("已選：\(effectiveBristol.sorted().map { "Type \($0)" }.joined(separator: String(localized: "、")))")
             }
             .listRowBackground(theme.card)
 
@@ -714,7 +714,7 @@ struct WidgetCustomizationView: View {
                 let effectiveSymptoms = selectedSymptomTypes.isEmpty
                     ? Set(["abdominalPain", "bloating", "nausea", "fatigue"]) : selectedSymptomTypes
                 let names = allSymptoms.filter { effectiveSymptoms.contains($0.0) }.map(\.1)
-                Text("已選：\(names.joined(separator: "、"))")
+                Text("已選：\(names.joined(separator: String(localized: "、")))")
             }
             .listRowBackground(theme.card)
         }

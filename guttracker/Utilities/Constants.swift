@@ -9,8 +9,8 @@ enum AppTheme: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .cream: return "米色（和紙）"
-        case .dark: return "深色"
+        case .cream: return String(localized: "米色（和紙）")
+        case .dark: return String(localized: "深色")
         }
     }
 

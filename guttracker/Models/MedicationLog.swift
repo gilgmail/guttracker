@@ -88,12 +88,12 @@ enum MedCategory: String, Codable, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .aminosalicylate: return "5-ASA"
-        case .immunomodulator: return "免疫調節"
-        case .biologic: return "生物製劑"
-        case .steroid: return "類固醇"
-        case .supplement: return "營養補充"
-        case .other: return "其他"
+        case .aminosalicylate: return String(localized: "5-ASA")
+        case .immunomodulator: return String(localized: "免疫調節")
+        case .biologic: return String(localized: "生物製劑")
+        case .steroid: return String(localized: "類固醇")
+        case .supplement: return String(localized: "營養補充")
+        case .other: return String(localized: "其他")
         }
     }
     
@@ -121,14 +121,14 @@ enum MedFrequency: String, Codable, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .daily: return "每日一次"
-        case .twiceDaily: return "每日兩次"
-        case .threeDaily: return "每日三次"
-        case .weekly: return "每週一次"
-        case .biweekly: return "每兩週一次"
-        case .monthly: return "每月一次"
-        case .everyEightWeeks: return "每8週一次"
-        case .asNeeded: return "需要時"
+        case .daily: return String(localized: "每日一次")
+        case .twiceDaily: return String(localized: "每日兩次")
+        case .threeDaily: return String(localized: "每日三次")
+        case .weekly: return String(localized: "每週一次")
+        case .biweekly: return String(localized: "每兩週一次")
+        case .monthly: return String(localized: "每月一次")
+        case .everyEightWeeks: return String(localized: "每8週一次")
+        case .asNeeded: return String(localized: "需要時")
         }
     }
 }

@@ -106,13 +106,13 @@ enum BowelColor: String, Codable, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .brown: return "棕色"
-        case .darkBrown: return "深棕"
-        case .yellow: return "黃色"
-        case .green: return "綠色"
-        case .black: return "黑色"
-        case .red: return "紅色"
-        case .clay: return "灰白"
+        case .brown: return String(localized: "棕色")
+        case .darkBrown: return String(localized: "深棕")
+        case .yellow: return String(localized: "黃色")
+        case .green: return String(localized: "綠色")
+        case .black: return String(localized: "黑色")
+        case .red: return String(localized: "紅色")
+        case .clay: return String(localized: "灰白")
         }
     }
     
@@ -132,9 +132,9 @@ enum BristolRisk: String, Codable {
     
     var displayName: String {
         switch self {
-        case .constipation: return "便秘傾向"
-        case .normal: return "正常"
-        case .diarrhea: return "腹瀉傾向"
+        case .constipation: return String(localized: "便秘傾向")
+        case .normal: return String(localized: "正常")
+        case .diarrhea: return String(localized: "腹瀉傾向")
         }
     }
 }
