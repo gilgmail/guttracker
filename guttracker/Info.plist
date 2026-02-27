@@ -6,6 +6,8 @@
 	<string>GutTracker 需要讀取您的睡眠、步數和心率資料，以分析腸胃症狀與生活習慣的關聯。</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>GutTracker 會將排便和症狀記錄同步到 Apple Health，方便您在健康 App 中整合查看。</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
