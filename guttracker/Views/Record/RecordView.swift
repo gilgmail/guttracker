@@ -39,6 +39,7 @@ struct RecordViewContent: View {
     @State private var showBowelDetail: Bool = false
     @State private var showSymptomSheet: Bool = false
     @State private var todaySymptom: SymptomEntry?
+    @State private var yesterdaySymptom: SymptomEntry?
 
     // Confirmation animation
     @State private var showConfirmation: Bool = false
@@ -102,7 +103,7 @@ struct RecordViewContent: View {
                 .animation(.easeOut(duration: 0.5), value: todayBowelMovements.count)
             }
             .background(theme.background)
-            .navigationTitle("GutTracker")
+            .navigationTitle("腸健追蹤")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -117,6 +118,7 @@ struct RecordViewContent: View {
         }
         .onAppear {
             loadTodaySymptom()
+            loadYesterdaySymptom()
             withAnimation(.easeOut(duration: 0.6).delay(0.1)) {
                 appeared = true
             }
@@ -125,6 +127,7 @@ struct RecordViewContent: View {
             if newPhase == .active {
                 refreshID = UUID()
                 loadTodaySymptom()
+                loadYesterdaySymptom()
             }
         }
         .id(refreshID)
@@ -168,7 +171,7 @@ struct RecordViewContent: View {
         .padding(.vertical, 12)
     }
 
-    private func statItem(value: String, label: String, color: Color) -> some View {
+    private func statItem(value: String, label: LocalizedStringKey, color: Color) -> some View {
         VStack(spacing: 2) {
             Text(value)
                 .font(.system(size: 20, weight: .light, design: .rounded))
@@ -254,7 +257,7 @@ struct RecordViewContent: View {
         }
     }
 
-    private func problemToggle(label: String, isActive: Bool, activeColor: Color, action: @escaping () -> Void) -> some View {
+    private func problemToggle(label: LocalizedStringKey, isActive: Bool, activeColor: Color, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(label)
                 .font(.system(size: 13, weight: .medium))
@@ -522,6 +525,7 @@ struct RecordViewContent: View {
         let score = NotificationService.shared.computeHealthScore(
             bowelMovements: todayBowelMovements,
             symptom: todaySymptom,
+            previousSymptom: yesterdaySymptom,
             medsTaken: todayMedLogs.count,
             medsTotal: activeMedications.count
         )
@@ -615,6 +619,17 @@ struct RecordViewContent: View {
         }
     }
 
+    private func loadYesterdaySymptom() {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: .now)
+        let yesterday = cal.date(byAdding: .day, value: -1, to: today)!
+        let descriptor = FetchDescriptor<SymptomEntry>(
+            predicate: #Predicate { $0.timestamp >= yesterday && $0.timestamp < today },
+            sortBy: [SortDescriptor(\.timestamp, order: .reverse)]
+        )
+        yesterdaySymptom = try? modelContext.fetch(descriptor).first
+    }
+
     private var todaySymptomBinding: Binding<SymptomEntry> {
         Binding(
             get: { todaySymptom ?? SymptomEntry() },
@@ -673,10 +688,10 @@ struct RecordViewContent: View {
 // MARK: - Zen Section (minimal header + divider)
 
 struct ZenSection<Content: View>: View {
-    let title: String
+    let title: LocalizedStringKey
     let content: () -> Content
 
-    init(title: String, @ViewBuilder content: @escaping () -> Content) {
+    init(title: LocalizedStringKey, @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.content = content
     }

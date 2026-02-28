@@ -1,1369 +1,2292 @@
 {
-  "sourceLanguage" : "zh-Hant-TW",
-  "strings" : {
-
-    "、" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : ", " } }
-      }
-    },
-
-    "😊 良好" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "😊 Good" } }
-      }
-    },
-
-    "😐 輕微" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "😐 Mild" } }
-      }
-    },
-
-    "😣 中等" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "😣 Moderate" } }
-      }
-    },
-
-    "🚨 嚴重" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "🚨 Severe" } }
-      }
-    },
-
-    "💊 用藥提醒" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "💊 Medication Reminder" } }
-      }
-    },
-
-    "📊 昨日健康評分" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "📊 Yesterday's Health Score" } }
-      }
-    },
-
-    "[血便]" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "[Blood]" } }
-      }
-    },
-
-    "7天" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "7 Days" } }
-      }
-    },
-
-    "30天" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "30 Days" } }
-      }
-    },
-
-    "90天" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "90 Days" } }
-      }
-    },
-
-    "Apple Health 同步" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Apple Health Sync" } }
-      }
-    },
-
-    "Bristol 分布" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bristol Distribution" } }
-      }
-    },
-
-    "Bristol 均值" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bristol Avg" } }
-      }
-    },
-
-    "Bristol 類型" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bristol Type" } }
-      }
-    },
-
-    "GutTracker 腸胃健康報告" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "GutTracker Health Report" } }
-      }
-    },
-
-    "Siri 捷徑" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Siri Shortcuts" } }
-      }
-    },
-
-    "Widget 按鈕自訂" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Widget Button Customization" } }
-      }
-    },
-
-    "Widget 自訂" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Widget Customization" } }
-      }
-    },
-
-    "不完全" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Incomplete" } }
-      }
-    },
-
-    "今日有血便記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Blood stool recorded today" } }
-      }
-    },
-
-    "今日有黏液記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Mucus recorded today" } }
-      }
-    },
-
-    "今日記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today's Records" } }
-      }
-    },
-
-    "今日用藥" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today's Medications" } }
-      }
-    },
-
-    "分鐘" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "min" } }
-      }
-    },
-
-    "分類" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Category" } }
-      }
-    },
-
-    "切換今日用藥狀態" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Toggle today's medication status" } }
-      }
-    },
-
-    "切換今日症狀狀態" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Toggle today's symptom status" } }
-      }
-    },
-
-    "取消" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } }
-      }
-    },
-
-    "名稱" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Name" } }
-      }
-    },
-
-    "含血便" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "With Blood" } }
-      }
-    },
-
-    "好" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "OK" } }
-      }
-    },
-
-    "完全" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Complete" } }
-      }
-    },
-
-    "完全液體狀，無固體" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Entirely liquid, no solid pieces" } }
-      }
-    },
-
-    "已取消" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancelled" } }
-      }
-    },
-
-    "已連接 Apple Health" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Connected to Apple Health" } }
-      }
-    },
-
-    "已達上限" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Limit Reached" } }
-      }
-    },
-
-    "已記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recorded" } }
-      }
-    },
-
-    "平均排便" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Avg. Bowel" } }
-      }
-    },
-
-    "平均疼痛" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Avg. Pain" } }
-      }
-    },
-
-    "平均疼痛：" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Avg. Pain: " } }
-      }
-    },
-
-    "排便" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bowel" } }
-      }
-    },
-
-    "排便/症狀資料同步到健康 App" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Syncs bowel/symptom data to the Health app" } }
-      }
-    },
-
-    "排便次數" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bowel Count" } }
-      }
-    },
-
-    "排便總次數" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Total Bowel Movements" } }
-      }
-    },
-
-    "排便統計" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bowel Statistics" } }
-      }
-    },
-
-    "排便記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bowel Log" } }
-      }
-    },
-
-    "排便趨勢：" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bowel Trend: " } }
-      }
-    },
-
-    "排便頻率趨勢" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bowel Frequency Trend" } }
-      }
-    },
-
-    "排空感" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Completeness" } }
-      }
-    },
-
-    "推送時間" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Push Time" } }
-      }
-    },
-
-    "提醒" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminder" } }
-      }
-    },
-
-    "提醒時間" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminder Time" } }
-      }
-    },
-
-    "最近:" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent:" } }
-      }
-    },
-
-    "期間" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Period" } }
-      }
-    },
-
-    "期間：" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Period: " } }
-      }
-    },
-
-    "無" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "None" } }
-      }
-    },
-
-    "無排便記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No bowel movements" } }
-      }
-    },
-
-    "無法識別症狀類型" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unable to identify symptom type" } }
-      }
-    },
-
-    "發燒" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fever" } }
-      }
-    },
-
-    "硬" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hard" } }
-      }
-    },
-
-    "硬塊" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hard Lumps" } }
-      }
-    },
-
-    "硬條" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hard Rod" } }
-      }
-    },
-
-    "程度" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Level" } }
-      }
-    },
-
-    "筆" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "entries" } }
-      }
-    },
-
-    "腹痛" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Abdominal Pain" } }
-      }
-    },
-
-    "腹瀉" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Diarrhea" } }
-      }
-    },
-
-    "腹瀉天數" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Diarrhea Days" } }
-      }
-    },
-
-    "腹瀉傾向" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Diarrhea Risk" } }
-      }
-    },
-
-    "腹脹" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bloating" } }
-      }
-    },
-
-    "腸鳴" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bowel Sounds" } }
-      }
-    },
-
-    "設定目前使用的藥物，每日用藥清單會顯示在記錄頁" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Configure your current medications; they will appear on the record screen" } }
-      }
-    },
-
-    "請先在設定頁開啟「用藥提醒」通知" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Please enable \"Medication Reminder\" notifications in Settings first" } }
-      }
-    },
-
-    "請先記錄排便，再標記血便/黏液" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Please record a bowel movement before marking blood or mucus" } }
-      }
-    },
-
-    "趨勢：" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Trend: " } }
-      }
-    },
-
-    "輕" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Light" } }
-      }
-    },
-
-    "輕微" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Mild" } }
-      }
-    },
-
-    "追蹤今日排便、症狀與用藥狀態" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Track today's bowel movements, symptoms, and medication status" } }
-      }
-    },
-
-    "通知" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Notifications" } }
-      }
-    },
-
-    "部分" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Partial" } }
-      }
-    },
-
-    "量" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Volume" } }
-      }
-    },
-
-    "開始記錄排便和症狀後，統計圖表會自動出現" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Charts will appear after you start recording bowel movements and symptoms" } }
-      }
-    },
-
-    "開啟後，排便和症狀記錄會自動同步到 Apple Health，也會讀取睡眠和步數資料。" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "When enabled, bowel and symptom records will automatically sync to Apple Health, and sleep and step count data will also be read." } }
-      }
-    },
-
-    "關於" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "About" } }
-      }
-    },
-
-    "關閉" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Close" } }
-      }
-    },
-
-    "頻率" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Frequency" } }
-      }
-    },
-
-    "黃色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Yellow" } }
-      }
-    },
-
-    "黏液" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Mucus" } }
-      }
-    },
-
-    "點擊後可在捷徑 App 中查看所有語音指令。說話範例：\n「記錄排便 5 GutTracker」\n「記錄腹痛 GutTracker」" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tap to view all voice commands in the Shortcuts app. Example phrases:\n\"Record bowel type 5 GutTracker\"\n\"Record abdominal pain GutTracker\"" } }
-      }
-    },
-
-    "點擊 Bristol 類型即可記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tap a Bristol type to record" } }
-      }
-    },
-
-    "此報告由 GutTracker App 自動產生，僅供參考，不構成醫療建議" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "This report is auto-generated by GutTracker App for reference only and does not constitute medical advice" } }
-      }
-    },
-
-    "此裝置不支援 HealthKit" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "This device doesn't support HealthKit" } }
-      }
-    },
-
-    "此顏色可能需要就醫，請諮詢醫生" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "This color may require medical attention, please consult a doctor" } }
-      }
-    },
-
-    "次" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "times" } }
-      }
-    },
-
-    "次/天" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "times/day" } }
-      }
-    },
-
-    "次排便" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "bowel movements" } }
-      }
-    },
-
-    "每日一次" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once Daily" } }
-      }
-    },
-
-    "每日三次" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Three Times Daily" } }
-      }
-    },
-
-    "每日兩次" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Twice Daily" } }
-      }
-    },
-
-    "每日四次" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Four Times Daily" } }
-      }
-    },
-
-    "每天早上推送昨日健康評分與摘要" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sends yesterday's health score and summary every morning" } }
-      }
-    },
-
-    "每兩週一次" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Every Two Weeks" } }
-      }
-    },
-
-    "每八週一次" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Every Eight Weeks" } }
-      }
-    },
-
-    "每週一次" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once Weekly" } }
-      }
-    },
-
-    "水狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Watery" } }
-      }
-    },
-
-    "注意健康" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Attention Needed" } }
-      }
-    },
-
-    "活躍症狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Active Symptoms" } }
-      }
-    },
-
-    "用力程度" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Straining" } }
-      }
-    },
-
-    "用藥" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Medications" } }
-      }
-    },
-
-    "用藥:" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Meds:" } }
-      }
-    },
-
-    "用藥提醒" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Medication Reminder" } }
-      }
-    },
-
-    "用藥提醒時間可在各藥物的編輯頁面設定。健康評分會根據排便、症狀、用藥計算 0-100 分。" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Medication reminder times can be set on each medication's edit page. The health score is calculated 0\u2013100 based on bowel movements, symptoms, and medication." } }
-      }
-    },
-
-    "生物製劑" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Biologic" } }
-      }
-    },
-
-    "疲倦" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fatigue" } }
-      }
-    },
-
-    "疼痛程度" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pain Level" } }
-      }
-    },
-
-    "產生 PDF 報告" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Generate PDF Report" } }
-      }
-    },
-
-    "白色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "White" } }
-      }
-    },
-
-    "症狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Symptoms" } }
-      }
-    },
-
-    "症狀:" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Symptoms:" } }
-      }
-    },
-
-    "症狀追蹤" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Symptom Tracking" } }
-      }
-    },
-
-    "症狀類型" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Symptom Type" } }
-      }
-    },
-
-    "糊狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Mushy" } }
-      }
-    },
-
-    "裂痕條" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cracked Rod" } }
-      }
-    },
-
-    "裂紋" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cracks" } }
-      }
-    },
-
-    "記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Record" } }
-      }
-    },
-
-    "記錄排便" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Record Bowel Movement" } }
-      }
-    },
-
-    "記錄症狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Record Symptom" } }
-      }
-    },
-
-    "記錄用藥" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Record Medication" } }
-      }
-    },
-
-    "設定" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Settings" } }
-      }
-    },
-
-    "資料" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Data" } }
-      }
-    },
-
-    "資料匯出 / 清除" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Data Export / Clear" } }
-      }
-    },
-
-    "資料管理" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Data Management" } }
-      }
-    },
-
-    "選擇顯示在 Widget 中的大便型態（最多 4 個）和症狀（最多 4 個）。未設定時自動顯示近 30 天最常用的類型。" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select stool types (up to 4) and symptoms (up to 4) to display in the Widget. When not configured, the most-used types from the last 30 days are shown automatically." } }
-      }
-    },
-
-    "需要時" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "As Needed" } }
-      }
-    },
-
-    "需注意" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Needs Attention" } }
-      }
-    },
-
-    "其他" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Other" } }
-      }
-    },
-
-    "劑量" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dosage" } }
-      }
-    },
-
-    "匯出" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Export" } }
-      }
-    },
-
-    "匯出報告" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Export Report" } }
-      }
-    },
-
-    "偏多(>5)" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "High (>5)" } }
-      }
-    },
-
-    "光滑條" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Smooth Rod" } }
-      }
-    },
-
-    "光滑柔軟的條狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Like a smooth, soft sausage" } }
-      }
-    },
-
-    "免疫調節劑" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Immunomodulator" } }
-      }
-    },
-
-    "刪除" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete" } }
-      }
-    },
-
-    "刪除記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete Record" } }
-      }
-    },
-
-    "刪除記錄？" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete Record?" } }
-      }
-    },
-
-    "從常見 IBD 藥物中選擇" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose from Common IBD Medications" } }
-      }
-    },
-
-    "健康整合" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Health Integration" } }
-      }
-    },
-
-    "停用" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Disable" } }
-      }
-    },
-
-    "外觀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Appearance" } }
-      }
-    },
-
-    "大便型態" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stool Type" } }
-      }
-    },
-
-    "天" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "days" } }
-      }
-    },
-
-    "嚴重" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Severe" } }
-      }
-    },
-
-    "嚴重度" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Severity" } }
-      }
-    },
-
-    "備註" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Notes" } }
-      }
-    },
-
-    "備註..." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Notes..." } }
-      }
-    },
-
-    "分離的硬塊，如堅果狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Separate hard lumps, like nuts" } }
-      }
-    },
-
-    "塊狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lumpy" } }
-      }
-    },
-
-    "多" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Large" } }
-      }
-    },
-
-    "新增" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add" } }
-      }
-    },
-
-    "新增藥物" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add Medication" } }
-      }
-    },
-
-    "新增藥物（前往設定）" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add Medications (Go to Settings)" } }
-      }
-    },
-
-    "日曆" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Calendar" } }
-      }
-    },
-
-    "日期" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Date" } }
-      }
-    },
-
-    "正常" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Normal" } }
-      }
-    },
-
-    "正常天數" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Normal Days" } }
-      }
-    },
-
-    "液" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Mucus" } }
-      }
-    },
-
-    "版本" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Version" } }
-      }
-    },
-
-    "特徵" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Characteristics" } }
-      }
-    },
-
-    "血" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Blood" } }
-      }
-    },
-
-    "血便" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Blood in Stool" } }
-      }
-    },
-
-    "血便天數" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Blood Days" } }
-      }
-    },
-
-    "絞痛" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cramping" } }
-      }
-    },
-
-    "綠色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Green" } }
-      }
-    },
-
-    "胺基水楊酸" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Aminosalicylate" } }
-      }
-    },
-
-    "脹氣" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Gas" } }
-      }
-    },
-
-    "英文名稱（選填）" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "English name (optional)" } }
-      }
-    },
-
-    "藥物名稱" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Medication Name" } }
-      }
-    },
-
-    "藥物管理" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Medication Management" } }
-      }
-    },
-
-    "詳細記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Detailed Record" } }
-      }
-    },
-
-    "統計" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stats" } }
-      }
-    },
-
-    "緊急" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Urgent" } }
-      }
-    },
-
-    "表面凹凸的條狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lumpy and sausage-shaped" } }
-      }
-    },
-
-    "表面有裂紋的條狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sausage-shaped with cracks on the surface" } }
-      }
-    },
-
-    "軟" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Soft" } }
-      }
-    },
-
-    "軟塊" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Soft Blobs" } }
-      }
-    },
-
-    "邊緣不規則的糊狀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fluffy with ragged edges" } }
-      }
-    },
-
-    "邊緣清楚的軟塊" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Soft blobs with clear-cut edges" } }
-      }
-    },
-
-    "類固醇" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Steroid" } }
-      }
-    },
-
-    "快速記錄排便 Bristol 類型" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Quick-record a Bristol stool type" } }
-      }
-    },
-
-    "每日健康評分" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Daily Health Score" } }
-      }
-    },
-
-    "改善中" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Improving" } }
-      }
-    },
-
-    "棕色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Brown" } }
-      }
-    },
-
-    "柎碎" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Soft Pieces" } }
-      }
-    },
-
-    "灰色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Gray" } }
-      }
-    },
-
-    "營養補充劑" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Supplement" } }
-      }
-    },
-
-    "米色（和紙）" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cream (Washi)" } }
-      }
-    },
-
-    "紅色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Red" } }
-      }
-    },
-
-    "尚無足夠資料" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Data Yet" } }
-      }
-    },
-
-    "尚無排便記錄" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Bowel Records" } }
-      }
-    },
-
-    "時間" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Time" } }
-      }
-    },
-
-    "深色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dark" } }
-      }
-    },
-
-    "急迫感" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Urgency" } }
-      }
-    },
-
-    "待加強" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Needs Improvement" } }
-      }
-    },
-
-    "基本資訊" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Basic Information" } }
-      }
-    },
-
-    "啟用" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Active" } }
-      }
-    },
-
-    "噁心" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Nausea" } }
-      }
-    },
-
-    "少" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Small" } }
-      }
-    },
-
-    "便秘" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Constipation" } }
-      }
-    },
-
-    "便秘天數" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Constipation Days" } }
-      }
-    },
-
-    "便秘傾向" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Constipation Risk" } }
-      }
-    },
-
-    "主題" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Theme" } }
-      }
-    },
-
-    "黑色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Black" } }
-      }
-    },
-
-    "常見 IBD 藥物" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Common IBD Medications" } }
-      }
-    },
-
-    "關節痛" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Joint Pain" } }
-      }
-    },
-
-    "穩定" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stable" } }
-      }
-    },
-
-    "花費時間" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Time Spent" } }
-      }
-    },
-
-    "重" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Severe" } }
-      }
-    },
-
-    "優秀" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Excellent" } }
-      }
-    },
-
-    "每日明細" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Daily Details" } }
-      }
-    },
-
-    "次數" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Count" } }
-      }
-    },
-
-    "顏色" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Color" } }
-      }
-    },
-
-    "良好" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Good" } }
-      }
-    },
-
-    "中" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Moderate" } }
-      }
-    },
-
-    "中等" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Moderate" } }
-      }
-    },
-
-    "依照各藥物設定的時間提醒服藥" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminds you to take medications at the scheduled times" } }
-      }
+  "sourceLanguage": "zh-Hant-TW",
+  "strings": {
+    "、": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", "
+          }
+        }
+      }
+    },
+    "😊 良好": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "😊 Good"
+          }
+        }
+      }
+    },
+    "😐 輕微": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "😐 Mild"
+          }
+        }
+      }
+    },
+    "😣 中等": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "😣 Moderate"
+          }
+        }
+      }
+    },
+    "🚨 嚴重": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🚨 Severe"
+          }
+        }
+      }
+    },
+    "💊 用藥提醒": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "💊 Medication Reminder"
+          }
+        }
+      }
+    },
+    "📊 昨日健康評分": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "📊 Yesterday's Health Score"
+          }
+        }
+      }
+    },
+    "[血便]": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "[Blood]"
+          }
+        }
+      }
+    },
+    "7天": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 Days"
+          }
+        }
+      }
+    },
+    "30天": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 Days"
+          }
+        }
+      }
     },
-
-    "儲存" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } }
+    "90天": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "90 Days"
+          }
+        }
+      }
+    },
+    "Apple Health 同步": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Health Sync"
+          }
+        }
+      }
+    },
+    "Bristol 分布": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bristol Distribution"
+          }
+        }
+      }
+    },
+    "Bristol 均值": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bristol Avg"
+          }
+        }
+      }
+    },
+    "Bristol 類型": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bristol Type"
+          }
+        }
+      }
+    },
+    "GutTracker 腸胃健康報告": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GutTracker Health Report"
+          }
+        }
+      }
+    },
+    "Siri 捷徑": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siri Shortcuts"
+          }
+        }
+      }
+    },
+    "Widget 按鈕自訂": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget Button Customization"
+          }
+        }
+      }
+    },
+    "Widget 自訂": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget Customization"
+          }
+        }
+      }
+    },
+    "不完全": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incomplete"
+          }
+        }
+      }
+    },
+    "今日有血便記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blood stool recorded today"
+          }
+        }
+      }
+    },
+    "今日有黏液記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mucus recorded today"
+          }
+        }
+      }
+    },
+    "今日記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's Records"
+          }
+        }
+      }
+    },
+    "今日用藥": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's Medications"
+          }
+        }
+      }
+    },
+    "分鐘": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "min"
+          }
+        }
+      }
+    },
+    "分類": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category"
+          }
+        }
+      }
+    },
+    "切換今日用藥狀態": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toggle today's medication status"
+          }
+        }
+      }
+    },
+    "切換今日症狀狀態": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toggle today's symptom status"
+          }
+        }
+      }
+    },
+    "取消": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "名稱": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        }
+      }
+    },
+    "含血便": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With Blood"
+          }
+        }
+      }
+    },
+    "好": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "完全": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete"
+          }
+        }
+      }
+    },
+    "完全液體狀，無固體": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entirely liquid, no solid pieces"
+          }
+        }
+      }
+    },
+    "已取消": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelled"
+          }
+        }
+      }
+    },
+    "已連接 Apple Health": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connected to Apple Health"
+          }
+        }
+      }
+    },
+    "已達上限": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit Reached"
+          }
+        }
+      }
+    },
+    "已記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recorded"
+          }
+        }
+      }
+    },
+    "平均排便": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avg. Bowel"
+          }
+        }
+      }
+    },
+    "平均疼痛": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avg. Pain"
+          }
+        }
+      }
+    },
+    "平均疼痛：": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avg. Pain: "
+          }
+        }
+      }
+    },
+    "排便": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bowel"
+          }
+        }
+      }
+    },
+    "排便/症狀資料同步到健康 App": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Syncs bowel/symptom data to the Health app"
+          }
+        }
+      }
+    },
+    "排便次數": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bowel Count"
+          }
+        }
+      }
+    },
+    "排便總次數": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total Bowel Movements"
+          }
+        }
+      }
+    },
+    "排便統計": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bowel Statistics"
+          }
+        }
+      }
+    },
+    "排便記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bowel Log"
+          }
+        }
+      }
+    },
+    "排便趨勢：": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bowel Trend: "
+          }
+        }
+      }
+    },
+    "排便頻率趨勢": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bowel Frequency Trend"
+          }
+        }
+      }
+    },
+    "排空感": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completeness"
+          }
+        }
+      }
+    },
+    "推送時間": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push Time"
+          }
+        }
+      }
+    },
+    "提醒": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminder"
+          }
+        }
+      }
+    },
+    "提醒時間": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminder Time"
+          }
+        }
+      }
+    },
+    "最近:": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent:"
+          }
+        }
+      }
+    },
+    "期間": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Period"
+          }
+        }
+      }
+    },
+    "期間：": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Period: "
+          }
+        }
+      }
+    },
+    "無": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None"
+          }
+        }
+      }
+    },
+    "無排便記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No bowel movements"
+          }
+        }
+      }
+    },
+    "無法識別症狀類型": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to identify symptom type"
+          }
+        }
+      }
+    },
+    "發燒": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fever"
+          }
+        }
+      }
+    },
+    "硬": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hard"
+          }
+        }
+      }
+    },
+    "硬塊": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hard Lumps"
+          }
+        }
+      }
+    },
+    "硬條": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hard Rod"
+          }
+        }
+      }
+    },
+    "程度": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level"
+          }
+        }
+      }
+    },
+    "筆": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "entries"
+          }
+        }
+      }
+    },
+    "腹痛": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abdominal Pain"
+          }
+        }
+      }
+    },
+    "腹瀉": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diarrhea"
+          }
+        }
+      }
+    },
+    "腹瀉天數": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diarrhea Days"
+          }
+        }
+      }
+    },
+    "腹瀉傾向": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diarrhea Risk"
+          }
+        }
+      }
+    },
+    "腹脹": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloating"
+          }
+        }
+      }
+    },
+    "腸鳴": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bowel Sounds"
+          }
+        }
+      }
+    },
+    "設定目前使用的藥物，每日用藥清單會顯示在記錄頁": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure your current medications; they will appear on the record screen"
+          }
+        }
+      }
+    },
+    "請先在設定頁開啟「用藥提醒」通知": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please enable \"Medication Reminder\" notifications in Settings first"
+          }
+        }
+      }
+    },
+    "請先記錄排便，再標記血便/黏液": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please record a bowel movement before marking blood or mucus"
+          }
+        }
+      }
+    },
+    "趨勢：": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trend: "
+          }
+        }
+      }
+    },
+    "輕": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
+        }
+      }
+    },
+    "輕微": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mild"
+          }
+        }
+      }
+    },
+    "追蹤今日排便、症狀與用藥狀態": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Track today's bowel movements, symptoms, and medication status"
+          }
+        }
+      }
+    },
+    "通知": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        }
+      }
+    },
+    "部分": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partial"
+          }
+        }
+      }
+    },
+    "量": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volume"
+          }
+        }
+      }
+    },
+    "開始記錄排便和症狀後，統計圖表會自動出現": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charts will appear after you start recording bowel movements and symptoms"
+          }
+        }
+      }
+    },
+    "開啟後，排便和症狀記錄會自動同步到 Apple Health，也會讀取睡眠和步數資料。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When enabled, bowel and symptom records will automatically sync to Apple Health, and sleep and step count data will also be read."
+          }
+        }
+      }
+    },
+    "關於": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About"
+          }
+        }
+      }
+    },
+    "關閉": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        }
+      }
+    },
+    "頻率": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequency"
+          }
+        }
+      }
+    },
+    "黃色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yellow"
+          }
+        }
+      }
+    },
+    "黏液": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mucus"
+          }
+        }
+      }
+    },
+    "點擊後可在捷徑 App 中查看所有語音指令。說話範例：\n「記錄排便 5 GutTracker」\n「記錄腹痛 GutTracker」": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to view all voice commands in the Shortcuts app. Example phrases:\n\"Record bowel type 5 GutTracker\"\n\"Record abdominal pain GutTracker\""
+          }
+        }
+      }
+    },
+    "點擊 Bristol 類型即可記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap a Bristol type to record"
+          }
+        }
+      }
+    },
+    "此報告由 GutTracker App 自動產生，僅供參考，不構成醫療建議": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This report is auto-generated by GutTracker App for reference only and does not constitute medical advice"
+          }
+        }
+      }
+    },
+    "此裝置不支援 HealthKit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This device doesn't support HealthKit"
+          }
+        }
+      }
+    },
+    "此顏色可能需要就醫，請諮詢醫生": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This color may require medical attention, please consult a doctor"
+          }
+        }
+      }
+    },
+    "次": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "times"
+          }
+        }
+      }
+    },
+    "次/天": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "times/day"
+          }
+        }
+      }
+    },
+    "次排便": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "bowel movements"
+          }
+        }
+      }
+    },
+    "每日一次": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once Daily"
+          }
+        }
+      }
+    },
+    "每日三次": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three Times Daily"
+          }
+        }
+      }
+    },
+    "每日兩次": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Twice Daily"
+          }
+        }
+      }
+    },
+    "每日四次": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four Times Daily"
+          }
+        }
+      }
+    },
+    "每天早上推送昨日健康評分與摘要": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sends yesterday's health score and summary every morning"
+          }
+        }
+      }
+    },
+    "每兩週一次": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every Two Weeks"
+          }
+        }
+      }
+    },
+    "每八週一次": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every Eight Weeks"
+          }
+        }
+      }
+    },
+    "每週一次": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once Weekly"
+          }
+        }
+      }
+    },
+    "水狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Watery"
+          }
+        }
+      }
+    },
+    "注意健康": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attention Needed"
+          }
+        }
+      }
+    },
+    "活躍症狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active Symptoms"
+          }
+        }
+      }
+    },
+    "用力程度": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Straining"
+          }
+        }
+      }
+    },
+    "用藥": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medications"
+          }
+        }
+      }
+    },
+    "用藥:": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meds:"
+          }
+        }
+      }
+    },
+    "用藥提醒": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medication Reminder"
+          }
+        }
+      }
+    },
+    "用藥提醒時間可在各藥物的編輯頁面設定。健康評分會根據排便、症狀、用藥計算 0-100 分。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medication reminder times can be set on each medication's edit page. The health score is calculated 0–100 based on bowel movements, symptoms, and medication."
+          }
+        }
+      }
+    },
+    "生物製劑": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Biologic"
+          }
+        }
+      }
+    },
+    "疲倦": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fatigue"
+          }
+        }
+      }
+    },
+    "疼痛程度": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pain Level"
+          }
+        }
+      }
+    },
+    "產生 PDF 報告": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Generate PDF Report"
+          }
+        }
+      }
+    },
+    "白色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White"
+          }
+        }
+      }
+    },
+    "症狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symptoms"
+          }
+        }
+      }
+    },
+    "症狀:": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symptoms:"
+          }
+        }
+      }
+    },
+    "症狀追蹤": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symptom Tracking"
+          }
+        }
+      }
+    },
+    "症狀類型": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symptom Type"
+          }
+        }
+      }
+    },
+    "糊狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mushy"
+          }
+        }
+      }
+    },
+    "裂痕條": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cracked Rod"
+          }
+        }
+      }
+    },
+    "裂紋": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cracks"
+          }
+        }
+      }
+    },
+    "記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record"
+          }
+        }
+      }
+    },
+    "記錄排便": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record Bowel Movement"
+          }
+        }
+      }
+    },
+    "記錄症狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record Symptom"
+          }
+        }
+      }
+    },
+    "記錄用藥": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record Medication"
+          }
+        }
+      }
+    },
+    "設定": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "資料": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data"
+          }
+        }
+      }
+    },
+    "資料匯出 / 清除": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data Export / Clear"
+          }
+        }
+      }
+    },
+    "資料管理": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data Management"
+          }
+        }
+      }
+    },
+    "選擇顯示在 Widget 中的大便型態（最多 4 個）和症狀（最多 4 個）。未設定時自動顯示近 30 天最常用的類型。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select stool types (up to 4) and symptoms (up to 4) to display in the Widget. When not configured, the most-used types from the last 30 days are shown automatically."
+          }
+        }
+      }
+    },
+    "需要時": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As Needed"
+          }
+        }
+      }
+    },
+    "需注意": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Needs Attention"
+          }
+        }
+      }
+    },
+    "其他": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
+          }
+        }
+      }
+    },
+    "劑量": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosage"
+          }
+        }
+      }
+    },
+    "匯出": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export"
+          }
+        }
+      }
+    },
+    "匯出報告": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Report"
+          }
+        }
+      }
+    },
+    "偏多(>5)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "High (>5)"
+          }
+        }
+      }
+    },
+    "光滑條": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smooth Rod"
+          }
+        }
+      }
+    },
+    "光滑柔軟的條狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Like a smooth, soft sausage"
+          }
+        }
+      }
+    },
+    "免疫調節劑": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Immunomodulator"
+          }
+        }
+      }
+    },
+    "刪除": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        }
+      }
+    },
+    "刪除記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Record"
+          }
+        }
+      }
+    },
+    "刪除記錄？": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Record?"
+          }
+        }
+      }
+    },
+    "從常見 IBD 藥物中選擇": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose from Common IBD Medications"
+          }
+        }
+      }
+    },
+    "健康整合": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Health Integration"
+          }
+        }
+      }
+    },
+    "停用": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disable"
+          }
+        }
+      }
+    },
+    "外觀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        }
+      }
+    },
+    "大便型態": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stool Type"
+          }
+        }
+      }
+    },
+    "天": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "days"
+          }
+        }
+      }
+    },
+    "嚴重": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Severe"
+          }
+        }
+      }
+    },
+    "嚴重度": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Severity"
+          }
+        }
+      }
+    },
+    "備註": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes"
+          }
+        }
+      }
+    },
+    "備註...": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes..."
+          }
+        }
+      }
+    },
+    "分離的硬塊，如堅果狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Separate hard lumps, like nuts"
+          }
+        }
+      }
+    },
+    "塊狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lumpy"
+          }
+        }
+      }
+    },
+    "多": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Large"
+          }
+        }
+      }
+    },
+    "新增": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        }
+      }
+    },
+    "新增藥物": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Medication"
+          }
+        }
+      }
+    },
+    "新增藥物（前往設定）": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Medications (Go to Settings)"
+          }
+        }
+      }
+    },
+    "日曆": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calendar"
+          }
+        }
+      }
+    },
+    "日期": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date"
+          }
+        }
+      }
+    },
+    "正常": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Normal"
+          }
+        }
+      }
+    },
+    "正常天數": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Normal Days"
+          }
+        }
+      }
+    },
+    "液": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mucus"
+          }
+        }
+      }
+    },
+    "版本": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        }
+      }
+    },
+    "特徵": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Characteristics"
+          }
+        }
+      }
+    },
+    "血": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blood"
+          }
+        }
+      }
+    },
+    "血便": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blood in Stool"
+          }
+        }
+      }
+    },
+    "血便天數": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blood Days"
+          }
+        }
+      }
+    },
+    "絞痛": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cramping"
+          }
+        }
+      }
+    },
+    "綠色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Green"
+          }
+        }
+      }
+    },
+    "胺基水楊酸": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aminosalicylate"
+          }
+        }
+      }
+    },
+    "脹氣": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gas"
+          }
+        }
+      }
+    },
+    "英文名稱（選填）": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English name (optional)"
+          }
+        }
+      }
+    },
+    "藥物名稱": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medication Name"
+          }
+        }
+      }
+    },
+    "藥物管理": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medication Management"
+          }
+        }
+      }
+    },
+    "詳細記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detailed Record"
+          }
+        }
+      }
+    },
+    "統計": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stats"
+          }
+        }
+      }
+    },
+    "緊急": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Urgent"
+          }
+        }
+      }
+    },
+    "表面凹凸的條狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lumpy and sausage-shaped"
+          }
+        }
+      }
+    },
+    "表面有裂紋的條狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sausage-shaped with cracks on the surface"
+          }
+        }
+      }
+    },
+    "軟": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soft"
+          }
+        }
+      }
+    },
+    "軟塊": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soft Blobs"
+          }
+        }
+      }
+    },
+    "邊緣不規則的糊狀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fluffy with ragged edges"
+          }
+        }
+      }
+    },
+    "邊緣清楚的軟塊": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soft blobs with clear-cut edges"
+          }
+        }
+      }
+    },
+    "類固醇": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steroid"
+          }
+        }
+      }
+    },
+    "快速記錄排便 Bristol 類型": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick-record a Bristol stool type"
+          }
+        }
+      }
+    },
+    "每日健康評分": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Health Score"
+          }
+        }
+      }
+    },
+    "改善中": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Improving"
+          }
+        }
+      }
+    },
+    "棕色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brown"
+          }
+        }
+      }
+    },
+    "柎碎": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soft Pieces"
+          }
+        }
+      }
+    },
+    "灰色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gray"
+          }
+        }
+      }
+    },
+    "營養補充劑": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supplement"
+          }
+        }
+      }
+    },
+    "米色（和紙）": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream (Washi)"
+          }
+        }
+      }
+    },
+    "紅色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red"
+          }
+        }
+      }
+    },
+    "尚無足夠資料": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Data Yet"
+          }
+        }
+      }
+    },
+    "尚無排便記錄": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Bowel Records"
+          }
+        }
+      }
+    },
+    "時間": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time"
+          }
+        }
+      }
+    },
+    "深色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark"
+          }
+        }
+      }
+    },
+    "急迫感": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Urgency"
+          }
+        }
+      }
+    },
+    "待加強": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Needs Improvement"
+          }
+        }
+      }
+    },
+    "基本資訊": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basic Information"
+          }
+        }
+      }
+    },
+    "啟用": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active"
+          }
+        }
+      }
+    },
+    "噁心": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nausea"
+          }
+        }
+      }
+    },
+    "少": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Small"
+          }
+        }
+      }
+    },
+    "便秘": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Constipation"
+          }
+        }
+      }
+    },
+    "便秘天數": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Constipation Days"
+          }
+        }
+      }
+    },
+    "便秘傾向": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Constipation Risk"
+          }
+        }
+      }
+    },
+    "主題": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme"
+          }
+        }
+      }
+    },
+    "黑色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black"
+          }
+        }
+      }
+    },
+    "常見 IBD 藥物": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Common IBD Medications"
+          }
+        }
+      }
+    },
+    "關節痛": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Joint Pain"
+          }
+        }
+      }
+    },
+    "穩定": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stable"
+          }
+        }
+      }
+    },
+    "花費時間": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time Spent"
+          }
+        }
+      }
+    },
+    "重": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Severe"
+          }
+        }
+      }
+    },
+    "優秀": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excellent"
+          }
+        }
+      }
+    },
+    "每日明細": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Details"
+          }
+        }
+      }
+    },
+    "次數": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Count"
+          }
+        }
+      }
+    },
+    "顏色": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color"
+          }
+        }
+      }
+    },
+    "良好": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good"
+          }
+        }
+      }
+    },
+    "中": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moderate"
+          }
+        }
+      }
+    },
+    "中等": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moderate"
+          }
+        }
+      }
+    },
+    "依照各藥物設定的時間提醒服藥": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminds you to take medications at the scheduled times"
+          }
+        }
+      }
+    },
+    "儲存": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        }
+      }
+    },
+    "腸健追蹤": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GutTracker"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "腸活記録"
+          }
+        }
       }
     }
-
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

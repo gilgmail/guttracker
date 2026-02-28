@@ -58,6 +58,7 @@ Full spec: `GutTracker_Project_Spec.md`
 - **Symptom severity**: 0 (none) to 3 (severe) for GI/systemic symptoms; mood is 1-5.
 - **Medication catalog**: `DefaultMedications` in `MedicationLog.swift` has 13 pre-configured Taiwan IBD drugs (Pentasa, Humira, Remicade, etc.) with categories: aminosalicylate, immunomodulator, biologic, steroid, supplement.
 - **AnalyticsEngine**: Computes `DailySummary`, `PeriodStats`, `Trend` (improving/stable/worsening), and `WeekdayPattern` from raw model data. All computation is local — no backend.
+- **Health Score** (0-100): Four-dimension scoring in `NotificationService.computeHealthScore()` — bowel frequency/quality (~35pts), symptoms with burden+trend (~30pts), medication compliance (20pts), Bristol normality bonus (+5). Uses `overallSeverity` (peak) + `symptomBurden` (sum) for nuanced symptom assessment. Compares to previous day's symptoms for trend (improving +5 / worsening -5). Includes mood and sleep quality modifiers.
 
 ## Conventions
 

@@ -91,24 +91,30 @@ final class NotificationService {
 
     // MARK: - Health Score Computation
 
-    /// 計算昨日健康評分 (0-100)
+    /// 計算健康評分 (0-100)
+    /// - Parameters:
+    ///   - previousSymptom: 前一日症狀記錄，用於計算改善/惡化趨勢
     func computeHealthScore(
         bowelMovements: [BowelMovement],
         symptom: SymptomEntry?,
+        previousSymptom: SymptomEntry? = nil,
         medsTaken: Int,
         medsTotal: Int
     ) -> HealthScore {
         var score = 100
         var details: [String] = []
 
-        // 1. 排便評分 (40 分)
+        // 1. 排便評分 — 頻率梯度 + 異常 + 血便 + 疼痛
         let bmCount = bowelMovements.count
         if bmCount == 0 {
             score -= 15
             details.append("無排便記錄")
-        } else if bmCount > 5 {
+        } else if bmCount >= 6 {
             score -= 20
             details.append("排便頻繁(\(bmCount)次)")
+        } else if bmCount >= 4 {
+            score -= 8
+            details.append("排便偏多(\(bmCount)次)")
         }
 
         let abnormalBMs = bowelMovements.filter { $0.bristolType <= 2 || $0.bristolType >= 6 }
@@ -125,10 +131,47 @@ final class NotificationService {
             score -= min(avgPain * 2, 15)
         }
 
-        // 2. 症狀評分 (30 分)
+        // 2. 症狀評分 — 峰值 + 負擔 + 高危 + 趨勢 + 睡眠/情緒
         if let sym = symptom {
-            score -= sym.overallSeverity * 10
-            if sym.fever { details.append("發燒") }
+            // 基礎：最高嚴重度（峰值）
+            score -= sym.overallSeverity * 5       // max -15
+
+            // 整體負擔（加總），捕捉多重輕微症狀
+            score -= min(sym.symptomBurden / 3, 5)  // max -5
+
+            // 高危症狀
+            if sym.fever {
+                score -= 5
+                details.append("發燒")
+            }
+
+            // 趨勢比較：與前日症狀嚴重度對比
+            if let prev = previousSymptom {
+                let delta = sym.overallSeverity - prev.overallSeverity
+                if delta < 0 {
+                    score += 5    // 改善加分
+                    details.append("症狀改善中")
+                } else if delta > 0 {
+                    score -= 5    // 惡化扣分
+                    details.append("症狀惡化")
+                }
+            }
+
+            // 睡眠品質差加扣
+            if sym.sleepQuality >= 2 {
+                score -= 3
+            }
+
+            // 情緒良好小幅加分
+            if sym.mood >= 4 {
+                score += 2
+            }
+        } else {
+            // 症狀未記錄：有排便記錄時輕微扣分
+            if !bowelMovements.isEmpty {
+                score -= 5
+                details.append("症狀未記錄")
+            }
         }
 
         // 3. 用藥完成度 (20 分)
@@ -142,11 +185,12 @@ final class NotificationService {
             }
         }
 
-        // 4. Bristol 正常度 (10 分)
-        let normalBMs = bowelMovements.filter { (3...5).contains($0.bristolType) }
+        // 4. Bristol 正常度 — 獎勵制（避免與 Section 1 重複扣分）
         if !bowelMovements.isEmpty {
-            let normalRatio = Double(normalBMs.count) / Double(bowelMovements.count)
-            score -= Int((1.0 - normalRatio) * 10)
+            let allNormal = bowelMovements.allSatisfy { (3...5).contains($0.bristolType) }
+            if allNormal {
+                score += 5
+            }
         }
 
         score = max(0, min(100, score))
@@ -164,14 +208,18 @@ final class NotificationService {
 
     private func computeYesterdayScoreSummary(context: ModelContext) -> String {
         let calendar = Calendar.current
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: .now))!
         let today = calendar.startOfDay(for: .now)
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+        let twoDaysAgo = calendar.date(byAdding: .day, value: -2, to: today)!
 
         let bmDescriptor = FetchDescriptor<BowelMovement>(
             predicate: #Predicate { $0.timestamp >= yesterday && $0.timestamp < today }
         )
         let symDescriptor = FetchDescriptor<SymptomEntry>(
             predicate: #Predicate { $0.timestamp >= yesterday && $0.timestamp < today }
+        )
+        let prevSymDescriptor = FetchDescriptor<SymptomEntry>(
+            predicate: #Predicate { $0.timestamp >= twoDaysAgo && $0.timestamp < yesterday }
         )
         let medLogDescriptor = FetchDescriptor<MedicationLog>(
             predicate: #Predicate { $0.timestamp >= yesterday && $0.timestamp < today }
@@ -182,12 +230,14 @@ final class NotificationService {
 
         let bms = (try? context.fetch(bmDescriptor)) ?? []
         let symptom = try? context.fetch(symDescriptor).first
+        let previousSymptom = try? context.fetch(prevSymDescriptor).first
         let medLogs = (try? context.fetch(medLogDescriptor)) ?? []
         let totalMeds = (try? context.fetch(medDescriptor).count) ?? 0
 
         let result = computeHealthScore(
             bowelMovements: bms,
             symptom: symptom,
+            previousSymptom: previousSymptom,
             medsTaken: medLogs.count,
             medsTotal: totalMeds
         )

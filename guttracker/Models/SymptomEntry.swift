@@ -71,7 +71,13 @@ extension SymptomEntry {
     var overallSeverity: Int {
         max(maxGISeverity, fatigue, jointPain, fever ? 2 : 0)
     }
-    
+
+    /// 症狀負擔總和（所有嚴重度加總，反映整體負擔而非僅峰值）
+    var symptomBurden: Int {
+        abdominalPain + bloating + gas + nausea + cramping +
+        bowelSounds + fatigue + jointPain + (fever ? 2 : 0)
+    }
+
     /// 有活躍症狀
     var hasActiveSymptoms: Bool {
         overallSeverity > 0
