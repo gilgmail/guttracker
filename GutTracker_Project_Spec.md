@@ -1,7 +1,7 @@
 # GutTracker — IBD 症狀追蹤 iOS App 專案規格書
 
-**版本**: v1.0 MVP
-**日期**: 2026-02-14
+**版本**: v1.0 (released) / v1.1 roadmap
+**日期**: 2026-02-14（更新：2026-02-28）
 **目標用戶**: IBD（克隆氏症 / 潰瘍性結腸炎）患者
 **技術棧**: Swift 5.9+ / SwiftUI / SwiftData / HealthKit / WidgetKit
 **Note**: LINE Bot 已移除，Widget 作為核心快速互動入口
@@ -1008,4 +1008,32 @@ GutTracker/
 | 共通點 | 可共用 Supabase 食物資料庫 | 未來可透過 API 串接 |
 | 優先級 | 維護模式 | 主力開發 |
 
-**建議**: GutTracker 作為獨立專案先行開發，MVP 完成後再評估是否要和 diet_dialy 整合。
+---
+
+## 12. 上架後迭代原則
+
+> 這個 app 存在的理由：讓 IBD 患者能在 3 秒內記錄排便。數據準確。報告能拿給醫生看。
+> 其他一切，等真實用戶告訴你。
+
+### 12.1 上架前確認事項
+
+#### Widget Crash — 已無此問題
+
+`GutTrackerWidget/GutTrackerTimelineProvider.swift` 的 `fetchEntry()` 已使用 `do/catch` 處理 `ModelContainer` 初始化失敗，錯誤時返回 `.empty` entry，不會 crash。
+
+上架前無需修改任何程式碼。
+
+### 12.2 上架後——讓用戶告訴你
+
+下列項目都有合理的理由不做：
+
+| 項目 | 為什麼先不做 |
+| --- | --- |
+| Onboarding | 3 步驟 = 3 個放棄機會。IBD 患者知道自己需要什麼，直接讓他們記錄 |
+| 臨床指標（HBI/Mayo） | 沒有用戶告訴你他需要。上架後聽反饋 |
+| String→Enum 重構 | 技術潔癖，零用戶價值，app 現在正常運作 |
+| FoodEntry | 另一個 domain 的複雜度，等用戶主動要求 |
+| Streak/Gamification | IBD 有 flare 日。連續天數歸零對病人是羞辱，不是激勵 |
+| Watch App / Siri / 匿名分析 | 上架穩定、有用戶基礎後再想 |
+
+**原則**：上架前的功能規劃大部分是猜測。讓真實使用發生，再讓現實告訴你什麼重要。
