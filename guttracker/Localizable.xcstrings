@@ -2288,5 +2288,95 @@
       }
     }
   },
+  "3 秒記錄": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Record in 3 Seconds"
+        }
+      }
+    }
+  },
+  "點選 Bristol 糞便類型，一鍵完成。血便、黏液、症狀選填。": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Tap a Bristol stool type to log instantly. Blood, mucus, and symptoms are optional."
+        }
+      }
+    }
+  },
+  "每日回顧": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Daily Review"
+        }
+      }
+    }
+  },
+  "月曆查看每天記錄狀態。點選日期看當天完整詳情。": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "View your daily log status in the calendar. Tap any date for full details."
+        }
+      }
+    }
+  },
+  "趨勢分析": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Trend Analysis"
+        }
+      }
+    }
+  },
+  "7 / 30 / 90 天統計圖表，追蹤排便頻率與 Bristol 均值。": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "7 / 30 / 90-day charts to track bowel frequency and Bristol average."
+        }
+      }
+    }
+  },
+  "下一頁": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Next"
+        }
+      }
+    }
+  },
+  "開始使用": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Get Started"
+        }
+      }
+    }
+  },
+  "略過": {
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Skip"
+        }
+      }
+    }
+  },
   "version": "1.0"
 }

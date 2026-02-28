@@ -11,6 +11,8 @@ struct GutTrackerApp: App {
     @AppStorage("appTheme", store: UserDefaults(suiteName: Constants.appGroupIdentifier))
     private var selectedTheme: String = AppTheme.cream.rawValue
 
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
     var sharedModelContainer: ModelContainer = {
         do {
             return try ModelContainer(
@@ -35,6 +37,13 @@ struct GutTrackerApp: App {
                     NotificationService.shared.rescheduleAll(container: sharedModelContainer)
                     WidgetCenter.shared.reloadAllTimelines()
                     GutTrackerShortcuts.updateAppShortcutParameters()
+                }
+                .fullScreenCover(isPresented: .init(
+                    get: { !hasCompletedOnboarding },
+                    set: { if !$0 { hasCompletedOnboarding = true } }
+                )) {
+                    OnboardingView()
+                        .environment(\.appTheme, theme)
                 }
         }
         .modelContainer(sharedModelContainer)

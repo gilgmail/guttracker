@@ -89,6 +89,7 @@
 				Views/Record/RecordView.swift,
 				Views/Record/SymptomQuickEntry.swift,
 				Views/Settings/SettingsView.swift,
+				Views/Onboarding/OnboardingView.swift,
 				Views/Stats/StatsView.swift,
 			);
 			target = CED71CCE2F4168C300084608 /* GutTrackerWidgetExtension */;
