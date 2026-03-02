@@ -327,7 +327,7 @@ struct SettingsView: View {
                     HStack {
                         Text("版本")
                         Spacer()
-                        Text("1.0.4")
+                        Text("1.0.3")
                             .foregroundStyle(.secondary)
                     }
                     NavigationLink {
