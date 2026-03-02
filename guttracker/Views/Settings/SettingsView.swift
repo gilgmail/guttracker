@@ -327,8 +327,13 @@ struct SettingsView: View {
                     HStack {
                         Text("版本")
                         Spacer()
-                        Text("1.0.3")
+                        Text("1.0.4")
                             .foregroundStyle(.secondary)
+                    }
+                    NavigationLink {
+                        MedicalReferencesView()
+                    } label: {
+                        Label("醫療資訊來源", systemImage: "book.pages")
                     }
                 } header: {
                     Text("關於")
@@ -757,6 +762,95 @@ struct WidgetCustomizationView: View {
         .background(theme.background)
         .navigationTitle("Widget 自訂")
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+// MARK: - Medical References View
+
+struct MedicalReferencesView: View {
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        List {
+            // ── Bristol 量表 ──
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Bristol 糞便型態量表（Bristol Stool Scale）由英國布里斯托大學 Ken Heaton 博士研究團隊開發，是評估腸道蠕動時間的標準化工具，廣泛應用於胃腸科臨床與研究。")
+                        .font(.system(size: 14))
+                        .foregroundStyle(.secondary)
+
+                    Divider()
+
+                    Text("原始文獻")
+                        .font(.system(size: 13, weight: .semibold))
+
+                    Text("Lewis SJ, Heaton KW. Stool form scale as a useful guide to intestinal transit time. Scand J Gastroenterol. 1997;32(9):920–924.")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.secondary)
+
+                    Link(destination: URL(string: "https://pubmed.ncbi.nlm.nih.gov/9299672/")!) {
+                        Label("PubMed: PMID 9299672", systemImage: "arrow.up.right.square")
+                            .font(.system(size: 13))
+                    }
+                }
+                .padding(.vertical, 4)
+            } header: {
+                Text("Bristol 糞便型態量表")
+            }
+            .listRowBackground(theme.card)
+
+            // ── 健康評分 ──
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("App 內的「健康評分」（0–100 分）為 GutTracker 根據排便頻率、Bristol 類型、症狀嚴重度、用藥遵從性等指標所計算的參考指數，**不代表任何醫療診斷或臨床評估結果**。")
+                        .font(.system(size: 14))
+                        .foregroundStyle(.secondary)
+
+                    Divider()
+
+                    Text("評分參考依據")
+                        .font(.system(size: 13, weight: .semibold))
+
+                    Text("• 排便頻率與 Bristol 類型：參考上述 Bristol Stool Scale 文獻")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.secondary)
+
+                    Text("• IBD 症狀評估：參考 Harvey-Bradshaw Index (HBI) 與 Mayo Score 等臨床量表概念")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.secondary)
+
+                    Link(destination: URL(string: "https://www.crohnscolitisfoundation.org/patients/what-is-crohns-disease/diagnosis")!) {
+                        Label("Crohn's & Colitis Foundation", systemImage: "arrow.up.right.square")
+                            .font(.system(size: 13))
+                    }
+                }
+                .padding(.vertical, 4)
+            } header: {
+                Text("健康評分說明")
+            }
+            .listRowBackground(theme.card)
+
+            // ── 免責聲明 ──
+            Section {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("本 App 提供之所有資訊（含評分、統計圖表、趨勢分析）**僅供個人記錄與參考，不構成醫療建議、診斷或治療方案**。")
+                        .font(.system(size: 14))
+                        .foregroundStyle(.secondary)
+
+                    Text("如有症狀疑慮，請諮詢您的主治醫師或胃腸科專科醫師。")
+                        .font(.system(size: 14))
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 4)
+            } header: {
+                Text("免責聲明")
+            }
+            .listRowBackground(theme.card)
+        }
+        .scrollContentBackground(.hidden)
+        .background(theme.background)
+        .navigationTitle("醫療資訊來源")
+        .navigationBarTitleDisplayMode(.large)
     }
 }
 

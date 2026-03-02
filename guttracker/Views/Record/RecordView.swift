@@ -564,6 +564,7 @@ struct RecordViewContent: View {
     // MARK: - Actions
 
     private func quickRecordBowelMovement(bristolType: Int) {
+        guard !showConfirmation else { return }
         let bm = BowelMovement(bristolType: bristolType)
         modelContext.insert(bm)
         WidgetCenter.shared.reloadTimelines(ofKind: Constants.widgetKind)

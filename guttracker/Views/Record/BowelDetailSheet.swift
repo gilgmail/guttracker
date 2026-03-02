@@ -129,7 +129,7 @@ struct BowelDetailSheet: View {
                 
                 // ── 時間 & 備註 ──
                 Section {
-                    DatePicker("時間", selection: $timestamp)
+                    DatePicker("時間", selection: $timestamp, in: ...Date.now)
                     
                     HStack {
                         Image(systemName: "timer")
