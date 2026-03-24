@@ -69,6 +69,9 @@ struct RecordViewContent: View {
     // Entrance animation
     @State private var appeared = false
 
+    // Health score info sheet
+    @State private var showHealthScoreInfo = false
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -107,7 +110,12 @@ struct RecordViewContent: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    overallStatusBadge
+                    Button {
+                        showHealthScoreInfo = true
+                    } label: {
+                        overallStatusBadge
+                    }
+                    .buttonStyle(.plain)
                 }
             }
         }
@@ -150,6 +158,16 @@ struct RecordViewContent: View {
         } message: {
             if let record = recordToDelete {
                 Text("確定刪除 Type \(record.bristolType) (\(record.timestamp.formatted(.dateTime.hour().minute()))) 的記錄？")
+            }
+        }
+        .sheet(isPresented: $showHealthScoreInfo) {
+            NavigationStack {
+                MedicalReferencesView()
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("完成") { showHealthScoreInfo = false }
+                        }
+                    }
             }
         }
     }
