@@ -81,6 +81,18 @@ struct RecordViewContent: View {
                         .opacity(appeared ? 1 : 0)
                         .offset(y: appeared ? 0 : 12)
 
+                    // ── 健康評分資料來源 ──
+                    Button {
+                        showHealthScoreInfo = true
+                    } label: {
+                        Label("健康評分資料來源", systemImage: "info.circle")
+                            .font(.system(size: 12))
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.horizontal, 4)
+                    .opacity(appeared ? 1 : 0)
+
                     // ── 排便快速記錄 ──
                     bowelRecordSection
                         .opacity(appeared ? 1 : 0)
